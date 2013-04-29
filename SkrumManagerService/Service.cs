@@ -4,7 +4,9 @@ using System.ServiceProcess;
 public class SkrumManagerWindowsService : ServiceBase
 {
     public ServiceHost notificationServiceHost = null;
-    public ServiceHost sampleServiceHost = null;
+    public ServiceHost userServiceHost = null;
+    public ServiceHost taskboardServiceHost = null;
+    public ServiceHost projectServiceHost = null;
 
     /// <summary>
     /// Creates a new manager service instance.
@@ -33,28 +35,37 @@ public class SkrumManagerWindowsService : ServiceBase
         // but as long as it is caught, the service goes on as expected.
         try
         {
-            // Close the service if it is already running for some reason.
+            // Close any service that is still running.
             if (this.notificationServiceHost != null)
             {
                 this.notificationServiceHost.Close();
             }
-
-            // Close sample service.
-            if (this.sampleServiceHost != null)
+            if (this.userServiceHost != null)
             {
-                this.sampleServiceHost.Close();
+                this.userServiceHost.Close();
+            }
+            if (this.projectServiceHost != null)
+            {
+                this.projectServiceHost.Close();
+            }
+            if (this.taskboardServiceHost != null)
+            {
+                this.taskboardServiceHost.Close();
             }
 
-            // Creates and runs the service host instance.
+            // Creates new instances of the services.
             this.notificationServiceHost = new ServiceHost(typeof(Notifications.NotificationService));
             this.notificationServiceHost.Open();
-
-            // Creates and runs a new sample service host instance.
-            this.sampleServiceHost = new ServiceHost(typeof(Samples.SampleService));
-            this.sampleServiceHost.Open();
+            this.userServiceHost = new ServiceHost(typeof(Users.UserService));
+            this.userServiceHost.Open();
+            this.projectServiceHost = new ServiceHost(typeof(Projects.ProjectService));
+            this.projectServiceHost.Open();
+            this.taskboardServiceHost = new ServiceHost(typeof(Taskboards.TaskboardService));
+            this.taskboardServiceHost.Open();
         }
         catch (System.Exception e)
         {
+            System.IO.File.WriteAllLines(@"C:\Users\Administrator\Desktop\log.txt", new string[] { e.Message });
             System.Console.WriteLine(e.Message);
         }
     }
@@ -66,18 +77,26 @@ public class SkrumManagerWindowsService : ServiceBase
     {
         try
         {
-            // Close the service if it is still running.
+            // Close any service that is still running.
             if (this.notificationServiceHost != null)
             {
                 this.notificationServiceHost.Close();
                 this.notificationServiceHost = null;
             }
-
-            // Close the sample service if it is still running.
-            if (this.sampleServiceHost != null)
+            if (this.userServiceHost != null)
             {
-                this.sampleServiceHost.Close();
-                this.sampleServiceHost = null;
+                this.userServiceHost.Close();
+                this.userServiceHost = null;
+            }
+            if (this.taskboardServiceHost != null)
+            {
+                this.taskboardServiceHost.Close();
+                this.taskboardServiceHost = null;
+            }
+            if (this.projectServiceHost != null)
+            {
+                this.projectServiceHost.Close();
+                this.projectServiceHost = null;
             }
         }
         catch (System.Exception e)
