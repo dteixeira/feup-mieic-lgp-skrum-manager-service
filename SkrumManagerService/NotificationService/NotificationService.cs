@@ -28,11 +28,12 @@ namespace Notifications
         /// </summary>
         public static NotificationService Instance
         {
-            get {
+            get
+            {
                 if (NotificationService.instance == null)
                 {
                     NotificationService.instance = new NotificationService();
-                } 
+                }
                 return NotificationService.instance;
             }
             set { NotificationService.instance = value; }
@@ -45,6 +46,32 @@ namespace Notifications
         {
             get { return this.clients; }
             set { this.clients = value; }
+        }
+
+        /// <summary>
+        /// Notifies all clients registered for a certain project that some
+        /// changes occurred.
+        /// </summary>
+        /// <param name="projectID">ID of the project in which the change occurred</param>
+        public void NotifyClients(int projectID)
+        {
+            lock (this.clients)
+            {
+                if (this.clients.ContainsKey(projectID))
+                {
+                    foreach (OperationContext callback in this.clients[projectID])
+                    {
+                        try
+                        {
+                            callback.GetCallbackChannel<INotificationServiceCallback>().ProjectChanged();
+                        }
+                        catch (System.Exception)
+                        {
+                            this.clients[projectID].Remove(callback);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -78,32 +105,6 @@ namespace Notifications
                 {
                     var client = this.clients[projectID].FirstOrDefault(c => c.SessionId == context.SessionId);
                     this.clients[projectID].Remove(client);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Notifies all clients registered for a certain project that some
-        /// changes occurred.
-        /// </summary>
-        /// <param name="projectID">ID of the project in which the change occurred</param>
-        public void NotifyClients(int projectID)
-        {
-            lock (this.clients)
-            {
-                if (this.clients.ContainsKey(projectID))
-                {
-                    foreach (OperationContext callback in this.clients[projectID])
-                    {
-                        try
-                        {
-                            callback.GetCallbackChannel<INotificationServiceCallback>().ProjectChanged();
-                        }
-                        catch (System.Exception)
-                        {
-                            this.clients[projectID].Remove(callback);
-                        }
-                    }
                 }
             }
         }
