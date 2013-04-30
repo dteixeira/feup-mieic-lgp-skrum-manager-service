@@ -4,9 +4,9 @@ using System.ServiceProcess;
 public class SkrumManagerWindowsService : ServiceBase
 {
     public ServiceHost notificationServiceHost = null;
-    public ServiceHost userServiceHost = null;
-    public ServiceHost taskboardServiceHost = null;
     public ServiceHost projectServiceHost = null;
+    public ServiceHost taskboardServiceHost = null;
+    public ServiceHost userServiceHost = null;
 
     /// <summary>
     /// Creates a new manager service instance.
