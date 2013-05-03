@@ -44,9 +44,10 @@ namespace Users
                 person.Password = null;
                 return person;
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
                 return null;
             }
         }

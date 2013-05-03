@@ -2,7 +2,7 @@
 
 namespace ServiceDebugger
 {
-    internal class Program
+    public class Program
     {
         /// <summary>
         /// Runs the service debugger program.
