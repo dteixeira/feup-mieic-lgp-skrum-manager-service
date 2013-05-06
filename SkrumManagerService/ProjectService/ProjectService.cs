@@ -361,11 +361,132 @@ namespace Projects
 
         //----------------------------------//
 
+
+        //Deverá ser passado para o UserService. Utiliza operação do UserService e nenhuma de ProjectService
+        /// <summary>
+        /// Gives all persons involved in a project.
+        /// </summary>
+        /// <param name="project">Contains the project</param>
+        /// <returns>A list of the people involved in the project</returns>
         List<ServiceDataTypes.Person> GetPersonsinProject(ServiceDataTypes.Project project)
         {
             List<ServiceDataTypes.Person> result=new List<ServiceDataTypes.Person>();
-            return result;
+            
+            try
+            {
+                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
+                var roles = context.GetTable<SkrumManagerService.Role>();
+                var results = from p in roles
+                              where p.ProjectID == project.ProjectID
+                              select p.PersonID;
+
+                if (results == null)
+                    return null;
+                else
+                {
+                    foreach (var id in results)
+                    {
+                        ServiceDataTypes.Person temp = new ServiceDataTypes.Person();
+                        temp.PersonID = id;
+                        //result.Add(GetPersonByID(temp));
+                    }
+                }
+
+                return result;
+            }
+            catch (System.Exception)
+            {
+                // Returns null if any problem occurs.
+                return null;
+            }
         }
+
+        /// <summary>
+        /// Gives all sprints of a project.
+        /// </summary>
+        /// <param name="projectID">Contains the projects ID</param>
+        /// <returns>A list of the sprints (open or closed) of the project</returns>
+        List<ServiceDataTypes.Sprint> GetSprintsinProject(int projectID)
+        {
+            List<ServiceDataTypes.Sprint> result = new List<ServiceDataTypes.Sprint>();
+
+            try
+            {
+                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
+                var sprints = context.GetTable<SkrumManagerService.Sprint>();
+                var results = from p in sprints
+                              where p.ProjectID == projectID
+                              select p.SprintID;
+
+                if (results == null)
+                    return null;
+                else
+                {
+                    foreach (var id in results)
+                    {
+                        result.Add(GetSprintByID(id));
+                    }
+                }
+
+                return result;
+            }
+            catch (System.Exception)
+            {
+                // Returns null if any problem occurs.
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gives all closed sprints of a project.
+        /// </summary>
+        /// <param name="projectID">Contains the projectID of the project</param>
+        /// <returns>A list of the closed sprints of a project</returns>
+        List<ServiceDataTypes.Sprint> GetClosedSprints(int projectID)
+        {
+            List<ServiceDataTypes.Sprint> result = new List<ServiceDataTypes.Sprint>();
+
+            try
+            {
+                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
+                var sprints = context.GetTable<SkrumManagerService.Sprint>();
+                var results = from p in sprints
+                              where (p.ProjectID == projectID && p.Closed == true)
+                              select p.SprintID;
+
+                if (results == null)
+                    return null;
+                else
+                {
+                    foreach (var id in results)
+                    {
+                        result.Add(GetSprintByID(id));
+                    }
+                }
+
+                return result;
+            }
+            catch (System.Exception)
+            {
+                // Returns null if any problem occurs.
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gives a person a new role in a project
+        /// </summary>
+        /// <param name="person">Contains the projectID of the project</param>
+        /// <param name="project">Contains the projectID of the project</param>
+        /// <param name="role"></param>
+        /// <param name="assignedTime"></param>
+        /// <returns>The person with a new role</returns>
+        ServiceDataTypes.Person GiveRole(ServiceDataTypes.Person person, ServiceDataTypes.Project project, ServiceDataTypes.RoleDescription role, float assignedTime)
+        {
+            return person;       
+        }
+    
+
 
 
     }

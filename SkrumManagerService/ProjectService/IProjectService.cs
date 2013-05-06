@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ServiceDataTypes;
+using Users;
 using System.ServiceModel;
 
 namespace Projects
@@ -39,7 +40,7 @@ namespace Projects
         List<Person> GetPersonsinProject(Project project);
 
         [OperationContract]
-        List<Sprint> GetSprintsinProject(Project project);
+        List<Sprint> GetSprintsinProject(int projectID);
 
         [OperationContract]
         Person GiveRole(Person person, Project project, RoleDescription role, float assignedTime);
