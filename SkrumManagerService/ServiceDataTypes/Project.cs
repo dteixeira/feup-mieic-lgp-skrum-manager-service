@@ -3,13 +3,13 @@
 namespace ServiceDataTypes
 {
     [DataContract]
-    class Project
+    public class Project
     {
-        private int projectID;
+        private int? projectID;
         private string password;
-        private int sprintDuration;
-        private int alertLimit;
-        private int speed;
+        private int? sprintDuration;
+        private int? alertLimit;
+        private int? speed;
 
         /// <summary>
         /// Default constructor of the Project class.
@@ -22,7 +22,7 @@ namespace ServiceDataTypes
         /// The Database ID of this project.
         /// </summary>
         [DataMember]
-        public int ProjectID
+        public int? ProjectID
         {
             get { return this.projectID; }
             set { this.projectID = value; }
@@ -42,7 +42,7 @@ namespace ServiceDataTypes
         /// The sprint duration parameter for this project
         /// </summary>
         [DataMember]
-        public int SprintDuration
+        public int? SprintDuration
         {
             get { return this.sprintDuration; }
             set { this.sprintDuration = value; }
@@ -52,7 +52,7 @@ namespace ServiceDataTypes
         /// The alert limit parameter for this project
         /// </summary>
         [DataMember]
-        public int AlertLimit
+        public int? AlertLimit
         {
             get { return this.alertLimit; }
             set { this.alertLimit = value; }
@@ -62,7 +62,7 @@ namespace ServiceDataTypes
         /// The speed paramenter for this project.
         /// </summary>
         [DataMember]
-        public int Speed
+        public int? Speed
         {
             get { return this.speed; }
             set { this.speed = value; }

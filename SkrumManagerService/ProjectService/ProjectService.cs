@@ -19,9 +19,9 @@ namespace Projects
             {
                 // Create a database project instance.
                 SkrumManagerService.Project created = new SkrumManagerService.Project();
-                created.SprintDuration = project.SprintDuration;
-                created.AlertLimit = project.AlertLimit;
-                created.Speed = project.Speed;
+                created.SprintDuration = project.SprintDuration == null ? 1 : (int)project.SprintDuration;
+                created.AlertLimit = project.AlertLimit == null ? 1 : (int)project.AlertLimit;
+                created.Speed = project.Speed == null ? 1 : (int)project.Speed;
 
                 // Hash the password if it exists.
                 if (project.Password != null)
@@ -141,15 +141,15 @@ namespace Projects
                        
                     if (project.SprintDuration != null)
                     {
-                        result.SprintDuration = project.SprintDuration;
+                        result.SprintDuration = project.SprintDuration == null ? result.SprintDuration : (int)project.SprintDuration;
                     }
                     if (project.AlertLimit != null)
                     {
-                        result.AlertLimit = project.AlertLimit;
+                        result.AlertLimit = project.AlertLimit == null ? result.AlertLimit : (int)project.AlertLimit;
                     }
                     if (project.Speed != null)
                     {
-                        result.Speed = project.Speed;
+                        result.Speed = project.Speed == null ? result.Speed : (int)project.Speed;
                     }
                     if (project.Password != null)
                     {
@@ -483,11 +483,32 @@ namespace Projects
         /// <returns>The person with a new role</returns>
         ServiceDataTypes.Person GiveRole(ServiceDataTypes.Person person, ServiceDataTypes.Project project, ServiceDataTypes.RoleDescription role, float assignedTime)
         {
+            // TODO Finish this.
             return person;       
         }
-    
 
+        List<ServiceDataTypes.Person> IProjectService.GetPersonsinProject(ServiceDataTypes.Project project)
+        {
+            // TODO Finish this.
+            throw new System.NotImplementedException();
+        }
 
+        List<ServiceDataTypes.Sprint> IProjectService.GetSprintsinProject(int projectID)
+        {
+            // TODO Finish this.
+            throw new System.NotImplementedException();
+        }
 
+        ServiceDataTypes.Person IProjectService.GiveRole(ServiceDataTypes.Person person, ServiceDataTypes.Project project, ServiceDataTypes.RoleDescription role, float assignedTime)
+        {
+            // TODO Finish this.
+            throw new System.NotImplementedException();
+        }
+
+        List<ServiceDataTypes.Sprint> IProjectService.GetClosedSprints(int projectID)
+        {
+            // TODO Finish this.
+            throw new System.NotImplementedException();
+        }
     }
 }

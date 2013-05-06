@@ -2,14 +2,14 @@
 
 namespace ServiceDataTypes
 {
-    class Sprint
+    public class Sprint
     {
-        private int sprintID;
-        private int number;
-        private string beginDate;
-        private string endDate;
-        private bool closed;
-        private int projectID;
+        private int? sprintID;
+        private int? number;
+        private System.DateTime beginDate;
+        private System.DateTime endDate;
+        private bool? closed;
+        private int? projectID;
 
         /// <summary>
         /// Default constructor of the Sprint class.
@@ -22,7 +22,7 @@ namespace ServiceDataTypes
         /// The Database ID of this sprint.
         /// </summary>
         [DataMember]
-        public int SprintID
+        public int? SprintID
         {
             get { return this.sprintID; }
             set { this.sprintID = value; }
@@ -32,7 +32,7 @@ namespace ServiceDataTypes
         /// The number of a Sprint in a Project.
         /// </summary>
         [DataMember]
-        public int Number
+        public int? Number
         {
             get { return this.number; }
             set { this.number = value; }
@@ -42,7 +42,7 @@ namespace ServiceDataTypes
         /// The begining date for the project
         /// </summary>
         [DataMember]
-        public string BeginDate
+        public System.DateTime BeginDate
         {
             get { return this.beginDate; }
             set { this.beginDate = value; }
@@ -52,7 +52,7 @@ namespace ServiceDataTypes
         /// The end date for the sprint
         /// </summary>
         [DataMember]
-        public string EndDate
+        public System.DateTime EndDate
         {
             get { return this.endDate; }
             set { this.endDate = value; }
@@ -62,7 +62,7 @@ namespace ServiceDataTypes
         /// The speed paramenter for this project.
         /// </summary>
         [DataMember]
-        public bool Closed
+        public bool? Closed
         {
             get { return this.closed; }
             set { this.closed = value; }
@@ -72,7 +72,7 @@ namespace ServiceDataTypes
         /// The Database ID of the project this sprint is inserted on.
         /// </summary>
         [DataMember]
-        public int ProjectID
+        public int? ProjectID
         {
             get { return this.projectID; }
             set { this.projectID = value; }

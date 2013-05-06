@@ -33,9 +33,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Data.Services, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -85,6 +82,7 @@
     <Compile Include="ServiceDataTypes\EnumerationTypes.cs" />
     <Compile Include="ServiceDataTypes\Person.cs" />
     <Compile Include="ServiceDataTypes\Project.cs" />
+    <Compile Include="ServiceDataTypes\Role.cs" />
     <Compile Include="ServiceDataTypes\Sprint.cs" />
     <Compile Include="ServiceDataTypes\Story.cs" />
     <Compile Include="ServiceDataTypes\Task.cs" />

@@ -16,10 +16,6 @@ namespace ServiceTester
         [TestMethod]
         public void CreateUserTest()
         {
-            // Fetch table reference and count the number of entries.
-            var persons = UserServiceTest.context.GetTable<SkrumManagerService.Person>();
-            int initialCount = persons.Count();
-
             // Create a person representation.
             ServiceDataTypes.Person person = new ServiceDataTypes.Person();
             person.PersonID = -1;
@@ -36,15 +32,8 @@ namespace ServiceTester
             // If person is null, something went wrong.
             Assert.IsNotNull(person);
 
-            // Check if a new record was really created.
-            int currentCount = persons.Count();
-            Assert.AreNotEqual(initialCount, currentCount);
-
             // Check if a new person id was attributed.
             Assert.AreNotEqual(person.PersonID, -1);
-
-            // Check if the correct data was added to the database.
-            Assert.IsNotNull(persons.FirstOrDefault(p => p.Name == person.Name));
         }
     }
 }
