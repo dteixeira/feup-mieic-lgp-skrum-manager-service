@@ -27,8 +27,8 @@ namespace ServiceTester.UserService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdatePerson", ReplyAction="http://tempuri.org/IUserService/UpdatePersonResponse")]
         ServiceDataTypes.Person UpdatePerson(ServiceDataTypes.Person person);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetPeronsInProject", ReplyAction="http://tempuri.org/IUserService/GetPeronsInProjectResponse")]
-        ServiceDataTypes.Person[] GetPeronsInProject(int projectID);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetPersonsInProject", ReplyAction="http://tempuri.org/IUserService/GetPersonsInProjectResponse")]
+        ServiceDataTypes.Person[] GetPersonsInProject(int projectID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/LoginAdmin", ReplyAction="http://tempuri.org/IUserService/LoginAdminResponse")]
         bool LoginAdmin(ServiceDataTypes.Person person);
@@ -80,8 +80,8 @@ namespace ServiceTester.UserService {
             return base.Channel.UpdatePerson(person);
         }
         
-        public ServiceDataTypes.Person[] GetPeronsInProject(int projectID) {
-            return base.Channel.GetPeronsInProject(projectID);
+        public ServiceDataTypes.Person[] GetPersonsInProject(int projectID) {
+            return base.Channel.GetPersonsInProject(projectID);
         }
         
         public bool LoginAdmin(ServiceDataTypes.Person person) {

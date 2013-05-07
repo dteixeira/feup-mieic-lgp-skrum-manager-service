@@ -26,6 +26,7 @@ namespace ServiceDebugger
 
             System.Console.WriteLine("The services are running. Press any key to terminate.");
             System.Console.ReadKey();
+            System.Console.WriteLine("Closing...");
 
             // Close all services.
             notificationServiceHost.Close();

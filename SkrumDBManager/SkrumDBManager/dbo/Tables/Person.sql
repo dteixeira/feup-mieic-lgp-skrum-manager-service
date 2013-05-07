@@ -6,6 +6,7 @@
     [Admin]    BIT         NOT NULL,
     [JobDescription]      NTEXT  NULL,
     [Password] VARCHAR(128) NULL, 
-    PRIMARY KEY CLUSTERED ([PersonID] ASC)
+    PRIMARY KEY CLUSTERED ([PersonID] ASC), 
+    CONSTRAINT [AK_Person_Email] UNIQUE ([Email])
 );
 

@@ -76,7 +76,7 @@ DocProject/Help/html
 publish
 
 # Publish Web Output
-*.Publish.xml
+# *.Publish.xml
 
 # NuGet Packages Directory
 packages

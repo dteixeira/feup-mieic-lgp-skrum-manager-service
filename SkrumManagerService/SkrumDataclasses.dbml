@@ -31,7 +31,7 @@
       <Column Name="Email" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
       <Column Name="Admin" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="JobDescription" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="Password" Type="System.String" DbType="VarChar(512)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
       <Association Name="Person_Task" Member="Tasks" ThisKey="PersonID" OtherKey="PersonID" Type="Task" />
       <Association Name="Person_PersonTask" Member="PersonTasks" ThisKey="PersonID" OtherKey="PersonID" Type="PersonTask" />
       <Association Name="Person_Role" Member="Roles" ThisKey="PersonID" OtherKey="PersonID" Type="Role" />
@@ -51,10 +51,11 @@
   <Table Name="dbo.Project" Member="Projects">
     <Type Name="Project">
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="VarChar(512)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
       <Column Name="SprintDuration" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AlertLimit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Speed" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
       <Association Name="Project_Meeting" Member="Meetings" ThisKey="ProjectID" OtherKey="ProjectID" Type="Meeting" />
       <Association Name="Project_Role" Member="Roles" ThisKey="ProjectID" OtherKey="ProjectID" Type="Role" />
       <Association Name="Project_Sprint" Member="Sprints" ThisKey="ProjectID" OtherKey="ProjectID" Type="Sprint" />
@@ -68,7 +69,7 @@
       <Column Name="AssignedTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="PersonID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="VarChar(512)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
       <Association Name="Person_Role" Member="Person" ThisKey="PersonID" OtherKey="PersonID" Type="Person" IsForeignKey="true" />
       <Association Name="Project_Role" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
       <Association Name="RoleDescription_Role" Member="RoleDescription" ThisKey="Description" OtherKey="RoleDescriptionID" Type="RoleDescription" IsForeignKey="true" />

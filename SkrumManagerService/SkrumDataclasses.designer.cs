@@ -860,7 +860,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(512)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(128)")]
 		public string Password
 		{
 			get
@@ -1232,6 +1232,8 @@ namespace SkrumManagerService
 		
 		private int _Speed;
 		
+		private string _Name;
+		
 		private EntitySet<Meeting> _Meetings;
 		
 		private EntitySet<Role> _Roles;
@@ -1254,6 +1256,8 @@ namespace SkrumManagerService
     partial void OnAlertLimitChanged();
     partial void OnSpeedChanging(int value);
     partial void OnSpeedChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
     #endregion
 		
 		public Project()
@@ -1285,7 +1289,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(512)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(128)")]
 		public string Password
 		{
 			get
@@ -1361,6 +1365,26 @@ namespace SkrumManagerService
 					this._Speed = value;
 					this.SendPropertyChanged("Speed");
 					this.OnSpeedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(128) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
 				}
 			}
 		}
@@ -1648,7 +1672,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(512)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(128)")]
 		public string Password
 		{
 			get

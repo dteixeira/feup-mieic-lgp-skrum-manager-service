@@ -1,4 +1,5 @@
 ﻿using System.Data.Linq;
+using System.ComponentModel;
 
 namespace ServiceTester
 {
@@ -18,11 +19,21 @@ namespace ServiceTester
             context.ExecuteCommand("DELETE FROM [dbo] . [StorySprint]");
             context.ExecuteCommand("DELETE FROM [dbo] . [Meeting]");
             context.ExecuteCommand("DELETE FROM [dbo] . [Role]");
+            context.ExecuteCommand("DELETE FROM [dbo] . [Task]");
             context.ExecuteCommand("DELETE FROM [dbo] . [Story]");
             context.ExecuteCommand("DELETE FROM [dbo] . [Sprint]");
             context.ExecuteCommand("DELETE FROM [dbo] . [Project]");
             context.ExecuteCommand("DELETE FROM [dbo] . [Person]");
-            context.ExecuteCommand("DELETE FROM [dbo] . [Task]");
+        }
+
+        public static void DumpObject(object dump)
+        {
+            foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(dump))
+            {
+                string name = descriptor.Name;
+                object value = descriptor.GetValue(dump);
+                System.Console.WriteLine("{0}={1}", name, value);
+            }
         }
     }
 }

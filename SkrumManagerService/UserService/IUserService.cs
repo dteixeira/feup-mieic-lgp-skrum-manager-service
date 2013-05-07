@@ -19,7 +19,7 @@ namespace Users
         Person UpdatePerson(Person person);
 
         [OperationContract]
-        System.Collections.Generic.List<Person> GetPeronsInProject(int projectID);
+        System.Collections.Generic.List<Person> GetPersonsInProject(int projectID);
 
         [OperationContract]
         bool LoginAdmin(Person person);

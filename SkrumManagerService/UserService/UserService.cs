@@ -1,5 +1,6 @@
 using System.Linq;
 using System.ServiceModel;
+using System.ComponentModel;
 
 namespace Users
 {
@@ -30,21 +31,25 @@ namespace Users
                     System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
                     byte[] digest = sha512.ComputeHash(encoder.GetBytes(person.Password));
                     sha512.Dispose();
-                    created.Password = encoder.GetString(digest);
+                    string password = System.BitConverter.ToString(digest);
+                    password = password.Replace("-", "");
+                    created.Password = password;
                 }
 
                 // Saves the person to the database.
-                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
-                context.GetTable<SkrumManagerService.Person>().InsertOnSubmit(created);
-                context.SubmitChanges();
-                context.Dispose();
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    context.GetTable<SkrumManagerService.Person>().InsertOnSubmit(created);
+                    context.SubmitChanges();
+                }
 
                 // Return the person's info.
                 return this.GetPersonByID(created.PersonID);
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -58,24 +63,26 @@ namespace Users
         {
             try
             {
-                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
-                var persons = context.GetTable<SkrumManagerService.Person>();
-                var result = persons.FirstOrDefault(p => p.PersonID == personID);
-                if (result != null)
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    persons.DeleteOnSubmit(result);
-                    context.SubmitChanges();
-                    context.Dispose();
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    var persons = context.GetTable<SkrumManagerService.Person>();
+                    var result = persons.FirstOrDefault(p => p.PersonID == personID);
+                    if (result != null)
+                    {
+                        persons.DeleteOnSubmit(result);
+                        context.SubmitChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-                // Returns false if any problem occurs.
+                // Returns false if anything goes wrong.
+                System.Console.WriteLine(e.Message);
                 return false;
             }
         }
@@ -85,37 +92,39 @@ namespace Users
         /// </summary>
         /// <param name="projectID">ID of the project</param>
         /// <returns>A list of the people involved in the project.</returns>
-        public System.Collections.Generic.List<ServiceDataTypes.Person> GetPeronsInProject(int projectID)
+        public System.Collections.Generic.List<ServiceDataTypes.Person> GetPersonsInProject(int projectID)
         {
             try
             {
                 System.Collections.Generic.List<ServiceDataTypes.Person> result = new System.Collections.Generic.List<ServiceDataTypes.Person>();
-                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
-                var roles = context.GetTable<SkrumManagerService.Role>();
-                var results = from p in roles
-                              where p.ProjectID == projectID
-                              select p.PersonID;
-
-                // Return null if nothing was found.
-                if (results == null || results.Count() == 0)
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    return null;
-                }
-                else
-                {
-                    // Finds all users.
-                    foreach (var id in results)
+                    SkrumManagerService.Project project = context.GetTable<SkrumManagerService.Project>().FirstOrDefault(p => p.ProjectID == projectID);
+                    if (project == null)
                     {
-                        ServiceDataTypes.Person person = GetPersonByID(id);
-                        if (person != null)
-                            result.Add(person);
+                        // Return null if the project no longer exists.
+                        return null;
+                    }
+                    else
+                    {
+                        // Gets all the people in the project.
+                        var results = project.Roles.Select(r => r.Person.PersonID).Distinct();
+                        foreach (int personID in results)
+                        {
+                            ServiceDataTypes.Person person = this.GetPersonByID(personID);
+                            if(person != null)
+                            {
+                                result.Add(person);
+                            }
+                        }
                     }
                 }
                 return result;
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-                // Returns null if any problem occurs.
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -129,54 +138,70 @@ namespace Users
         {
             try
             {
-                // Creates a database context, searches and then disposes of it.
-                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
-                var result = context.GetTable<SkrumManagerService.Person>().FirstOrDefault(p => p.PersonID == personID);
-                context.Dispose();
-
-                // Return null if no result was found, or a the filled person instance.
-                if (result == null)
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    return null;
-                }
-                else
-                {
-                    ServiceDataTypes.Person person = new ServiceDataTypes.Person();
-                    person.Name = result.Name;
-                    person.Admin = result.Admin;
-                    person.Email = result.Email;
-                    person.JobDescription = result.JobDescription;
-                    person.PhotoURL = result.PhotoURL;
+                    var result = context.GetTable<SkrumManagerService.Person>().FirstOrDefault(p => p.PersonID == personID);
 
-                    // Generate roles.
-                    person.Roles = (result.Roles.Select(p => new ServiceDataTypes.Role
+                    // Return null if no result was found, or a the filled person instance.
+                    if (result == null)
                     {
-                        AssignedTime = p.AssignedTime,
-                        Password = p.Password,
-                        PersonID = p.PersonID,
-                        ProjectID = p.ProjectID,
-                        RoleDescription = (ServiceDataTypes.RoleDescription)System.Enum.Parse(typeof(ServiceDataTypes.RoleDescription), p.RoleDescription.Description),
-                        RoleID = p.RoleID
-                    })).ToList();
-
-                    // Generate task.
-                    person.Tasks = (result.Tasks.Select(p => new ServiceDataTypes.Task
+                        return null;
+                    }
+                    else
                     {
-                        CreationDate = p.CreationDate,
-                        Description = p.Description,
-                        Estimation = p.Estimation,
-                        PersonID = p.PersonID,
-                        StoryID = p.StoryID,
-                        TaskID = p.TaskID
-                    })).ToList();
+                        ServiceDataTypes.Person person = new ServiceDataTypes.Person()
+                        {
+                            PersonID = personID,
+                            Name = result.Name,
+                            Admin = result.Admin,
+                            Email = result.Email,
+                            JobDescription = result.JobDescription,
+                            PhotoURL = result.PhotoURL
+                        };
 
-                    // Returns the person's info.
-                    return person;
+                        // Generate roles.
+                        person.Roles = (result.Roles.Select(p => new ServiceDataTypes.Role
+                        {
+                            AssignedTime = p.AssignedTime,
+                            Password = p.Password,
+                            PersonID = p.PersonID,
+                            ProjectID = p.ProjectID,
+                            RoleDescription = (ServiceDataTypes.RoleDescription)System.Enum.Parse(typeof(ServiceDataTypes.RoleDescription), p.RoleDescription.Description),
+                            RoleID = p.RoleID
+                        })).ToList();
+
+                        // Generate owned tasks.
+                        person.OwnedTasks = (result.Tasks.Select(p => new ServiceDataTypes.Task
+                        {
+                            CreationDate = p.CreationDate,
+                            Description = p.Description,
+                            Estimation = p.Estimation,
+                            PersonID = p.PersonID,
+                            StoryID = p.StoryID,
+                            TaskID = p.TaskID
+                        })).ToList();
+
+                        // Generate associated tasks.
+                        var personTasks = context.GetTable<SkrumManagerService.PersonTask>();
+                        person.Tasks = personTasks.Where(t => t.PersonID == person.PersonID).Select(p => new ServiceDataTypes.Task
+                        {
+                            CreationDate = p.Task.CreationDate,
+                            Description = p.Task.Description,
+                            Estimation = p.Task.Estimation,
+                            PersonID = p.Task.PersonID,
+                            StoryID = p.Task.StoryID,
+                            TaskID = p.Task.TaskID
+                        }).ToList();
+
+                        // Returns the person's info.
+                        return person;
+                    }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-                // Returns null if any problem occurs.
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -190,7 +215,7 @@ namespace Users
         {
             try
             {
-                if (person.Admin == false || !(bool)person.Admin || person.PersonID == null || person.Password != null)
+                if (person.Admin == null || !(bool)person.Admin || person.PersonID == null || person.Password == null)
                 {
                     // Return false if information is missing.
                     return false;
@@ -202,31 +227,37 @@ namespace Users
                     System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
                     byte[] digest = sha512.ComputeHash(encoder.GetBytes(person.Password));
                     sha512.Dispose();
-                    string password = encoder.GetString(digest);
+                    string password = System.BitConverter.ToString(digest);
+                    password = password.Replace("-", "");
 
-                    // Tries to find the user.
-                    SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
-                    var persons = context.GetTable<SkrumManagerService.Person>();
-                    var result = persons.FirstOrDefault(p => p.PersonID == person.PersonID &&
-                        p.Admin == (bool)person.Admin &&
-                        p.Password == password);
-                    context.Dispose();
+                    using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                    {
+                        // Tries to find the user.
+                        var persons = context.GetTable<SkrumManagerService.Person>();
 
-                    if (result == null)
-                    {
-                        // Return false if no user if found.
-                        return false;
-                    }
-                    else
-                    {
-                        // Return true if login is valid.
-                        return true;
+                        System.Console.WriteLine("{0}\n{1}", persons.FirstOrDefault(p => p.Admin).Password, password);
+
+                        var result = persons.FirstOrDefault(p => p.PersonID == person.PersonID &&
+                            p.Admin == (bool)person.Admin &&
+                            p.Password == password);
+
+                        if (result == null)
+                        {
+                            // Return false if no user if found.
+                            return false;
+                        }
+                        else
+                        {
+                            // Return true if login is valid.
+                            return true;
+                        }
                     }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-                // Returns false if any problem occurs.
+                // Returns false if anything goes wrong.
+                System.Console.WriteLine(e.Message);
                 return false;
             }
         }
@@ -247,31 +278,34 @@ namespace Users
                     System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
                     byte[] digest = sha512.ComputeHash(encoder.GetBytes(role.Password));
                     sha512.Dispose();
-                    string password = encoder.GetString(digest);
+                    string password = System.BitConverter.ToString(digest);
+                    password = password.Replace("-", "");
 
                     // Check if the role exists.
-                    SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
-                    var roles = context.GetTable<SkrumManagerService.Role>();
-                    var result = roles.FirstOrDefault(r => r.ProjectID == role.ProjectID &&
-                        r.PersonID == role.PersonID &&
-                        r.Password == password);
-                    context.Dispose();
+                    using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                    {
+                        var roles = context.GetTable<SkrumManagerService.Role>();
+                        var result = roles.FirstOrDefault(r => r.ProjectID == role.ProjectID &&
+                            r.PersonID == role.PersonID &&
+                            r.Password == password);
 
-                    if (result == null)
-                    {
-                        // Return false if user no longer exists.
-                        return false;
-                    }
-                    else
-                    {
-                        // Return true if the role exists.
-                        return true;
+                        if (result == null)
+                        {
+                            // Return false if user no longer exists.
+                            return false;
+                        }
+                        else
+                        {
+                            // Return true if the role exists.
+                            return true;
+                        }
                     }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-                // Returns false if any problem occurs.
+                // Returns false if anything goes wrong.
+                System.Console.WriteLine(e.Message);
                 return false;
             }
         }
@@ -285,56 +319,58 @@ namespace Users
         {
             try
             {
-                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
-                var persons = context.GetTable<SkrumManagerService.Person>();
-                var result = persons.FirstOrDefault(p => p.PersonID == person.PersonID);
-                if (result == null)
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    // Return null if user no longer exists.
-                    return null;
-                }
-                else
-                {
-                    if (person.Name != null)
+                    var persons = context.GetTable<SkrumManagerService.Person>();
+                    var result = persons.FirstOrDefault(p => p.PersonID == person.PersonID);
+                    if (result == null)
                     {
-                        result.Name = person.Name;
+                        // Return null if user no longer exists.
+                        return null;
                     }
-                    if (person.Email != null)
+                    else
                     {
-                        result.Email = person.Email;
-                    }
-                    if (person.PhotoURL != null)
-                    {
-                        result.PhotoURL = person.PhotoURL;
-                    }
-                    if (person.JobDescription != null)
-                    {
-                        result.JobDescription = person.JobDescription;
-                    }
-                    if (person.Admin != null)
-                    {
-                        result.Admin = (bool)person.Admin;
-                    }
-                    if (result.Admin && person.Password != null)
-                    {
-                        System.Security.Cryptography.SHA512 sha512 = new System.Security.Cryptography.SHA512Managed();
-                        System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
-                        byte[] digest = sha512.ComputeHash(encoder.GetBytes(person.Password));
-                        sha512.Dispose();
-                        result.Password = encoder.GetString(digest);
-                    }
+                        if (person.Name != null)
+                        {
+                            result.Name = person.Name;
+                        }
+                        if (person.Email != null)
+                        {
+                            result.Email = person.Email;
+                        }
+                        if (person.PhotoURL != null)
+                        {
+                            result.PhotoURL = person.PhotoURL;
+                        }
+                        if (person.JobDescription != null)
+                        {
+                            result.JobDescription = person.JobDescription;
+                        }
+                        if (person.Admin != null)
+                        {
+                            result.Admin = (bool)person.Admin;
+                        }
+                        if (result.Admin && person.Password != null)
+                        {
+                            System.Security.Cryptography.SHA512 sha512 = new System.Security.Cryptography.SHA512Managed();
+                            System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
+                            byte[] digest = sha512.ComputeHash(encoder.GetBytes(person.Password));
+                            sha512.Dispose();
+                            result.Password = encoder.GetString(digest);
+                        }
 
-                    // Update the person's information.
-                    context.SubmitChanges();
-                    context.Dispose();
+                        // Update the person's information.
+                        context.SubmitChanges();
 
-                    // Get and return the person's info.
-                    return this.GetPersonByID(result.PersonID);
+                        // Get and return the person's info.
+                        return this.GetPersonByID(result.PersonID);
+                    }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-                // Returns null if any problem occurs.
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
                 return null;
             }
         }

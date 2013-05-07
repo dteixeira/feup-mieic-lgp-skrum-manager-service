@@ -41,11 +41,11 @@
   <wsdl:message name="IUserService_UpdatePerson_OutputMessage">
     <wsdl:part name="parameters" element="tns:UpdatePersonResponse" />
   </wsdl:message>
-  <wsdl:message name="IUserService_GetPeronsInProject_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetPeronsInProject" />
+  <wsdl:message name="IUserService_GetPersonsInProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPersonsInProject" />
   </wsdl:message>
-  <wsdl:message name="IUserService_GetPeronsInProject_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetPeronsInProjectResponse" />
+  <wsdl:message name="IUserService_GetPersonsInProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPersonsInProjectResponse" />
   </wsdl:message>
   <wsdl:message name="IUserService_LoginAdmin_InputMessage">
     <wsdl:part name="parameters" element="tns:LoginAdmin" />
@@ -76,9 +76,9 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/UpdatePerson" message="tns:IUserService_UpdatePerson_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/UpdatePersonResponse" message="tns:IUserService_UpdatePerson_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetPeronsInProject">
-      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetPeronsInProject" message="tns:IUserService_GetPeronsInProject_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetPeronsInProjectResponse" message="tns:IUserService_GetPeronsInProject_OutputMessage" />
+    <wsdl:operation name="GetPersonsInProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetPersonsInProject" message="tns:IUserService_GetPersonsInProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetPersonsInProjectResponse" message="tns:IUserService_GetPersonsInProject_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="LoginAdmin">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/LoginAdmin" message="tns:IUserService_LoginAdmin_InputMessage" />
@@ -129,8 +129,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetPeronsInProject">
-      <soap12:operation soapAction="http://tempuri.org/IUserService/GetPeronsInProject" style="document" />
+    <wsdl:operation name="GetPersonsInProject">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/GetPersonsInProject" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

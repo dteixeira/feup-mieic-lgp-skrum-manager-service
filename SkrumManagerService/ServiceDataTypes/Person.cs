@@ -14,6 +14,7 @@ namespace ServiceDataTypes
         private string photoURL;
         private System.Collections.Generic.List<Role> roles;
         private System.Collections.Generic.List<Task> tasks;
+        private System.Collections.Generic.List<Task> ownedTasks;
 
         /// <summary>
         /// Default constructor of the Person class.
@@ -110,6 +111,16 @@ namespace ServiceDataTypes
         {
             get { return this.tasks; }
             set { this.tasks = value; }
+        }
+
+        /// <summary>
+        /// List of tasks owned by this person.
+        /// </summary>
+        [DataMember]
+        public System.Collections.Generic.List<Task> OwnedTasks
+        {
+            get { return this.ownedTasks; }
+            set { this.ownedTasks = value; }
         }
     }
 }
