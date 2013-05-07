@@ -41,6 +41,24 @@
   <wsdl:message name="IUserService_UpdatePerson_OutputMessage">
     <wsdl:part name="parameters" element="tns:UpdatePersonResponse" />
   </wsdl:message>
+  <wsdl:message name="IUserService_GetPeronsInProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPeronsInProject" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetPeronsInProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPeronsInProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_LoginAdmin_InputMessage">
+    <wsdl:part name="parameters" element="tns:LoginAdmin" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_LoginAdmin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginAdminResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_LoginProjectAdmin_InputMessage">
+    <wsdl:part name="parameters" element="tns:LoginProjectAdmin" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_LoginProjectAdmin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginProjectAdminResponse" />
+  </wsdl:message>
   <wsdl:portType name="IUserService">
     <wsdl:operation name="CreatePerson">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/CreatePerson" message="tns:IUserService_CreatePerson_InputMessage" />
@@ -57,6 +75,18 @@
     <wsdl:operation name="UpdatePerson">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/UpdatePerson" message="tns:IUserService_UpdatePerson_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/UpdatePersonResponse" message="tns:IUserService_UpdatePerson_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPeronsInProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetPeronsInProject" message="tns:IUserService_GetPeronsInProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetPeronsInProjectResponse" message="tns:IUserService_GetPeronsInProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LoginAdmin">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/LoginAdmin" message="tns:IUserService_LoginAdmin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/LoginAdminResponse" message="tns:IUserService_LoginAdmin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LoginProjectAdmin">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/LoginProjectAdmin" message="tns:IUserService_LoginProjectAdmin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/LoginProjectAdminResponse" message="tns:IUserService_LoginProjectAdmin_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="UserServiceEndpoint" type="tns:IUserService">
@@ -92,6 +122,33 @@
     </wsdl:operation>
     <wsdl:operation name="UpdatePerson">
       <soap12:operation soapAction="http://tempuri.org/IUserService/UpdatePerson" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPeronsInProject">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/GetPeronsInProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoginAdmin">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/LoginAdmin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoginProjectAdmin">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/LoginProjectAdmin" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

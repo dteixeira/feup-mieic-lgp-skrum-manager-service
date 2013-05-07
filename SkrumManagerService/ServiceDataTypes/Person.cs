@@ -1,4 +1,4 @@
-﻿using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 
 namespace ServiceDataTypes
 {
@@ -10,9 +10,10 @@ namespace ServiceDataTypes
         private string jobDescription;
         private string name;
         private string password;
-        private int personID;
+        private int? personID;
         private string photoURL;
-        private RoleDescription roleDescription;
+        private System.Collections.Generic.List<Role> roles;
+        private System.Collections.Generic.List<Task> tasks;
 
         /// <summary>
         /// Default constructor of the Person class.
@@ -75,7 +76,7 @@ namespace ServiceDataTypes
         /// The database ID of this person.
         /// </summary>
         [DataMember]
-        public int PersonID
+        public int? PersonID
         {
             get { return this.personID; }
             set { this.personID = value; }
@@ -92,13 +93,23 @@ namespace ServiceDataTypes
         }
 
         /// <summary>
-        /// This person's role in a specific project.
+        /// List of roles associated with this person.
         /// </summary>
         [DataMember]
-        public RoleDescription RoleDescription
+        public System.Collections.Generic.List<Role> Roles
         {
-            get { return this.roleDescription; }
-            set { this.roleDescription = value; }
+            get { return this.roles; }
+            set { this.roles = value; }
+        }
+
+        /// <summary>
+        /// List of tasks associated with this person.
+        /// </summary>
+        [DataMember]
+        public System.Collections.Generic.List<Task> Tasks
+        {
+            get { return this.tasks; }
+            set { this.tasks = value; }
         }
     }
 }

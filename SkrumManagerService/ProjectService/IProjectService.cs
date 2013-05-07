@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using ServiceDataTypes;
 using Users;
 using System.ServiceModel;
@@ -12,7 +12,7 @@ namespace Projects
         Project CreateProject(Project project);
 
         [OperationContract]
-        bool DeleteProject(Project project);
+        bool DeleteProject(int projectID);
 
         [OperationContract]
         Project GetProjectByID(int projectID);
@@ -26,7 +26,7 @@ namespace Projects
         Sprint CreateSprint(Sprint sprint);
 
         [OperationContract]
-        bool DeleteSprint(Sprint sprint);
+        bool DeleteSprint(int sprintID);
 
         [OperationContract]
         Sprint GetSprintByID(int sprintID);
@@ -35,18 +35,36 @@ namespace Projects
         Sprint UpdateSprint(Sprint sprint);
 
         //--------------------//
+        
+        [OperationContract]
+        List<Sprint> GetSprintsInProject(int projectID);
 
         [OperationContract]
-        List<Person> GetPersonsinProject(Project project);
-
-        [OperationContract]
-        List<Sprint> GetSprintsinProject(int projectID);
-
-        [OperationContract]
-        Person GiveRole(Person person, Project project, RoleDescription role, float assignedTime);
+        Role GiveRole(Role role);
 
         [OperationContract]
         List<Sprint> GetClosedSprints(int projectID);
+
+        //--------------------//
+
+        [OperationContract]
+        Meeting CreateMeeting(Meeting meeting);
+
+        [OperationContract]
+        bool DeleteMeeting(int meetingID);
+
+        [OperationContract]
+        Meeting GetMeetingByID(int meetingID);
+
+        [OperationContract]
+        Meeting UpdateMeeting(Meeting meeting);
+
+        [OperationContract]
+        List<Meeting> GetMeetingsInProject(int projectID);
+
+        [OperationContract]
+        List<Meeting> GetMeetingsOnDate(System.DateTime date, int projectID);
+
 
     }
 }

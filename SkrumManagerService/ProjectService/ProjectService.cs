@@ -1,4 +1,4 @@
-﻿using System.ServiceModel;
+using System.ServiceModel;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -56,13 +56,13 @@ namespace Projects
         /// </summary>
         /// <param name="project">Project to delete</param>
         /// <returns>true if the project was deleted, false otherwise.</returns>
-        public bool DeleteProject(ServiceDataTypes.Project project)
+        public bool DeleteProject(int projectID)
         {
             try
             {
                 SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
                 var projects = context.GetTable<SkrumManagerService.Project>();
-                var result = projects.FirstOrDefault(p => p.ProjectID == project.ProjectID);
+                var result = projects.FirstOrDefault(p => p.ProjectID == projectID);
                 if (result != null)
                 {
                     projects.DeleteOnSubmit(result);
@@ -138,7 +138,7 @@ namespace Projects
                 }
                 else
                 {
-                       
+
                     if (project.SprintDuration != null)
                     {
                         result.SprintDuration = project.SprintDuration == null ? result.SprintDuration : (int)project.SprintDuration;
@@ -163,12 +163,12 @@ namespace Projects
                     // Update the person's information.
                     context.SubmitChanges();
                     context.Dispose();
-                    
+
                     // Update the object data and return.
                     project.SprintDuration = result.SprintDuration;
                     project.AlertLimit = result.AlertLimit;
                     project.Speed = result.Speed;
-                   
+
                     return project;
                 }
             }
@@ -190,18 +190,13 @@ namespace Projects
         {
             try
             {
-                System.DateTime date_beg = new System.DateTime();
-                System.DateTime date_end = new System.DateTime();
-                date_beg = System.DateTime.ParseExact(sprint.BeginDate, "yyyy-MM-dd HH:mm tt", null);
-                date_end = System.DateTime.ParseExact(sprint.EndDate, "yyyy-MM-dd HH:mm tt", null);
-
                 // Create a database sprint instance.
                 SkrumManagerService.Sprint created = new SkrumManagerService.Sprint();
-                created.Number = sprint.Number;
-                created.BeginDate = date_beg;
-                created.EndDate = date_end;
-                created.Closed = sprint.Closed;
-                created.ProjectID = sprint.ProjectID;
+                created.Number = sprint.Number == null ? 1 : (int)sprint.Number;
+                created.BeginDate = sprint.BeginDate;
+                created.EndDate = sprint.EndDate;
+                created.Closed = sprint.Closed == null ? false : (bool)sprint.Closed;
+                created.ProjectID = sprint.ProjectID == null ? 1 : (int)sprint.ProjectID;
 
                 // Saves the sprint to the database.
                 SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
@@ -272,16 +267,11 @@ namespace Projects
                 }
                 else
                 {
-                    string date_beg;
-                    date_beg = result.BeginDate.ToString("yyyy-MM-dd HH:mm tt");
-                    string date_end;
-                    date_end = result.EndDate.ToString("yyyy-MM-dd HH:mm tt");
-
                     ServiceDataTypes.Sprint sprint = new ServiceDataTypes.Sprint();
                     sprint.SprintID = sprintID;
                     sprint.Number = result.Number;
-                    sprint.BeginDate = date_beg;
-                    sprint.EndDate = date_end;
+                    sprint.BeginDate = result.BeginDate;
+                    sprint.EndDate = result.EndDate;
                     sprint.Closed = result.Closed;
                     sprint.ProjectID = result.ProjectID;
                     return sprint;
@@ -312,87 +302,40 @@ namespace Projects
                     return null;
                 }
                 else
-                {               
+                {
                     if (sprint.Number != null)
                     {
-                        result.Number = sprint.Number;
+                        result.Number = sprint.Number == null ? result.Number : (int)sprint.Number;
                     }
                     if (sprint.BeginDate != null)
                     {
-                        System.DateTime date_beg = new System.DateTime();                        
-                        date_beg = System.DateTime.ParseExact(sprint.BeginDate, "yyyy-MM-dd HH:mm tt", null);                        
-                        result.BeginDate = date_beg;
+                        result.BeginDate = sprint.BeginDate;
                     }
                     if (sprint.EndDate != null)
                     {
-                        System.DateTime date_end = new System.DateTime();
-                        date_end = System.DateTime.ParseExact(sprint.EndDate, "yyyy-MM-dd HH:mm tt", null);
-                        result.EndDate = date_end;
+                        result.EndDate = sprint.EndDate;
                     }
                     if (sprint.Closed != null)
                     {
                         result.Closed = (bool)sprint.Closed;
                     }
-                    //ProjectID não deverá ser alterado
+                    if (sprint.ProjectID != null)
+                    {
+                        result.ProjectID = sprint.ProjectID == null ? result.ProjectID : (int)sprint.ProjectID;
+                    }
+
 
                     // Update the sprint information.
                     context.SubmitChanges();
                     context.Dispose();
 
-                    // Update the object data and return.
-                    string date_beg1;
-                    date_beg1 = result.BeginDate.ToString("yyyy-MM-dd HH:mm tt");
-                    string date_end1;
-                    date_end1 = result.EndDate.ToString("yyyy-MM-dd HH:mm tt");
-
                     sprint.Number = result.Number;
-                    sprint.BeginDate = date_beg1;
-                    sprint.EndDate = date_end1;
+                    sprint.BeginDate = result.BeginDate;
+                    sprint.EndDate = result.EndDate;
                     sprint.Closed = result.Closed;
+                    sprint.ProjectID = result.ProjectID;
                     return sprint;
                 }
-            }
-            catch (System.Exception)
-            {
-                // Returns null if any problem occurs.
-                return null;
-            }
-        }
-
-        //----------------------------------//
-
-
-        //Deverá ser passado para o UserService. Utiliza operação do UserService e nenhuma de ProjectService
-        /// <summary>
-        /// Gives all persons involved in a project.
-        /// </summary>
-        /// <param name="project">Contains the project</param>
-        /// <returns>A list of the people involved in the project</returns>
-        List<ServiceDataTypes.Person> GetPersonsinProject(ServiceDataTypes.Project project)
-        {
-            List<ServiceDataTypes.Person> result=new List<ServiceDataTypes.Person>();
-            
-            try
-            {
-                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
-                var roles = context.GetTable<SkrumManagerService.Role>();
-                var results = from p in roles
-                              where p.ProjectID == project.ProjectID
-                              select p.PersonID;
-
-                if (results == null)
-                    return null;
-                else
-                {
-                    foreach (var id in results)
-                    {
-                        ServiceDataTypes.Person temp = new ServiceDataTypes.Person();
-                        temp.PersonID = id;
-                        //result.Add(GetPersonByID(temp));
-                    }
-                }
-
-                return result;
             }
             catch (System.Exception)
             {
@@ -406,25 +349,27 @@ namespace Projects
         /// </summary>
         /// <param name="projectID">Contains the projects ID</param>
         /// <returns>A list of the sprints (open or closed) of the project</returns>
-        List<ServiceDataTypes.Sprint> GetSprintsinProject(int projectID)
+        public List<ServiceDataTypes.Sprint> GetSprintsInProject(int projectID)
         {
-            List<ServiceDataTypes.Sprint> result = new List<ServiceDataTypes.Sprint>();
-
             try
             {
+                List<ServiceDataTypes.Sprint> result = new List<ServiceDataTypes.Sprint>();
                 SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
                 var sprints = context.GetTable<SkrumManagerService.Sprint>();
                 var results = from p in sprints
                               where p.ProjectID == projectID
                               select p.SprintID;
 
-                if (results == null)
+                if (results == null || results.Count() == 0)
                     return null;
                 else
                 {
                     foreach (var id in results)
                     {
-                        result.Add(GetSprintByID(id));
+                        ServiceDataTypes.Sprint spr = new ServiceDataTypes.Sprint();
+                        spr = GetSprintByID(id);
+                        if (spr!=null)
+                            result.Add(spr);
                     }
                 }
 
@@ -442,25 +387,28 @@ namespace Projects
         /// </summary>
         /// <param name="projectID">Contains the projectID of the project</param>
         /// <returns>A list of the closed sprints of a project</returns>
-        List<ServiceDataTypes.Sprint> GetClosedSprints(int projectID)
+        public List<ServiceDataTypes.Sprint> GetClosedSprints(int projectID)
         {
-            List<ServiceDataTypes.Sprint> result = new List<ServiceDataTypes.Sprint>();
-
             try
             {
+                List<ServiceDataTypes.Sprint> result = new List<ServiceDataTypes.Sprint>();
+
                 SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
                 var sprints = context.GetTable<SkrumManagerService.Sprint>();
                 var results = from p in sprints
                               where (p.ProjectID == projectID && p.Closed == true)
                               select p.SprintID;
 
-                if (results == null)
+                if (results == null || results.Count()==0 )
                     return null;
                 else
                 {
                     foreach (var id in results)
                     {
-                        result.Add(GetSprintByID(id));
+                        ServiceDataTypes.Sprint spr = new ServiceDataTypes.Sprint();
+                        spr = GetSprintByID(id);
+                        if (spr != null)
+                            result.Add(spr);
                     }
                 }
 
@@ -476,38 +424,294 @@ namespace Projects
         /// <summary>
         /// Gives a person a new role in a project
         /// </summary>
-        /// <param name="person">Contains the projectID of the project</param>
-        /// <param name="project">Contains the projectID of the project</param>
-        /// <param name="role"></param>
-        /// <param name="assignedTime"></param>
-        /// <returns>The person with a new role</returns>
-        ServiceDataTypes.Person GiveRole(ServiceDataTypes.Person person, ServiceDataTypes.Project project, ServiceDataTypes.RoleDescription role, float assignedTime)
+        /// <param name="role">The role object to be inserted in the database</param>
+        /// <returns>The newly created role</returns>
+        public ServiceDataTypes.Role GiveRole(ServiceDataTypes.Role role)
         {
-            // TODO Finish this.
-            return person;       
+            try
+            {
+                 
+        /*private string description;
+        private string password;
+        private int? personID;
+        private int? projectID;
+        private ServiceDataTypes.RoleDescription roleDescription;
+        private int? roleID;*/
+                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
+
+                // Create a database project instance.
+                SkrumManagerService.Role created = new SkrumManagerService.Role();
+                created.AssignedTime = role.AssignedTime == null ? 1.0 : (double)role.AssignedTime;
+                created.PersonID = role.PersonID == null ? 1 : (int)role.PersonID;
+                created.ProjectID = role.ProjectID == null ? 1 : (int)role.ProjectID;
+                created.RoleDescription = context.GetTable<SkrumManagerService.RoleDescription>().First(r => r.Description == role.RoleDescription.ToString());
+
+                // Hash the password if it exists.
+                if (role.Password != null)
+                {
+                    System.Security.Cryptography.SHA512 sha512 = new System.Security.Cryptography.SHA512Managed();
+                    System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
+                    byte[] digest = sha512.ComputeHash(encoder.GetBytes(role.Password));
+                    sha512.Dispose();
+                    created.Password = encoder.GetString(digest);
+                }
+
+                // Saves the project to the database.
+                
+                context.GetTable<SkrumManagerService.Role>().InsertOnSubmit(created);
+                context.SubmitChanges();
+                context.Dispose();
+
+                // Treat the Project instance.
+                role.RoleID = created.ProjectID;
+                role.Password = null;
+                return role;
+            }
+            catch (System.Exception)
+            {
+                // Returns null if anything goes wrong.
+                return null;
+            } 
         }
 
-        List<ServiceDataTypes.Person> IProjectService.GetPersonsinProject(ServiceDataTypes.Project project)
+        /// <summary>
+        /// Creates a new meeting in the database.
+        /// </summary>
+        /// <param name="project">Contains the information of the meeting to be created.</param>
+        /// <returns>Created meetings information</returns>
+        public ServiceDataTypes.Meeting CreateMeeting(ServiceDataTypes.Meeting meeting)
         {
-            // TODO Finish this.
-            throw new System.NotImplementedException();
+            try
+            {
+                // Create a database project instance.
+                SkrumManagerService.Meeting created = new SkrumManagerService.Meeting();
+                created.Date = meeting.Date;
+                created.Notes = meeting.Notes;
+                created.Number = meeting.Number == null ? 1 : (int)meeting.Number;
+                created.ProjectID = meeting.ProjectID == null ? 1 : (int)meeting.ProjectID;
+                             
+                // Saves the project to the database.
+                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
+                context.GetTable<SkrumManagerService.Meeting>().InsertOnSubmit(created);
+                context.SubmitChanges();
+                context.Dispose();
+
+                // Treat the Project instance.
+                meeting.MeetingID = created.ProjectID;
+                return meeting;
+            }
+            catch (System.Exception)
+            {
+                // Returns null if anything goes wrong.
+                return null;
+            }
         }
 
-        List<ServiceDataTypes.Sprint> IProjectService.GetSprintsinProject(int projectID)
+        /// <summary>
+        /// Deletes a meeting record.
+        /// </summary>
+        /// <param name="meetingID">The ID of the meeting to be deleted</param>
+        /// <returns>true if the meeting was deleted, false otherwise.</returns>
+        public bool DeleteMeeting(int meetingID)
         {
-            // TODO Finish this.
-            throw new System.NotImplementedException();
+            try
+            {
+                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
+                var meetings = context.GetTable<SkrumManagerService.Meeting>();
+                var result = meetings.FirstOrDefault(p => p.MeetingID == meetingID);
+                if (result != null)
+                {
+                    meetings.DeleteOnSubmit(result);
+                    context.SubmitChanges();
+                    context.Dispose();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (System.Exception)
+            {
+                // Returns false if any problem occurs.
+                return false;
+            }
         }
 
-        ServiceDataTypes.Person IProjectService.GiveRole(ServiceDataTypes.Person person, ServiceDataTypes.Project project, ServiceDataTypes.RoleDescription role, float assignedTime)
+
+        /// <summary>
+        /// Returns a meetings information using that meetings ID to search.
+        /// </summary>
+        /// <param name="sprintID">Meeting ID to search for</param>
+        /// <returns>The filled Meeting instance if found, null otherwise.</returns>
+        public ServiceDataTypes.Meeting GetMeetingByID(int meetingID)
         {
-            // TODO Finish this.
-            throw new System.NotImplementedException();
+            try
+            {
+                // Creates a database context, searches and then disposes of it.
+                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
+                var result = context.GetTable<SkrumManagerService.Meeting>().FirstOrDefault(p => p.MeetingID == meetingID);
+                context.Dispose();
+
+                // Return null if no result was found, or a the filled person instance.
+                if (result == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    ServiceDataTypes.Meeting meeting = new ServiceDataTypes.Meeting();
+                    meeting.MeetingID = meetingID;
+                    meeting.Number = result.Number;
+                    meeting.Date = result.Date;
+                    meeting.Notes = result.Notes;
+                    meeting.ProjectID = result.ProjectID;
+
+                    return meeting;
+                }
+            }
+            catch (System.Exception)
+            {
+                // Returns null if any problem occurs.
+                return null;
+            }
         }
 
-        List<ServiceDataTypes.Sprint> IProjectService.GetClosedSprints(int projectID)
+        /// <summary>
+        /// Updates a meeting information with the given values.
+        /// </summary>
+        /// <param name="meeting">Contains the new values</param>
+        /// <returns>The meetings current information.</returns>
+        public ServiceDataTypes.Meeting UpdateMeeting(ServiceDataTypes.Meeting meeting)
         {
-            // TODO Finish this.
+            try
+            {
+                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
+                var meetings = context.GetTable<SkrumManagerService.Meeting>();
+                var result = meetings.FirstOrDefault(p => p.MeetingID == meeting.MeetingID);
+                if (result == null)
+                {
+                    // Return null if user no longer exists.
+                    return null;
+                }
+                else
+                {
+                    if (meeting.Number != null)
+                    {
+                        result.Number = meeting.Number == null ? result.Number : (int)meeting.Number;
+                    }
+                    if (meeting.Date != null)
+                    {
+                        result.Date = meeting.Date;
+                    }
+                    if (meeting.Notes != null)
+                    {
+                        result.Notes = meeting.Notes;
+                    }
+                    if (meeting.ProjectID != null)
+                    {
+                        result.ProjectID = meeting.ProjectID == null ? result.ProjectID : (int)meeting.ProjectID;
+                    }
+
+
+                    // Update the sprint information.
+                    context.SubmitChanges();
+                    context.Dispose();
+
+                    meeting.Number = result.Number;
+                    meeting.Date = result.Date;
+                    meeting.Notes = result.Notes;
+                    meeting.ProjectID = result.ProjectID;
+                    return meeting;
+                }
+            }
+            catch (System.Exception)
+            {
+                // Returns null if any problem occurs.
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns a list of Meetings of a given project.
+        /// </summary>
+        /// <param name="projectID">Id of the project to search for</param>
+        /// <returns>List of occurrences found, if any, null otherwise.</returns>
+        public List<ServiceDataTypes.Meeting> GetMeetingsInProject(int projectID)
+        {
+            try
+            {
+                List<ServiceDataTypes.Meeting> result = new List<ServiceDataTypes.Meeting>();
+                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
+                var meetings = context.GetTable<SkrumManagerService.Meeting>();
+                var results = from p in meetings
+                              where p.ProjectID == projectID
+                              select p.MeetingID;
+
+                if (results == null || results.Count() == 0)
+                    return null;
+                else
+                {
+                    foreach (var id in results)
+                    {
+                        ServiceDataTypes.Meeting meet = new ServiceDataTypes.Meeting();
+                        meet = GetMeetingByID(id);
+                        if (meet != null)
+                            result.Add(meet);
+                    }
+                }
+
+                return result;
+            }
+            catch (System.Exception)
+            {
+                // Returns null if any problem occurs.
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns a list of Meetings of a given project in a given date.
+        /// </summary>
+        /// <param name="date">Date to search for</param>
+        /// <param name="projectID">Id of the project to search for</param>
+        /// <returns>List of occurrences found, if any, null otherwise.</returns>
+        public List<ServiceDataTypes.Meeting> GetMeetingsOnDate(System.DateTime date, int projectID)
+        {
+            try
+            {
+                List<ServiceDataTypes.Meeting> result = new List<ServiceDataTypes.Meeting>();
+                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
+                var meetings = context.GetTable<SkrumManagerService.Meeting>();
+                var results = from p in meetings
+                              where p.ProjectID == projectID && p.Date==date
+                              select p.MeetingID;
+
+                if (results == null || results.Count() == 0)
+                    return null;
+                else
+                {
+                    foreach (var id in results)
+                    {
+                        ServiceDataTypes.Meeting meet = new ServiceDataTypes.Meeting();
+                        meet = GetMeetingByID(id);
+                        if (meet != null)
+                            result.Add(meet);
+                    }
+                }
+
+                return result;
+            }
+            catch (System.Exception)
+            {
+                // Returns null if any problem occurs.
+                return null;
+            }
+        }
+
+
+        public bool DeleteSprint(int sprintID)
+        {
             throw new System.NotImplementedException();
         }
     }

@@ -10,12 +10,21 @@ namespace Users
         Person CreatePerson(Person person);
 
         [OperationContract]
-        bool DeletePerson(Person person);
+        bool DeletePerson(int personID);
 
         [OperationContract]
-        Person GetPersonByID(Person person);
+        Person GetPersonByID(int personID);
 
         [OperationContract]
         Person UpdatePerson(Person person);
+
+        [OperationContract]
+        System.Collections.Generic.List<Person> GetPeronsInProject(int projectID);
+
+        [OperationContract]
+        bool LoginAdmin(Person person);
+
+        [OperationContract]
+        bool LoginProjectAdmin(Role role);
     }
 }

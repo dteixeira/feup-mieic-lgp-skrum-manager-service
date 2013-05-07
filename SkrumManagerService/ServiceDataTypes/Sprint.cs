@@ -2,40 +2,22 @@
 
 namespace ServiceDataTypes
 {
+    [DataContract]
     public class Sprint
     {
-        private int? sprintID;
-        private int? number;
         private System.DateTime beginDate;
-        private System.DateTime endDate;
         private bool? closed;
+        private System.DateTime endDate;
+        private int? number;
         private int? projectID;
+        private int? sprintID;
+        private System.Collections.Generic.List<Story> stories;
 
         /// <summary>
         /// Default constructor of the Sprint class.
         /// </summary>
         public Sprint()
         {
-        }
-
-        /// <summary>
-        /// The Database ID of this sprint.
-        /// </summary>
-        [DataMember]
-        public int? SprintID
-        {
-            get { return this.sprintID; }
-            set { this.sprintID = value; }
-        }
-
-        /// <summary>
-        /// The number of a Sprint in a Project.
-        /// </summary>
-        [DataMember]
-        public int? Number
-        {
-            get { return this.number; }
-            set { this.number = value; }
         }
 
         /// <summary>
@@ -49,6 +31,16 @@ namespace ServiceDataTypes
         }
 
         /// <summary>
+        /// The speed paramenter for this project.
+        /// </summary>
+        [DataMember]
+        public bool? Closed
+        {
+            get { return this.closed; }
+            set { this.closed = value; }
+        }
+
+        /// <summary>
         /// The end date for the sprint
         /// </summary>
         [DataMember]
@@ -59,13 +51,13 @@ namespace ServiceDataTypes
         }
 
         /// <summary>
-        /// The speed paramenter for this project.
+        /// The number of a Sprint in a Project.
         /// </summary>
         [DataMember]
-        public bool? Closed
+        public int? Number
         {
-            get { return this.closed; }
-            set { this.closed = value; }
+            get { return this.number; }
+            set { this.number = value; }
         }
 
         /// <summary>
@@ -77,7 +69,25 @@ namespace ServiceDataTypes
             get { return this.projectID; }
             set { this.projectID = value; }
         }
-        
 
+        /// <summary>
+        /// The Database ID of this sprint.
+        /// </summary>
+        [DataMember]
+        public int? SprintID
+        {
+            get { return this.sprintID; }
+            set { this.sprintID = value; }
+        }
+
+        /// <summary>
+        /// List of stories associated with this sprint.
+        /// </summary>
+        [DataMember]
+        public System.Collections.Generic.List<Story> Stories
+        {
+            get { return this.stories; }
+            set { this.stories = value; }
+        }
     }
 }

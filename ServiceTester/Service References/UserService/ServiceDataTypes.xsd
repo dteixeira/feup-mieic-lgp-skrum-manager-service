@@ -7,14 +7,33 @@
       <xs:element minOccurs="0" name="JobDescription" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="PersonID" type="xs:int" />
+      <xs:element minOccurs="0" name="PersonID" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="PhotoURL" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="RoleDescription" type="tns:RoleDescription" />
+      <xs:element minOccurs="0" name="Roles" nillable="true" type="tns:ArrayOfRole" />
+      <xs:element minOccurs="0" name="Tasks" nillable="true" type="tns:ArrayOfTask" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Person" nillable="true" type="tns:Person" />
+  <xs:complexType name="ArrayOfRole">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Role" nillable="true" type="tns:Role" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRole" nillable="true" type="tns:ArrayOfRole" />
+  <xs:complexType name="Role">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AssignedTime" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PersonID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProjectID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="RoleDescription" type="tns:RoleDescription" />
+      <xs:element minOccurs="0" name="RoleID" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Role" nillable="true" type="tns:Role" />
   <xs:simpleType name="RoleDescription">
     <xs:restriction base="xs:string">
+      <xs:enumeration value="Null" />
       <xs:enumeration value="ProjectManager" />
       <xs:enumeration value="ScrumMaster" />
       <xs:enumeration value="ProductOwner" />
@@ -22,4 +41,27 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="RoleDescription" nillable="true" type="tns:RoleDescription" />
+  <xs:complexType name="ArrayOfTask">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Task" nillable="true" type="tns:Task" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTask" nillable="true" type="tns:ArrayOfTask" />
+  <xs:complexType name="Task">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Estimation" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PersonID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="StoryID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="TaskID" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Task" nillable="true" type="tns:Task" />
+  <xs:complexType name="ArrayOfPerson">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Person" nillable="true" type="tns:Person" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPerson" nillable="true" type="tns:ArrayOfPerson" />
 </xs:schema>

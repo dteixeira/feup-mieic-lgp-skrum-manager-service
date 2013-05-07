@@ -58,6 +58,13 @@ namespace ServiceTester
         /// </summary>
         private static void SeedDatabase()
         {
+            // Get all needed tables.
+            var persons = UserServiceTest.context.GetTable<SkrumManagerService.Person>();
+            var projects = UserServiceTest.context.GetTable<SkrumManagerService.Project>();
+            var roles = UserServiceTest.context.GetTable<SkrumManagerService.Role>();
+            var tasks = UserServiceTest.context.GetTable<SkrumManagerService.Task>();
+
+           // TODO Finish this.
         }
     }
 }

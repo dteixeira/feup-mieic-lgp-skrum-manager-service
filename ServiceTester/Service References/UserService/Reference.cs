@@ -8,76 +8,88 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ServiceTester.UserService
-{
+namespace ServiceTester.UserService {
+    
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName = "UserService.IUserService")]
-    public interface IUserService
-    {
-        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IUserService/CreatePerson", ReplyAction = "http://tempuri.org/IUserService/CreatePersonResponse")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="UserService.IUserService")]
+    public interface IUserService {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/CreatePerson", ReplyAction="http://tempuri.org/IUserService/CreatePersonResponse")]
         ServiceDataTypes.Person CreatePerson(ServiceDataTypes.Person person);
-
-        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IUserService/DeletePerson", ReplyAction = "http://tempuri.org/IUserService/DeletePersonResponse")]
-        bool DeletePerson(ServiceDataTypes.Person person);
-
-        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IUserService/GetPersonByID", ReplyAction = "http://tempuri.org/IUserService/GetPersonByIDResponse")]
-        ServiceDataTypes.Person GetPersonByID(ServiceDataTypes.Person person);
-
-        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IUserService/UpdatePerson", ReplyAction = "http://tempuri.org/IUserService/UpdatePersonResponse")]
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/DeletePerson", ReplyAction="http://tempuri.org/IUserService/DeletePersonResponse")]
+        bool DeletePerson(int personID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetPersonByID", ReplyAction="http://tempuri.org/IUserService/GetPersonByIDResponse")]
+        ServiceDataTypes.Person GetPersonByID(int personID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdatePerson", ReplyAction="http://tempuri.org/IUserService/UpdatePersonResponse")]
         ServiceDataTypes.Person UpdatePerson(ServiceDataTypes.Person person);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetPeronsInProject", ReplyAction="http://tempuri.org/IUserService/GetPeronsInProjectResponse")]
+        ServiceDataTypes.Person[] GetPeronsInProject(int projectID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/LoginAdmin", ReplyAction="http://tempuri.org/IUserService/LoginAdminResponse")]
+        bool LoginAdmin(ServiceDataTypes.Person person);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/LoginProjectAdmin", ReplyAction="http://tempuri.org/IUserService/LoginProjectAdminResponse")]
+        bool LoginProjectAdmin(ServiceDataTypes.Role role);
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IUserServiceChannel : ServiceTester.UserService.IUserService, System.ServiceModel.IClientChannel
-    {
+    public interface IUserServiceChannel : ServiceTester.UserService.IUserService, System.ServiceModel.IClientChannel {
     }
-
+    
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class UserServiceClient : System.ServiceModel.ClientBase<ServiceTester.UserService.IUserService>, ServiceTester.UserService.IUserService
-    {
-        public UserServiceClient()
-        {
+    public partial class UserServiceClient : System.ServiceModel.ClientBase<ServiceTester.UserService.IUserService>, ServiceTester.UserService.IUserService {
+        
+        public UserServiceClient() {
         }
-
-        public UserServiceClient(string endpointConfigurationName) :
-            base(endpointConfigurationName)
-        {
+        
+        public UserServiceClient(string endpointConfigurationName) : 
+                base(endpointConfigurationName) {
         }
-
-        public UserServiceClient(string endpointConfigurationName, string remoteAddress) :
-            base(endpointConfigurationName, remoteAddress)
-        {
+        
+        public UserServiceClient(string endpointConfigurationName, string remoteAddress) : 
+                base(endpointConfigurationName, remoteAddress) {
         }
-
-        public UserServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) :
-            base(endpointConfigurationName, remoteAddress)
-        {
+        
+        public UserServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(endpointConfigurationName, remoteAddress) {
         }
-
-        public UserServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) :
-            base(binding, remoteAddress)
-        {
+        
+        public UserServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(binding, remoteAddress) {
         }
-
-        public ServiceDataTypes.Person CreatePerson(ServiceDataTypes.Person person)
-        {
+        
+        public ServiceDataTypes.Person CreatePerson(ServiceDataTypes.Person person) {
             return base.Channel.CreatePerson(person);
         }
-
-        public bool DeletePerson(ServiceDataTypes.Person person)
-        {
-            return base.Channel.DeletePerson(person);
+        
+        public bool DeletePerson(int personID) {
+            return base.Channel.DeletePerson(personID);
         }
-
-        public ServiceDataTypes.Person GetPersonByID(ServiceDataTypes.Person person)
-        {
-            return base.Channel.GetPersonByID(person);
+        
+        public ServiceDataTypes.Person GetPersonByID(int personID) {
+            return base.Channel.GetPersonByID(personID);
         }
-
-        public ServiceDataTypes.Person UpdatePerson(ServiceDataTypes.Person person)
-        {
+        
+        public ServiceDataTypes.Person UpdatePerson(ServiceDataTypes.Person person) {
             return base.Channel.UpdatePerson(person);
+        }
+        
+        public ServiceDataTypes.Person[] GetPeronsInProject(int projectID) {
+            return base.Channel.GetPeronsInProject(projectID);
+        }
+        
+        public bool LoginAdmin(ServiceDataTypes.Person person) {
+            return base.Channel.LoginAdmin(person);
+        }
+        
+        public bool LoginProjectAdmin(ServiceDataTypes.Role role) {
+            return base.Channel.LoginProjectAdmin(role);
         }
     }
 }

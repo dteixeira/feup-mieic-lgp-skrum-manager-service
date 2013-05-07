@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceDataTypes\EnumerationTypes.cs" />
+    <Compile Include="ServiceDataTypes\Meeting.cs" />
     <Compile Include="ServiceDataTypes\Person.cs" />
     <Compile Include="ServiceDataTypes\Project.cs" />
     <Compile Include="ServiceDataTypes\Role.cs" />
