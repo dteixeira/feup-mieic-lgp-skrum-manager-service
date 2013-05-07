@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ProjectService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="ProjectServiceEndpoint_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
+        <wsaw:UsingAddressing>
+        </wsaw:UsingAddressing>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/ServiceDataTypes" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IProjectService_CreateProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateProject" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_CreateProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_DeleteProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProject" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_DeleteProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetProjectByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjectByID" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetProjectByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjectByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_UpdateProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateProject" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_UpdateProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_CreateSprint_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateSprint" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_CreateSprint_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateSprintResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_DeleteSprint_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteSprint" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_DeleteSprint_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteSprintResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetSprintByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSprintByID" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetSprintByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSprintByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_UpdateSprint_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSprint" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_UpdateSprint_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSprintResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetSprintsInProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSprintsInProject" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetSprintsInProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSprintsInProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GiveRole_InputMessage">
+    <wsdl:part name="parameters" element="tns:GiveRole" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GiveRole_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GiveRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetClosedSprints_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetClosedSprints" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetClosedSprints_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetClosedSprintsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_CreateMeeting_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateMeeting" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_CreateMeeting_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateMeetingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_DeleteMeeting_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMeeting" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_DeleteMeeting_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMeetingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetMeetingByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMeetingByID" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetMeetingByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMeetingByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_UpdateMeeting_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateMeeting" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_UpdateMeeting_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateMeetingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetMeetingsInProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMeetingsInProject" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetMeetingsInProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMeetingsInProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetMeetingsOnDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMeetingsOnDate" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetMeetingsOnDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMeetingsOnDateResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IProjectService">
+    <wsdl:operation name="CreateProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/CreateProject" message="tns:IProjectService_CreateProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/CreateProjectResponse" message="tns:IProjectService_CreateProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/DeleteProject" message="tns:IProjectService_DeleteProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/DeleteProjectResponse" message="tns:IProjectService_DeleteProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProjectByID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/GetProjectByID" message="tns:IProjectService_GetProjectByID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/GetProjectByIDResponse" message="tns:IProjectService_GetProjectByID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/UpdateProject" message="tns:IProjectService_UpdateProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/UpdateProjectResponse" message="tns:IProjectService_UpdateProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateSprint">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/CreateSprint" message="tns:IProjectService_CreateSprint_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/CreateSprintResponse" message="tns:IProjectService_CreateSprint_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSprint">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/DeleteSprint" message="tns:IProjectService_DeleteSprint_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/DeleteSprintResponse" message="tns:IProjectService_DeleteSprint_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSprintByID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/GetSprintByID" message="tns:IProjectService_GetSprintByID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/GetSprintByIDResponse" message="tns:IProjectService_GetSprintByID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSprint">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/UpdateSprint" message="tns:IProjectService_UpdateSprint_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/UpdateSprintResponse" message="tns:IProjectService_UpdateSprint_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSprintsInProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/GetSprintsInProject" message="tns:IProjectService_GetSprintsInProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/GetSprintsInProjectResponse" message="tns:IProjectService_GetSprintsInProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GiveRole">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/GiveRole" message="tns:IProjectService_GiveRole_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/GiveRoleResponse" message="tns:IProjectService_GiveRole_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetClosedSprints">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/GetClosedSprints" message="tns:IProjectService_GetClosedSprints_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/GetClosedSprintsResponse" message="tns:IProjectService_GetClosedSprints_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateMeeting">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/CreateMeeting" message="tns:IProjectService_CreateMeeting_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/CreateMeetingResponse" message="tns:IProjectService_CreateMeeting_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMeeting">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/DeleteMeeting" message="tns:IProjectService_DeleteMeeting_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/DeleteMeetingResponse" message="tns:IProjectService_DeleteMeeting_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeetingByID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/GetMeetingByID" message="tns:IProjectService_GetMeetingByID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/GetMeetingByIDResponse" message="tns:IProjectService_GetMeetingByID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMeeting">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/UpdateMeeting" message="tns:IProjectService_UpdateMeeting_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/UpdateMeetingResponse" message="tns:IProjectService_UpdateMeeting_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeetingsInProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/GetMeetingsInProject" message="tns:IProjectService_GetMeetingsInProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/GetMeetingsInProjectResponse" message="tns:IProjectService_GetMeetingsInProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeetingsOnDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/GetMeetingsOnDate" message="tns:IProjectService_GetMeetingsOnDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/GetMeetingsOnDateResponse" message="tns:IProjectService_GetMeetingsOnDate_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ProjectServiceEndpoint" type="tns:IProjectService">
+    <wsp:PolicyReference URI="#ProjectServiceEndpoint_policy">
+    </wsp:PolicyReference>
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="CreateProject">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/CreateProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProject">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/DeleteProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProjectByID">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/GetProjectByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateProject">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/UpdateProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateSprint">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/CreateSprint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSprint">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/DeleteSprint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSprintByID">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/GetSprintByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSprint">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/UpdateSprint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSprintsInProject">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/GetSprintsInProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GiveRole">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/GiveRole" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClosedSprints">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/GetClosedSprints" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateMeeting">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/CreateMeeting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMeeting">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/DeleteMeeting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeetingByID">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/GetMeetingByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMeeting">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/UpdateMeeting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeetingsInProject">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/GetMeetingsInProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeetingsOnDate">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/GetMeetingsOnDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProjectService">
+    <wsdl:port name="ProjectServiceEndpoint" binding="tns:ProjectServiceEndpoint">
+      <soap12:address location="net.tcp://localhost/ProjectService.svc" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost/ProjectService.svc</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Dns>localhost</Dns>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

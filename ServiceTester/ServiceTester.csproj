@@ -60,6 +60,21 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BaseServiceTests\UserServiceTest.cs" />
+    <Compile Include="Service References\NotificationService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ProjectService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TaskboardService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\UserService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -80,7 +95,40 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Properties\DataSources\ServiceDataTypes.Meeting.datasource" />
     <None Include="Properties\DataSources\ServiceDataTypes.Person.datasource" />
+    <None Include="Properties\DataSources\ServiceDataTypes.Project.datasource" />
+    <None Include="Properties\DataSources\ServiceDataTypes.Role.datasource" />
+    <None Include="Properties\DataSources\ServiceDataTypes.Sprint.datasource" />
+    <None Include="Properties\DataSources\ServiceDataTypes.Story.datasource" />
+    <None Include="Properties\DataSources\ServiceDataTypes.Task.datasource" />
+    <None Include="Service References\NotificationService\service.wsdl" />
+    <None Include="Service References\NotificationService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotificationService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProjectService\service.wsdl" />
+    <None Include="Service References\ProjectService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProjectService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProjectService\ServiceDataTypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TaskboardService\service.wsdl" />
+    <None Include="Service References\TaskboardService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TaskboardService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TaskboardService\ServiceDataTypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\UserService\service.wsdl" />
     <None Include="Service References\UserService\service.xsd">
       <SubType>Designer</SubType>
@@ -96,6 +144,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\NotificationService\" />
+    <WCFMetadataStorage Include="Service References\ProjectService\" />
+    <WCFMetadataStorage Include="Service References\TaskboardService\" />
     <WCFMetadataStorage Include="Service References\UserService\" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +157,42 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\UserService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ProjectService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ProjectService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ProjectService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TaskboardService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TaskboardService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TaskboardService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\NotificationService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\NotificationService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\NotificationService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

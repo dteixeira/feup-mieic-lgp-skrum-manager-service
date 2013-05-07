@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TaskboardService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="TaskboardServiceEndpoint_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
+        <wsaw:UsingAddressing>
+        </wsaw:UsingAddressing>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/ServiceDataTypes" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ITaskboardService_CreateStory_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateStory" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_CreateStory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateStoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_DeleteStory_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteStory" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_DeleteStory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteStoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetStoryByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStoryByID" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetStoryByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStoryByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_UpdateStory_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStory" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_UpdateStory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_CreateTask_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTask" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_CreateTask_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_DeleteTask_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTask" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_DeleteTask_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetTaskByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTaskByID" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetTaskByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTaskByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_UpdateTask_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateTask" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_UpdateTask_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_InsertWorkTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertWorkTime" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_InsertWorkTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertWorkTimeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ITaskboardService">
+    <wsdl:operation name="CreateStory">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/CreateStory" message="tns:ITaskboardService_CreateStory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/CreateStoryResponse" message="tns:ITaskboardService_CreateStory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStory">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/DeleteStory" message="tns:ITaskboardService_DeleteStory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/DeleteStoryResponse" message="tns:ITaskboardService_DeleteStory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStoryByID">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/GetStoryByID" message="tns:ITaskboardService_GetStoryByID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/GetStoryByIDResponse" message="tns:ITaskboardService_GetStoryByID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStory">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/UpdateStory" message="tns:ITaskboardService_UpdateStory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/UpdateStoryResponse" message="tns:ITaskboardService_UpdateStory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateTask">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/CreateTask" message="tns:ITaskboardService_CreateTask_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/CreateTaskResponse" message="tns:ITaskboardService_CreateTask_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTask">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/DeleteTask" message="tns:ITaskboardService_DeleteTask_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/DeleteTaskResponse" message="tns:ITaskboardService_DeleteTask_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTaskByID">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/GetTaskByID" message="tns:ITaskboardService_GetTaskByID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/GetTaskByIDResponse" message="tns:ITaskboardService_GetTaskByID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateTask">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/UpdateTask" message="tns:ITaskboardService_UpdateTask_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/UpdateTaskResponse" message="tns:ITaskboardService_UpdateTask_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertWorkTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/InsertWorkTime" message="tns:ITaskboardService_InsertWorkTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/InsertWorkTimeResponse" message="tns:ITaskboardService_InsertWorkTime_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TaskboardServiceEndpoint" type="tns:ITaskboardService">
+    <wsp:PolicyReference URI="#TaskboardServiceEndpoint_policy">
+    </wsp:PolicyReference>
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="CreateStory">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/CreateStory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStory">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/DeleteStory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStoryByID">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/GetStoryByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStory">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/UpdateStory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateTask">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/CreateTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTask">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/DeleteTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTaskByID">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/GetTaskByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateTask">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/UpdateTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertWorkTime">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/InsertWorkTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TaskboardService">
+    <wsdl:port name="TaskboardServiceEndpoint" binding="tns:TaskboardServiceEndpoint">
+      <soap12:address location="net.tcp://localhost/TaskboardService.svc" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost/TaskboardService.svc</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Dns>localhost</Dns>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
