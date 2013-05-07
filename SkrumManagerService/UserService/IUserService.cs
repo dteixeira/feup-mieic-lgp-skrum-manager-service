@@ -26,5 +26,11 @@ namespace Users
 
         [OperationContract]
         bool LoginProjectAdmin(Role role);
+
+        [OperationContract]
+        System.Collections.Generic.List<Person> GetAllPersons();
+
+        [OperationContract]
+        Person GetPersonByEmail(string email);
     }
 }

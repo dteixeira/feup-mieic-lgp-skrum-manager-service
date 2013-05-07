@@ -59,6 +59,18 @@
   <wsdl:message name="IUserService_LoginProjectAdmin_OutputMessage">
     <wsdl:part name="parameters" element="tns:LoginProjectAdminResponse" />
   </wsdl:message>
+  <wsdl:message name="IUserService_GetAllPersons_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllPersons" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetAllPersons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllPersonsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetPersonByEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPersonByEmail" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetPersonByEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPersonByEmailResponse" />
+  </wsdl:message>
   <wsdl:portType name="IUserService">
     <wsdl:operation name="CreatePerson">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/CreatePerson" message="tns:IUserService_CreatePerson_InputMessage" />
@@ -87,6 +99,14 @@
     <wsdl:operation name="LoginProjectAdmin">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/LoginProjectAdmin" message="tns:IUserService_LoginProjectAdmin_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/LoginProjectAdminResponse" message="tns:IUserService_LoginProjectAdmin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPersons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetAllPersons" message="tns:IUserService_GetAllPersons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetAllPersonsResponse" message="tns:IUserService_GetAllPersons_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonByEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetPersonByEmail" message="tns:IUserService_GetPersonByEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetPersonByEmailResponse" message="tns:IUserService_GetPersonByEmail_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="UserServiceEndpoint" type="tns:IUserService">
@@ -149,6 +169,24 @@
     </wsdl:operation>
     <wsdl:operation name="LoginProjectAdmin">
       <soap12:operation soapAction="http://tempuri.org/IUserService/LoginProjectAdmin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPersons">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/GetAllPersons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonByEmail">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/GetPersonByEmail" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

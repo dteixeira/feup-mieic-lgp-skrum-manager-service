@@ -374,5 +374,71 @@ namespace Users
                 return null;
             }
         }
+
+        /// <summary>
+        /// Fetches a list of all the system's users.
+        /// </summary>
+        /// <returns>A list containing the information about all the users in the system.</returns>
+        public System.Collections.Generic.List<ServiceDataTypes.Person> GetAllPersons()
+        {
+            try
+            {
+                System.Collections.Generic.List<ServiceDataTypes.Person> persons = null;
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    persons = (
+                        from id in
+                            (
+                                from p in context.GetTable<SkrumManagerService.Person>()
+                                select p.PersonID
+                            ).AsEnumerable()
+                        let person = this.GetPersonByID(id)
+                        where person != null
+                        select person).ToList();
+                }
+                return persons;
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets a certain person, identified by its email.
+        /// </summary>
+        /// <param name="email">Email of the person to get</param>
+        /// <returns>The info about the email's owner.</returns>
+        public ServiceDataTypes.Person GetPersonByEmail(string email)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    // Searches for the users email, case insensitive.
+                    var persons = context.GetTable<SkrumManagerService.Person>();
+                    var person = persons.FirstOrDefault(p => System.String.Compare(email, p.Email, System.StringComparison.OrdinalIgnoreCase) == 0);
+                    
+                    if (person == null)
+                    {
+                        // No user with that email was found, returns null.
+                        return null;
+                    }
+                    else
+                    {
+                        // User was found, returns its info.
+                        return this.GetPersonByID(person.PersonID);
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
     }
 }

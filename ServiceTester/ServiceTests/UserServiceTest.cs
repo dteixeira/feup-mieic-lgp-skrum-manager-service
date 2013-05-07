@@ -17,7 +17,7 @@ namespace ServiceTester
         public void CreateUserTest()
         {
             // Create a person representation.
-            ServiceDataTypes.Person person = new ServiceDataTypes.Person 
+            ServiceDataTypes.Person person = new ServiceDataTypes.Person
             {
                 Admin = false,
                 Email = "testable_user@email.domain",
@@ -31,32 +31,15 @@ namespace ServiceTester
             person = UserServiceTest.client.CreatePerson(person);
 
             // If person is null, something went wrong.
-            Assert.IsNotNull(person);
+            Assert.IsNotNull(person, "The person was not created correctly.");
 
             // Check if a new person id was attributed.
-            Assert.AreNotEqual(person.PersonID, -1);
-        }
+            Assert.IsNotNull(person.PersonID, "The person was not given a database ID, or it was not updated.");
 
-        [TestMethod]
-        public void GetPersonByIDTest()
-        {
-            // Create a person representation.
-            ServiceDataTypes.Person person = new ServiceDataTypes.Person
-            {
-                Admin = false,
-                Email = "findable_user@email.domain",
-                JobDescription = "Hey, I'm over here.",
-                Name = "Dependable Mary",
-                Password = null,
-                PhotoURL = null
-            };
-
-            // Add person through service.
+            // Test that is not possible to create a user with the same email.
+            person.PersonID = null;
             person = UserServiceTest.client.CreatePerson(person);
-            person = UserServiceTest.client.GetPersonByID(person.PersonID == null ? -1 : (int)person.PersonID);
-
-            // If person is null, something went wrong.
-            Assert.IsNotNull(person);
+            Assert.IsNull(person, "The person was created again, dispite having the same email");
         }
 
         [TestMethod]
@@ -78,56 +61,69 @@ namespace ServiceTester
             person = UserServiceTest.client.GetPersonByID(person.PersonID == null ? -1 : (int)person.PersonID);
 
             // If person is null, something went wrong.
-            Assert.IsNotNull(person);
+            Assert.IsNotNull(person, "Could not find that person.");
 
             // Delete person, should succed and return true.
-            Assert.IsTrue(UserServiceTest.client.DeletePerson((int)person.PersonID));
+            Assert.IsTrue(UserServiceTest.client.DeletePerson((int)person.PersonID), "Failed to delete the person.");
 
             // Tries to find the deleted person, should fail and return null.
             int personID = (int)person.PersonID;
             person = UserServiceTest.client.GetPersonByID((int)person.PersonID);
-            Assert.IsNull(person);
+            Assert.IsNull(person, "The person's info is still being returned after being deleted.");
 
             // Tries to delete the person again, should fail and return false.
-            Assert.IsFalse(UserServiceTest.client.DeletePerson(personID));
+            Assert.IsFalse(UserServiceTest.client.DeletePerson(personID), "Deleted person successfully, even though no longer existed.");
         }
 
         [TestMethod]
-        public void UpdateUserTest()
+        public void GetAllPersonsTest()
+        {
+            // Get all people in the database, at least two.
+            ServiceDataTypes.Person[] persons = UserServiceTest.client.GetAllPersons();
+            Assert.IsNotNull(persons, "List of people was not returned.");
+            Assert.IsTrue(persons.Length >= 2, "Method returned list of less than two people.");
+
+            // Checks people's names.
+            Assert.IsNotNull(persons.FirstOrDefault(p => p.Name == "Complete User"), "\"Complete User\" was not returned.");
+            Assert.IsNotNull(persons.FirstOrDefault(p => p.Name == "Admin"), "\"Admin\" was not returned.");
+        }
+
+        [TestMethod]
+        public void GetPersonByEmailTest()
+        {
+            // Get a person by email.
+            ServiceDataTypes.Person person = UserServiceTest.client.GetPersonByEmail("complete_user@email.domain");
+            Assert.IsNotNull(person, "The person was not found.");
+
+            // Tests case insensitive email matching.
+            person = UserServiceTest.client.GetPersonByEmail("CoMpLeTe_UsEr@EmAiL.DoMaIn");
+            Assert.IsNotNull(person, "The person was not found.");
+
+            // Forced fail by searching for an inexistence email.
+            person = UserServiceTest.client.GetPersonByEmail("fictitious_user@email.domain");
+            Assert.IsNull(person, "The person was found, even though it didn't exist.");
+        }
+
+        [TestMethod]
+        public void GetPersonByIDTest()
         {
             // Create a person representation.
             ServiceDataTypes.Person person = new ServiceDataTypes.Person
             {
                 Admin = false,
-                Email = "updatable_user@email.domain",
-                JobDescription = "I'm a master of disguise!",
-                Name = "Ninja Tina",
+                Email = "findable_user@email.domain",
+                JobDescription = "Hey, I'm over here.",
+                Name = "Dependable Mary",
                 Password = null,
                 PhotoURL = null
             };
 
             // Add person through service.
             person = UserServiceTest.client.CreatePerson(person);
+            person = UserServiceTest.client.GetPersonByID(person.PersonID == null ? -1 : (int)person.PersonID);
 
-            // Check initial values.
-            Assert.IsNotNull(person);
-            Assert.AreEqual(person.Name, "Ninja Tina");
-            Assert.AreEqual(person.Email, "updatable_user@email.domain");
-            Assert.AreEqual(person.JobDescription, "I'm a master of disguise!");
-
-            // Update the user.
-            person.JobDescription = null;
-            person.Name = "Ninja Turtle Tina";
-            person.Email = "morphable_user@email.domain";
-            person.Admin = null;
-            person.JobDescription = null;
-            person = UserServiceTest.client.UpdatePerson(person);
-
-            // Check modified values.
-            Assert.IsNotNull(person);
-            Assert.AreNotEqual(person.Name, "Ninja Tina");
-            Assert.AreNotEqual(person.Email, "updatable_user@email.domain");
-            Assert.AreEqual(person.JobDescription, "I'm a master of disguise!");
+            // If person is null, something went wrong.
+            Assert.IsNotNull(person, "Could not find that person.");
         }
 
         [TestMethod]
@@ -138,22 +134,22 @@ namespace ServiceTester
 
             // List all users for this project.
             ServiceDataTypes.Person[] persons = UserServiceTest.client.GetPersonsInProject(project.ProjectID);
-            Assert.IsNotNull(persons);
+            Assert.IsNotNull(persons, "Could not find users associated with the project.");
 
             // Check if the only user if "Complete User"
             ServiceDataTypes.Person person = persons[0];
-            Assert.AreEqual(persons[0].Name, "Complete User");
+            Assert.AreEqual(persons[0].Name, "Complete User", "Could not find the user.");
 
-            // This user should have two roles, be the owner of six tasks, 
-            // and be involved in six tasks.
-            Assert.AreEqual(person.Roles.Count(), 2);
-            Assert.AreEqual(person.Tasks.Count(), 6);
-            Assert.AreEqual(person.OwnedTasks.Count(), 6);
+            // This user should have two roles, be the owner of six tasks,
+            // and be involved in twelve tasks.
+            Assert.AreEqual(person.Roles.Count(), 2, "Incorrect number of roles.");
+            Assert.AreEqual(person.Tasks.Count(), 12, "Incorrect number of associated tasks.");
+            Assert.AreEqual(person.OwnedTasks.Count(), 6, "Incorrect number of owned tasks.");
 
             // Verify that one the persons is both a ProjectManager and a
             // TeamMember for this project.
-            Assert.IsNotNull(person.Roles.FirstOrDefault(r => r.RoleDescription == ServiceDataTypes.RoleDescription.ProjectManager));
-            Assert.IsNotNull(person.Roles.FirstOrDefault(r => r.RoleDescription == ServiceDataTypes.RoleDescription.TeamMember));
+            Assert.IsNotNull(person.Roles.FirstOrDefault(r => r.RoleDescription == ServiceDataTypes.RoleDescription.ProjectManager), "The user is not the manager of this project.");
+            Assert.IsNotNull(person.Roles.FirstOrDefault(r => r.RoleDescription == ServiceDataTypes.RoleDescription.TeamMember), "The user is not a team member in this project.");
 
             // Verify that the user cannot be logged in as an admin.
             person.Password = "123456";
@@ -204,6 +200,44 @@ namespace ServiceTester
             // Try to login non project manager.
             adminRole.Password = "";
             Assert.IsFalse(UserServiceTest.client.LoginProjectAdmin(adminRole), "Login project manager incorrectly: no password.");
+        }
+
+        [TestMethod]
+        public void UpdateUserTest()
+        {
+            // Create a person representation.
+            ServiceDataTypes.Person person = new ServiceDataTypes.Person
+            {
+                Admin = false,
+                Email = "updatable_user@email.domain",
+                JobDescription = "I'm a master of disguise!",
+                Name = "Ninja Tina",
+                Password = null,
+                PhotoURL = null
+            };
+
+            // Add person through service.
+            person = UserServiceTest.client.CreatePerson(person);
+
+            // Check initial values.
+            Assert.IsNotNull(person, "Error creating the person.");
+            Assert.AreEqual(person.Name, "Ninja Tina", "The person's name changed incorrectly.");
+            Assert.AreEqual(person.Email, "updatable_user@email.domain", "The person's email changed incorrectly.");
+            Assert.AreEqual(person.JobDescription, "I'm a master of disguise!", "The person's job description changed incorrectly.");
+
+            // Update the user.
+            person.JobDescription = null;
+            person.Name = "Ninja Turtle Tina";
+            person.Email = "morphable_user@email.domain";
+            person.Admin = null;
+            person.JobDescription = null;
+            person = UserServiceTest.client.UpdatePerson(person);
+
+            // Check modified values.
+            Assert.IsNotNull(person, "Error updating the person.");
+            Assert.AreNotEqual(person.Name, "Ninja Tina", "The person's name was not updated.");
+            Assert.AreNotEqual(person.Email, "updatable_user@email.domain", "The person's email was no updated.");
+            Assert.AreEqual(person.JobDescription, "I'm a master of disguise!", "The person's job description changed incorrectly.");
         }
     }
 }

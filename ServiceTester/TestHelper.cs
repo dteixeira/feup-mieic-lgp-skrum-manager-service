@@ -1,5 +1,5 @@
-﻿using System.Data.Linq;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Data.Linq;
 
 namespace ServiceTester
 {

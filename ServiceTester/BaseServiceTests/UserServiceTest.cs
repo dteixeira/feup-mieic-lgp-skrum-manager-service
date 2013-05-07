@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ServiceTester.UserService;
-using System.Data.Linq;
-using System.ServiceModel;
 using System.Linq;
+using System.ServiceModel;
 
 namespace ServiceTester
 {
@@ -79,6 +78,18 @@ namespace ServiceTester
             };
             persons.InsertOnSubmit(admin);
 
+            // Create simple incomplete user.
+            SkrumManagerService.Person incompletePerson = new SkrumManagerService.Person
+            {
+                Admin = false,
+                Email = "incomplete_user@email.domain",
+                JobDescription = "Bad employee, bad",
+                Name = "Incomplete User",
+                Password = null,
+                PhotoURL = null
+            };
+            persons.InsertOnSubmit(incompletePerson);
+
             // Create new default user with tasks and roles.
             SkrumManagerService.Person completePerson = new SkrumManagerService.Person
             {
@@ -120,11 +131,12 @@ namespace ServiceTester
             story2.Stories.Add(story1);
 
             // Create some tasks for each story.
-            foreach(SkrumManagerService.Story story in project.Stories) 
+            foreach (SkrumManagerService.Story story in project.Stories)
             {
                 for (int i = 0; i < 3; ++i)
                 {
-                    SkrumManagerService.Task task = new SkrumManagerService.Task
+                    // Create tasks owned and contributed to by the user.
+                    SkrumManagerService.Task task1 = new SkrumManagerService.Task
                     {
                         CreationDate = System.DateTime.Now,
                         Description = "This is task 00" + i,
@@ -132,13 +144,28 @@ namespace ServiceTester
                         Person = completePerson,
                         Story = story
                     };
-                    SkrumManagerService.PersonTask personTask = new SkrumManagerService.PersonTask
+                    task1.PersonTasks.Add(new SkrumManagerService.PersonTask
                     {
                         CreationDate = System.DateTime.Now,
                         Person = completePerson,
-                        SpentTime = new System.Random().Next(1, 10),
-                        Task = task
+                        SpentTime = new System.Random().Next(1, 10)
+                    });
+
+                    // Create tasks that the user does not own.
+                    SkrumManagerService.Task task2 = new SkrumManagerService.Task
+                    {
+                        CreationDate = System.DateTime.Now,
+                        Description = "This is task 00" + i,
+                        Estimation = new System.Random().Next(1, 10),
+                        Person = incompletePerson,
+                        Story = story
                     };
+                    task2.PersonTasks.Add(new SkrumManagerService.PersonTask
+                    {
+                        CreationDate = System.DateTime.Now,
+                        Person = completePerson,
+                        SpentTime = new System.Random().Next(1, 10)
+                    });
                 }
             }
 
@@ -161,18 +188,6 @@ namespace ServiceTester
                 RoleDescription = projectManager,
                 Password = "690437692d902cfd23005bda16631d83644899e78dc0a489da6dca3cb9f9c0cdcd9dd533bc59102dc90155223df777672328c9149354de239f48c58f0a1d44a6"
             };
-
-            // Create simple incomplete user.
-            SkrumManagerService.Person incompletePerson = new SkrumManagerService.Person
-            {
-                Admin = false,
-                Email = "incomplete_user@email.domain",
-                JobDescription = "Bad employee, bad",
-                Name = "Incomplete User",
-                Password = null,
-                PhotoURL = null
-            };
-            persons.InsertOnSubmit(incompletePerson);
 
             // Commit all changes.
             UserServiceTest.context.SubmitChanges();
