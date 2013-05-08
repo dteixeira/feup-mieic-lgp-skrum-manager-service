@@ -71,11 +71,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Service References\TaskboardService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Service References\UserService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -121,16 +116,6 @@
     <None Include="Service References\ProjectService\ServiceDataTypes.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\TaskboardService\service.wsdl" />
-    <None Include="Service References\TaskboardService\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TaskboardService\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TaskboardService\ServiceDataTypes.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\UserService\service.wsdl" />
     <None Include="Service References\UserService\service.xsd">
       <SubType>Designer</SubType>
@@ -148,7 +133,6 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\NotificationService\" />
     <WCFMetadataStorage Include="Service References\ProjectService\" />
-    <WCFMetadataStorage Include="Service References\TaskboardService\" />
     <WCFMetadataStorage Include="Service References\UserService\" />
   </ItemGroup>
   <ItemGroup>
@@ -171,18 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ProjectService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\TaskboardService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\TaskboardService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\TaskboardService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

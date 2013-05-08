@@ -5,7 +5,6 @@ public class SkrumManagerWindowsService : ServiceBase
 {
     public ServiceHost notificationServiceHost = null;
     public ServiceHost projectServiceHost = null;
-    public ServiceHost taskboardServiceHost = null;
     public ServiceHost userServiceHost = null;
 
     /// <summary>
@@ -48,10 +47,6 @@ public class SkrumManagerWindowsService : ServiceBase
             {
                 this.projectServiceHost.Close();
             }
-            if (this.taskboardServiceHost != null)
-            {
-                this.taskboardServiceHost.Close();
-            }
 
             // Creates new instances of the services.
             this.notificationServiceHost = new ServiceHost(typeof(Notifications.NotificationService));
@@ -60,8 +55,6 @@ public class SkrumManagerWindowsService : ServiceBase
             this.userServiceHost.Open();
             this.projectServiceHost = new ServiceHost(typeof(Projects.ProjectService));
             this.projectServiceHost.Open();
-            this.taskboardServiceHost = new ServiceHost(typeof(Taskboards.TaskboardService));
-            this.taskboardServiceHost.Open();
         }
         catch (System.Exception e)
         {
@@ -87,11 +80,6 @@ public class SkrumManagerWindowsService : ServiceBase
             {
                 this.userServiceHost.Close();
                 this.userServiceHost = null;
-            }
-            if (this.taskboardServiceHost != null)
-            {
-                this.taskboardServiceHost.Close();
-                this.taskboardServiceHost = null;
             }
             if (this.projectServiceHost != null)
             {

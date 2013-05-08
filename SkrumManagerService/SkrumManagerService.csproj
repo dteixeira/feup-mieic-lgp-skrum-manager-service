@@ -92,8 +92,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SkrumDataclasses.dbml</DependentUpon>
     </Compile>
-    <Compile Include="TaskboardService\ITaskboardService.cs" />
-    <Compile Include="TaskboardService\TaskboardService.cs" />
     <Compile Include="UserService\IUserService.cs" />
     <Compile Include="UserService\UserService.cs" />
   </ItemGroup>

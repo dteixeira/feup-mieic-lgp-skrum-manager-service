@@ -31,26 +31,32 @@ namespace Projects
          */
 
         [OperationContract]
-        Project CreateSprint(Sprint sprint);
+        Sprint CreateSprint(Sprint sprint);
 
         [OperationContract]
         bool DeleteSprint(int sprintID);
 
         [OperationContract]
-        Project UpdateSprint(Sprint sprint);
+        Sprint UpdateSprint(Sprint sprint);
+
+        [OperationContract]
+        Sprint GetSprintByID(int sprintID);
 
         /**
          * Meeting CRUD
          */
 
         [OperationContract]
-        Project CreateMeeting(Meeting meeting);
+        Meeting CreateMeeting(Meeting meeting);
 
         [OperationContract]
         bool DeleteMeeting(int meetingID);
 
         [OperationContract]
-        Project UpdateMeeting(Meeting meeting);
+        Meeting UpdateMeeting(Meeting meeting);
+
+        [OperationContract]
+        Meeting GetMeetingByID(int meetingID);
 
         /**
          * Stories in Sprints / Projects
@@ -63,7 +69,51 @@ namespace Projects
         List<Story> GetAllStoriesBySprint(int sprintID);
 
         [OperationContract]
-        List<Story> GetAllStoriesWithoutSprint(int projectID);      
+        List<Story> GetAllStoriesWithoutSprint(int projectID);   
+   
+        /**
+         * TODO
+         */
+
+        [OperationContract]
+        Story CreateStory(Story story);
+
+        [OperationContract]
+        bool DeleteStory(int storyID);
+
+        [OperationContract]
+        Story GetStoryByID(int storyID);
+
+        [OperationContract]
+        Story UpdateStory(Story person);
+
+        //------------------------------//
+
+        [OperationContract]
+        Story CreateTask(Task task);
+
+        [OperationContract]
+        bool DeleteTask(int taskID);
+
+        [OperationContract]
+        Task GetTaskByID(int taskID);
+
+        [OperationContract]
+        Task UpdateTask(Task task);
+
+        //------------------------------//
+
+        [OperationContract]
+        bool InsertWorkTime(int userID, int taskID, double spentTime);
+
+        [OperationContract]
+        List<Task> GetAllTasks();
+
+        [OperationContract]
+        List<Task> GetAllTasksByProject(int projectID);
+
+        [OperationContract]
+        List<Story> GetAllStories();
          
     }
 }

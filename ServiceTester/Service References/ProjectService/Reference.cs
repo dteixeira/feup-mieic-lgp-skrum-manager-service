@@ -31,22 +31,73 @@ namespace ServiceTester.ProjectService {
         ServiceDataTypes.Project GetProjectByName(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/CreateSprint", ReplyAction="http://tempuri.org/IProjectService/CreateSprintResponse")]
-        ServiceDataTypes.Project CreateSprint(ServiceDataTypes.Sprint sprint);
+        ServiceDataTypes.Sprint CreateSprint(ServiceDataTypes.Sprint sprint);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/DeleteSprint", ReplyAction="http://tempuri.org/IProjectService/DeleteSprintResponse")]
         bool DeleteSprint(int sprintID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/UpdateSprint", ReplyAction="http://tempuri.org/IProjectService/UpdateSprintResponse")]
-        ServiceDataTypes.Project UpdateSprint(ServiceDataTypes.Sprint sprint);
+        ServiceDataTypes.Sprint UpdateSprint(ServiceDataTypes.Sprint sprint);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetSprintByID", ReplyAction="http://tempuri.org/IProjectService/GetSprintByIDResponse")]
+        ServiceDataTypes.Sprint GetSprintByID(int sprintID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/CreateMeeting", ReplyAction="http://tempuri.org/IProjectService/CreateMeetingResponse")]
-        ServiceDataTypes.Project CreateMeeting(ServiceDataTypes.Meeting meeting);
+        ServiceDataTypes.Meeting CreateMeeting(ServiceDataTypes.Meeting meeting);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/DeleteMeeting", ReplyAction="http://tempuri.org/IProjectService/DeleteMeetingResponse")]
         bool DeleteMeeting(int meetingID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/UpdateMeeting", ReplyAction="http://tempuri.org/IProjectService/UpdateMeetingResponse")]
-        ServiceDataTypes.Project UpdateMeeting(ServiceDataTypes.Meeting meeting);
+        ServiceDataTypes.Meeting UpdateMeeting(ServiceDataTypes.Meeting meeting);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetMeetingByID", ReplyAction="http://tempuri.org/IProjectService/GetMeetingByIDResponse")]
+        ServiceDataTypes.Meeting GetMeetingByID(int meetingID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetAllStoriesByProject", ReplyAction="http://tempuri.org/IProjectService/GetAllStoriesByProjectResponse")]
+        ServiceDataTypes.Story[] GetAllStoriesByProject(int projectID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetAllStoriesBySprint", ReplyAction="http://tempuri.org/IProjectService/GetAllStoriesBySprintResponse")]
+        ServiceDataTypes.Story[] GetAllStoriesBySprint(int sprintID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetAllStoriesWithoutSprint", ReplyAction="http://tempuri.org/IProjectService/GetAllStoriesWithoutSprintResponse")]
+        ServiceDataTypes.Story[] GetAllStoriesWithoutSprint(int projectID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/CreateStory", ReplyAction="http://tempuri.org/IProjectService/CreateStoryResponse")]
+        ServiceDataTypes.Story CreateStory(ServiceDataTypes.Story story);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/DeleteStory", ReplyAction="http://tempuri.org/IProjectService/DeleteStoryResponse")]
+        bool DeleteStory(int storyID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetStoryByID", ReplyAction="http://tempuri.org/IProjectService/GetStoryByIDResponse")]
+        ServiceDataTypes.Story GetStoryByID(int storyID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/UpdateStory", ReplyAction="http://tempuri.org/IProjectService/UpdateStoryResponse")]
+        ServiceDataTypes.Story UpdateStory(ServiceDataTypes.Story person);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/CreateTask", ReplyAction="http://tempuri.org/IProjectService/CreateTaskResponse")]
+        ServiceDataTypes.Story CreateTask(ServiceDataTypes.Task task);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/DeleteTask", ReplyAction="http://tempuri.org/IProjectService/DeleteTaskResponse")]
+        bool DeleteTask(int taskID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetTaskByID", ReplyAction="http://tempuri.org/IProjectService/GetTaskByIDResponse")]
+        ServiceDataTypes.Task GetTaskByID(int taskID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/UpdateTask", ReplyAction="http://tempuri.org/IProjectService/UpdateTaskResponse")]
+        ServiceDataTypes.Task UpdateTask(ServiceDataTypes.Task task);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/InsertWorkTime", ReplyAction="http://tempuri.org/IProjectService/InsertWorkTimeResponse")]
+        bool InsertWorkTime(int userID, int taskID, double spentTime);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetAllTasks", ReplyAction="http://tempuri.org/IProjectService/GetAllTasksResponse")]
+        ServiceDataTypes.Task[] GetAllTasks();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetAllTasksByProject", ReplyAction="http://tempuri.org/IProjectService/GetAllTasksByProjectResponse")]
+        ServiceDataTypes.Task[] GetAllTasksByProject(int projectID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetAllStories", ReplyAction="http://tempuri.org/IProjectService/GetAllStoriesResponse")]
+        ServiceDataTypes.Story[] GetAllStories();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -96,7 +147,7 @@ namespace ServiceTester.ProjectService {
             return base.Channel.GetProjectByName(name);
         }
         
-        public ServiceDataTypes.Project CreateSprint(ServiceDataTypes.Sprint sprint) {
+        public ServiceDataTypes.Sprint CreateSprint(ServiceDataTypes.Sprint sprint) {
             return base.Channel.CreateSprint(sprint);
         }
         
@@ -104,11 +155,15 @@ namespace ServiceTester.ProjectService {
             return base.Channel.DeleteSprint(sprintID);
         }
         
-        public ServiceDataTypes.Project UpdateSprint(ServiceDataTypes.Sprint sprint) {
+        public ServiceDataTypes.Sprint UpdateSprint(ServiceDataTypes.Sprint sprint) {
             return base.Channel.UpdateSprint(sprint);
         }
         
-        public ServiceDataTypes.Project CreateMeeting(ServiceDataTypes.Meeting meeting) {
+        public ServiceDataTypes.Sprint GetSprintByID(int sprintID) {
+            return base.Channel.GetSprintByID(sprintID);
+        }
+        
+        public ServiceDataTypes.Meeting CreateMeeting(ServiceDataTypes.Meeting meeting) {
             return base.Channel.CreateMeeting(meeting);
         }
         
@@ -116,8 +171,72 @@ namespace ServiceTester.ProjectService {
             return base.Channel.DeleteMeeting(meetingID);
         }
         
-        public ServiceDataTypes.Project UpdateMeeting(ServiceDataTypes.Meeting meeting) {
+        public ServiceDataTypes.Meeting UpdateMeeting(ServiceDataTypes.Meeting meeting) {
             return base.Channel.UpdateMeeting(meeting);
+        }
+        
+        public ServiceDataTypes.Meeting GetMeetingByID(int meetingID) {
+            return base.Channel.GetMeetingByID(meetingID);
+        }
+        
+        public ServiceDataTypes.Story[] GetAllStoriesByProject(int projectID) {
+            return base.Channel.GetAllStoriesByProject(projectID);
+        }
+        
+        public ServiceDataTypes.Story[] GetAllStoriesBySprint(int sprintID) {
+            return base.Channel.GetAllStoriesBySprint(sprintID);
+        }
+        
+        public ServiceDataTypes.Story[] GetAllStoriesWithoutSprint(int projectID) {
+            return base.Channel.GetAllStoriesWithoutSprint(projectID);
+        }
+        
+        public ServiceDataTypes.Story CreateStory(ServiceDataTypes.Story story) {
+            return base.Channel.CreateStory(story);
+        }
+        
+        public bool DeleteStory(int storyID) {
+            return base.Channel.DeleteStory(storyID);
+        }
+        
+        public ServiceDataTypes.Story GetStoryByID(int storyID) {
+            return base.Channel.GetStoryByID(storyID);
+        }
+        
+        public ServiceDataTypes.Story UpdateStory(ServiceDataTypes.Story person) {
+            return base.Channel.UpdateStory(person);
+        }
+        
+        public ServiceDataTypes.Story CreateTask(ServiceDataTypes.Task task) {
+            return base.Channel.CreateTask(task);
+        }
+        
+        public bool DeleteTask(int taskID) {
+            return base.Channel.DeleteTask(taskID);
+        }
+        
+        public ServiceDataTypes.Task GetTaskByID(int taskID) {
+            return base.Channel.GetTaskByID(taskID);
+        }
+        
+        public ServiceDataTypes.Task UpdateTask(ServiceDataTypes.Task task) {
+            return base.Channel.UpdateTask(task);
+        }
+        
+        public bool InsertWorkTime(int userID, int taskID, double spentTime) {
+            return base.Channel.InsertWorkTime(userID, taskID, spentTime);
+        }
+        
+        public ServiceDataTypes.Task[] GetAllTasks() {
+            return base.Channel.GetAllTasks();
+        }
+        
+        public ServiceDataTypes.Task[] GetAllTasksByProject(int projectID) {
+            return base.Channel.GetAllTasksByProject(projectID);
+        }
+        
+        public ServiceDataTypes.Story[] GetAllStories() {
+            return base.Channel.GetAllStories();
         }
     }
 }

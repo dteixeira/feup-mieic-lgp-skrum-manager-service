@@ -83,48 +83,33 @@ namespace Projects
             {
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    var result = context.GetTable<SkrumManagerService.Project>().FirstOrDefault(p => p.ProjectID == projectID);
-
-                    ServiceDataTypes.Project project = (
-                         from p in context.GetTable<SkrumManagerService.Project>()
-                         where p.ProjectID == projectID
-                         select new ServiceDataTypes.Project
-                         {
-                             ProjectID = p.ProjectID,
-                             AlertLimit = p.AlertLimit,
-                             Name = p.Name,
-                             Speed = p.Speed,
-                             SprintDuration = p.SprintDuration,
-                             Meetings = (
-                                from m in p.Meetings
-                                select new ServiceDataTypes.Meeting
-                                {
-                                    Date = m.Date,
-                                    MeetingID = m.MeetingID,
-                                    Notes = m.Notes,
-                                    Number = m.Number,
-                                    ProjectID = m.ProjectID
-                                }
-                             ).ToList<ServiceDataTypes.Meeting>(),
-                             Sprints = (
-                                from s in p.Sprints
-                                select new ServiceDataTypes.Sprint
-                                {
-                                    BeginDate = s.BeginDate,
-                                    Closed = s.Closed,
-                                    EndDate = s.EndDate,
-                                    Number = s.Number,
-                                    ProjectID = s.ProjectID,
-                                    SprintID = s.SprintID
-                                }
-                             ).ToList<ServiceDataTypes.Sprint>()
-                         }).FirstOrDefault();
-                    return project;
+                    var project = context.Projects.FirstOrDefault(p => p.ProjectID == projectID);
+                    return new ServiceDataTypes.Project
+                    {
+                        AlertLimit = project.AlertLimit,
+                        Name = project.Name,
+                        ProjectID = project.ProjectID,
+                        Password = project.Password,
+                        Speed = project.Speed,
+                        SprintDuration = project.SprintDuration,
+                        Meetings = (
+                            from m in project.Meetings.AsEnumerable()
+                            let meeting = this.GetMeetingByID(m.MeetingID)
+                            where meeting != null
+                            select meeting
+                        ).ToList<ServiceDataTypes.Meeting>(),
+                        Sprints = (
+                            from s in project.Sprints.AsEnumerable()
+                            let sprint = this.GetSprintByID(s.SprintID)
+                            where sprint != null
+                            select sprint
+                        ).ToList<ServiceDataTypes.Sprint>()
+                    };
                 }
             }
             catch (System.Exception e)
             {
-                // Returns null if any problem occurs.
+                // Returns null if anything goes wrong.
                 System.Console.WriteLine(e.Message);
                 return null;
             }
@@ -207,22 +192,23 @@ namespace Projects
             }
         }
 
-        public ServiceDataTypes.Project CreateSprint(ServiceDataTypes.Sprint sprint)
+        public ServiceDataTypes.Sprint CreateSprint(ServiceDataTypes.Sprint sprint)
         {
             try
             {
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    var project = context.GetTable<SkrumManagerService.Project>().FirstOrDefault(p => p.ProjectID == sprint.ProjectID);
-                    project.Sprints.Add(new SkrumManagerService.Sprint
+                    var created = new SkrumManagerService.Sprint
                     {
                         BeginDate = sprint.BeginDate,
                         Closed = (bool)sprint.Closed,
                         EndDate = sprint.EndDate,
-                        Number = (int)sprint.Number
-                    });
+                        Number = (int)sprint.Number,
+                        ProjectID = (int)sprint.ProjectID
+                    };
+                    context.Sprints.InsertOnSubmit(created);
                     context.SubmitChanges();
-                    return this.GetProjectByID(project.ProjectID);
+                    return this.GetSprintByID(created.SprintID);
                 }
             }
             catch (System.Exception e)
@@ -253,7 +239,7 @@ namespace Projects
             }
         }
 
-        public ServiceDataTypes.Project UpdateSprint(ServiceDataTypes.Sprint sprint)
+        public ServiceDataTypes.Sprint UpdateSprint(ServiceDataTypes.Sprint sprint)
         {
             try
             {
@@ -277,7 +263,7 @@ namespace Projects
                         updated.Number = (int)sprint.Number;
                     }
                     context.SubmitChanges();
-                    return this.GetProjectByID(updated.ProjectID);
+                    return this.GetSprintByID(updated.SprintID);
                 }
             }
             catch (System.Exception e)
@@ -288,21 +274,54 @@ namespace Projects
             }
         }
 
-        public ServiceDataTypes.Project CreateMeeting(ServiceDataTypes.Meeting meeting)
+        public ServiceDataTypes.Sprint GetSprintByID(int sprintID)
         {
             try
             {
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    var project = context.Projects.FirstOrDefault(p => p.ProjectID == meeting.ProjectID);
-                    project.Meetings.Add(new SkrumManagerService.Meeting
+                    var sprint = context.Sprints.FirstOrDefault(s => s.SprintID == sprintID);
+                    return new ServiceDataTypes.Sprint
+                    {
+                        BeginDate = sprint.BeginDate,
+                        Closed = sprint.Closed,
+                        EndDate = sprint.EndDate,
+                        Number = sprint.Number,
+                        ProjectID = sprint.ProjectID,
+                        SprintID = sprint.SprintID,
+                        Stories = (
+                            from s in sprint.StorySprints.AsEnumerable()
+                            let story = this.GetStoryByID(s.StoryID)
+                            where story != null
+                            select story
+                        ).ToList<ServiceDataTypes.Story>()
+                    };
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Meeting CreateMeeting(ServiceDataTypes.Meeting meeting)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var created = new SkrumManagerService.Meeting
                     {
                         Date = meeting.Date,
                         Notes = meeting.Notes,
-                        Number = (int)meeting.Number
-                    });
+                        Number = (int)meeting.Number,
+                        ProjectID = (int)meeting.ProjectID
+                    };
+                    context.Meetings.InsertOnSubmit(created);
                     context.SubmitChanges();
-                    return this.GetProjectByID(project.ProjectID);
+                    return this.GetMeetingByID(created.MeetingID);
                 }
             }
             catch (System.Exception e)
@@ -333,7 +352,7 @@ namespace Projects
             }
         }
 
-        public ServiceDataTypes.Project UpdateMeeting(ServiceDataTypes.Meeting meeting)
+        public ServiceDataTypes.Meeting UpdateMeeting(ServiceDataTypes.Meeting meeting)
         {
             try
             {
@@ -353,7 +372,7 @@ namespace Projects
                         updated.Number = (int)meeting.Number;
                     }
                     context.SubmitChanges();
-                    return this.GetProjectByID(updated.ProjectID);
+                    return this.GetMeetingByID(updated.MeetingID);
                 }
             }
             catch (System.Exception e)
@@ -364,91 +383,253 @@ namespace Projects
             }
         }
 
-        /// <summary>
-        /// Fetches a list of all the stories in a given project.
-        /// </summary>
-        /// <returns>A list containing the information about all the stories in the given project.</returns>
-        public System.Collections.Generic.List<ServiceDataTypes.Story> GetAllStoriesByProject(int projectID)
+        public ServiceDataTypes.Meeting GetMeetingByID(int meetingID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var meeting = context.Meetings.FirstOrDefault(m => m.MeetingID == meetingID);
+                    return new ServiceDataTypes.Meeting
+                    {
+                        Date = meeting.Date,
+                        MeetingID = meeting.MeetingID,
+                        Notes = meeting.Notes,
+                        Number = meeting.Number,
+                        ProjectID = meeting.ProjectID
+                    };
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public List<ServiceDataTypes.Story> GetAllStoriesByProject(int projectID)
         {
             try
             {
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
                     var project = context.Projects.FirstOrDefault(p => p.ProjectID == projectID);
-                    var stories = (
-                        from s in project.Stories
-                        select new ServiceDataTypes.Story
-                        {
-                            CreationDate = s.CreationDate,
-                            Description = s.Description,
-                            NextStory = s.NextStory,
-                            ProjectID = s.ProjectID,
-                            StoryID = s.StoryID,
-                            Tasks = (
-                                from t in s.Tasks
-                                select new ServiceDataTypes.Task {
-                                    CreationDate = t.CreationDate,
-                                    Description = t.Description,
-                                    Estimation = t.Estimation,
-                                    PersonID = t.PersonID,
-                                    StoryID = t.StoryID,
-                                    TaskID = t.TaskID
-                                }).ToList<ServiceDataTypes.Task>()
-                        }).ToList<ServiceDataTypes.Story>();
-                    return stories;
+                    return (
+                        from s in project.Stories.AsEnumerable()
+                        let story = this.GetStoryByID(s.StoryID)
+                        where story != null
+                        select story
+                    ).ToList<ServiceDataTypes.Story>();
                 }
             }
             catch (System.Exception e)
             {
-                // Returns null if anything goes wrong.
+                // Returns null if any problem occurs.
                 System.Console.WriteLine(e.Message);
                 return null;
             }
         }
 
-        /// <summary>
-        /// Fetches a list of all the stories in a given sprint.
-        /// </summary>
-        /// <returns>A list containing the information about all the stories in the given sprint.</returns>
-        public System.Collections.Generic.List<ServiceDataTypes.Story> GetAllStoriesBySprint(int sprintID)
+        public List<ServiceDataTypes.Story> GetAllStoriesBySprint(int sprintID)
         {
             try
             {
-                SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext();
-                var sprint = context.GetTable<SkrumManagerService.Sprint>().FirstOrDefault(p => p.SprintID == sprintID);
-                if (sprint == null) return null;
-
-                ServiceDataTypes.Project project = GetProjectByID(sprint.ProjectID);
-                if (project == null) return null;
-
-                foreach (ServiceDataTypes.Sprint spr in project.Sprints)
-                    if (spr.SprintID == sprintID) return spr.Stories;
-
-                return null;
-            }
-            catch (System.Exception e)
-            {
-                // Returns null if anything goes wrong.
-                System.Console.WriteLine(e.Message);
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Fetches a list of all the stories not inside a sprint.
-        /// </summary>
-        /// <returns>A list containing the information about all the stories in the given project.</returns>
-        public System.Collections.Generic.List<ServiceDataTypes.Story> GetAllStoriesWithoutSprint(int projectID)
-        {
-            try
-            {
-                List<ServiceDataTypes.Story> result = GetAllStoriesByProject(projectID);
-                ServiceDataTypes.Project project = GetProjectByID(projectID);
-                foreach (ServiceDataTypes.Sprint spr in project.Sprints)
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    result.Except(spr.Stories);
+                    var sprint = context.Sprints.FirstOrDefault(s => s.SprintID == sprintID);
+                    return (
+                        from s in sprint.StorySprints.AsEnumerable()
+                        let story = this.GetStoryByID(s.StoryID)
+                        where story != null
+                        select story
+                    ).ToList<ServiceDataTypes.Story>();
                 }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if any problem occurs.
+                System.Console.WriteLine(e.Message);
                 return null;
+            }
+        }
+
+        public List<ServiceDataTypes.Story> GetAllStoriesWithoutSprint(int projectID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var project = context.Projects.FirstOrDefault(p => p.ProjectID == projectID);
+                    return (
+                        from s in project.Stories.AsEnumerable()
+                        where s.StorySprints.Count() == 0
+                        let story = this.GetStoryByID(s.StoryID)
+                        where story != null
+                        select story
+                    ).ToList<ServiceDataTypes.Story>();
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if any problem occurs.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Story CreateStory(ServiceDataTypes.Story story)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool DeleteStory(int storyID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ServiceDataTypes.Story GetStoryByID(int storyID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var story = context.Stories.FirstOrDefault(s => s.StoryID == storyID);
+                    return new ServiceDataTypes.Story
+                    {
+                        CreationDate = story.CreationDate,
+                        Description = story.Description,
+                        NextStory = story.NextStory,
+                        ProjectID = story.ProjectID,
+                        State = (ServiceDataTypes.StoryState)System.Enum.Parse(typeof(ServiceDataTypes.StoryState), story.StoryState.State),
+                        StoryID = story.StoryID,
+                        Tasks = (
+                            from t in story.Tasks.AsEnumerable()
+                            let task = this.GetTaskByID(t.TaskID)
+                            where task != null
+                            select task
+                        ).ToList<ServiceDataTypes.Task>()
+                    };
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Story UpdateStory(ServiceDataTypes.Story person)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ServiceDataTypes.Story CreateTask(ServiceDataTypes.Task task)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool DeleteTask(int taskID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ServiceDataTypes.Task GetTaskByID(int taskID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var task = context.Tasks.FirstOrDefault(t => t.TaskID == taskID);
+                    return new ServiceDataTypes.Task
+                    {
+                        CreationDate = task.CreationDate,
+                        Description = task.Description,
+                        Estimation = task.Estimation,
+                        PersonID = task.PersonID,
+                        StoryID = task.StoryID,
+                        TaskID = task.TaskID
+                    };
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Task UpdateTask(ServiceDataTypes.Task task)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool InsertWorkTime(int userID, int taskID, double spentTime)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Task> GetAllTasks()
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    return (
+                        from t in context.Tasks.AsEnumerable()
+                        let task = this.GetTaskByID(t.TaskID)
+                        where task != null
+                        select task
+                    ).ToList<ServiceDataTypes.Task>();
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public List<ServiceDataTypes.Task> GetAllTasksByProject(int projectID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var project = context.Projects.FirstOrDefault(p => p.ProjectID == projectID);
+                    return (
+                        from s in project.Stories
+                        from t in s.Tasks.AsEnumerable()
+                        let task = this.GetTaskByID(t.TaskID)
+                        where task != null
+                        select task
+                    ).ToList<ServiceDataTypes.Task>();
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public List<ServiceDataTypes.Story> GetAllStories()
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    return (
+                        from s in context.Stories.AsEnumerable()
+                        let story = this.GetStoryByID(s.StoryID)
+                        where story != null
+                        select story
+                    ).ToList<ServiceDataTypes.Story>();
+                }
             }
             catch (System.Exception e)
             {

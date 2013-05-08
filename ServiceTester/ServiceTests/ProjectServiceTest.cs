@@ -149,15 +149,16 @@ namespace ServiceTester
                 Number = 1,
                 ProjectID = project.ProjectID
             };
-            project = ProjectServiceTest.client.CreateSprint(sprint);
-            Assert.IsNotNull(project, "Error creating the sprint.");
+            sprint = ProjectServiceTest.client.CreateSprint(sprint);
+            Assert.IsNotNull(sprint, "Error creating the sprint.");
+            project = ProjectServiceTest.client.GetProjectByID((int)project.ProjectID);
             int after = project.Sprints.Count();
             Assert.AreNotEqual(before, after, "Project has the same number of sprints after adding a new one.");
 
             // Tries to create an invalid sprint and should fail.
             sprint.ProjectID = null;
-            project = ProjectServiceTest.client.CreateSprint(sprint);
-            Assert.IsNull(project, "Returned success even though the sprint was invalid.");
+            sprint = ProjectServiceTest.client.CreateSprint(sprint);
+            Assert.IsNull(sprint, "Returned success even though the sprint was invalid.");
         }
 
         [TestMethod]
@@ -174,8 +175,9 @@ namespace ServiceTester
                 Number = 1,
                 ProjectID = project.ProjectID
             };
-            project = ProjectServiceTest.client.CreateSprint(sprint);
-            Assert.IsNotNull(project, "Error creating the sprint.");
+            sprint = ProjectServiceTest.client.CreateSprint(sprint);
+            Assert.IsNotNull(sprint, "Error creating the sprint.");
+            project = ProjectServiceTest.client.GetProjectByName("Complete Project");
             int before = project.Sprints.Count();
 
             // Tries to remove a sprint.
@@ -203,24 +205,22 @@ namespace ServiceTester
                 Number = 2,
                 ProjectID = project.ProjectID
             };
-            project = ProjectServiceTest.client.CreateSprint(sprint);
-            Assert.IsNotNull(project, "Error creating the sprint.");
-            sprint = project.Sprints.FirstOrDefault(s => s.Number == 2);
+            sprint = ProjectServiceTest.client.CreateSprint(sprint);
+            Assert.IsNotNull(sprint, "Error creating the sprint.");
 
             // Change the sprint's info.
             sprint.Number = 3;
-            project = ProjectServiceTest.client.UpdateSprint(sprint);
-            Assert.IsNotNull(project, "Error updating the sprint.");
+            sprint = ProjectServiceTest.client.UpdateSprint(sprint);
+            Assert.IsNotNull(sprint, "Error updating the sprint.");
 
             // Check changed values.
             Assert.IsNull(project.Sprints.FirstOrDefault(s => s.Number == 2), "Previous version of the sprint still exists.");
-            sprint = project.Sprints.FirstOrDefault(s => s.Number == 3);
-            Assert.IsNotNull(sprint, "Updated version of the sprint not found.");
+            Assert.AreEqual(sprint.Number, 3, "Meeting number was not updated");
 
             // Tries to updated an invalid sprint and should fail.
             sprint.ProjectID = null;
-            project = ProjectServiceTest.client.UpdateSprint(sprint);
-            Assert.IsNotNull(project, "Returned success even though the sprint was invalid.");
+            sprint = ProjectServiceTest.client.UpdateSprint(sprint);
+            Assert.IsNotNull(sprint, "Returned success even though the sprint was invalid.");
         }
 
         [TestMethod]
@@ -239,15 +239,16 @@ namespace ServiceTester
                 Number = 1,
                 ProjectID = project.ProjectID
             };
-            project = ProjectServiceTest.client.CreateMeeting(meeting);
-            Assert.IsNotNull(project, "Error creating the meeting.");
+            meeting = ProjectServiceTest.client.CreateMeeting(meeting);
+            Assert.IsNotNull(meeting, "Error creating the meeting.");
+            project = ProjectServiceTest.client.GetProjectByName("Complete Project");
             int after = project.Meetings.Count();
             Assert.AreNotEqual(before, after, "Project has the same number of meetings after adding a new one.");
 
             // Tries to create an invalid meeting and should fail.
             meeting.ProjectID = null;
-            project = ProjectServiceTest.client.CreateMeeting(meeting);
-            Assert.IsNull(project, "Returned success even though the meeting was invalid.");
+            meeting = ProjectServiceTest.client.CreateMeeting(meeting);
+            Assert.IsNull(meeting, "Returned success even though the meeting was invalid.");
         }
 
         [TestMethod]
@@ -263,12 +264,12 @@ namespace ServiceTester
                 Number = 1,
                 ProjectID = project.ProjectID
             };
-            project = ProjectServiceTest.client.CreateMeeting(meeting);
-            Assert.IsNotNull(project, "Error creating the meeting.");
+            meeting = ProjectServiceTest.client.CreateMeeting(meeting);
+            Assert.IsNotNull(meeting, "Error creating the meeting.");
+            project = ProjectServiceTest.client.GetProjectByName("Complete Project");
             int before = project.Meetings.Count();
 
             // Tries to remove a meeting.
-            meeting = project.Meetings.FirstOrDefault();
             Assert.IsTrue(ProjectServiceTest.client.DeleteMeeting((int)meeting.MeetingID), "Error deleting the meeting.");
             project = ProjectServiceTest.client.GetProjectByName("Complete Project");
             int after = project.Meetings.Count();
@@ -291,24 +292,22 @@ namespace ServiceTester
                 Number = 2,
                 ProjectID = project.ProjectID
             };
-            project = ProjectServiceTest.client.CreateMeeting(meeting);
-            Assert.IsNotNull(project, "Error creating the meeting.");
-            meeting = project.Meetings.FirstOrDefault(s => s.Number == 2);
+            meeting = ProjectServiceTest.client.CreateMeeting(meeting);
+            Assert.IsNotNull(meeting, "Error creating the meeting.");
 
             // Change the meeting's info.
             meeting.Number = 3;
-            project = ProjectServiceTest.client.UpdateMeeting(meeting);
-            Assert.IsNotNull(project, "Error updating the meeting.");
+            meeting = ProjectServiceTest.client.UpdateMeeting(meeting);
+            Assert.IsNotNull(meeting, "Error updating the meeting.");
 
             // Check changed values.
             Assert.IsNull(project.Meetings.FirstOrDefault(s => s.Number == 2), "Previous version of the meeting still exists.");
-            meeting = project.Meetings.FirstOrDefault(s => s.Number == 3);
-            Assert.IsNotNull(meeting, "Updated version of the meeting not found.");
+            Assert.AreEqual(meeting.Number, 3, "Meeting number was not updated");
 
             // Tries to updated an invalid meeting and should fail.
             meeting.ProjectID = null;
-            project = ProjectServiceTest.client.UpdateMeeting(meeting);
-            Assert.IsNotNull(project, "Returned success even though the meeting was invalid.");
+            meeting = ProjectServiceTest.client.UpdateMeeting(meeting);
+            Assert.IsNotNull(meeting, "Returned success even though the meeting was invalid.");
         }
     }
 }
