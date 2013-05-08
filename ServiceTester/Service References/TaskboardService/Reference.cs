@@ -28,7 +28,7 @@ namespace ServiceTester.TaskboardService {
         ServiceDataTypes.Story UpdateStory(ServiceDataTypes.Story person);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITaskboardService/CreateTask", ReplyAction="http://tempuri.org/ITaskboardService/CreateTaskResponse")]
-        ServiceDataTypes.Task CreateTask(ServiceDataTypes.Task task);
+        ServiceDataTypes.Story CreateTask(ServiceDataTypes.Task task);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITaskboardService/DeleteTask", ReplyAction="http://tempuri.org/ITaskboardService/DeleteTaskResponse")]
         bool DeleteTask(int taskID);
@@ -41,6 +41,24 @@ namespace ServiceTester.TaskboardService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITaskboardService/InsertWorkTime", ReplyAction="http://tempuri.org/ITaskboardService/InsertWorkTimeResponse")]
         bool InsertWorkTime(int userID, int taskID, double spentTime);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITaskboardService/GetAllTasks", ReplyAction="http://tempuri.org/ITaskboardService/GetAllTasksResponse")]
+        ServiceDataTypes.Task[] GetAllTasks();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITaskboardService/GetAllTasksByProject", ReplyAction="http://tempuri.org/ITaskboardService/GetAllTasksByProjectResponse")]
+        ServiceDataTypes.Task[] GetAllTasksByProject(int projectID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITaskboardService/GettAllStories", ReplyAction="http://tempuri.org/ITaskboardService/GettAllStoriesResponse")]
+        ServiceDataTypes.Story[] GettAllStories();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITaskboardService/GetAllStoriesByProject", ReplyAction="http://tempuri.org/ITaskboardService/GetAllStoriesByProjectResponse")]
+        ServiceDataTypes.Story[] GetAllStoriesByProject(int projectID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITaskboardService/GetAllStoriesBySprint", ReplyAction="http://tempuri.org/ITaskboardService/GetAllStoriesBySprintResponse")]
+        ServiceDataTypes.Story[] GetAllStoriesBySprint(int sprintID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITaskboardService/GetAllStoriesWithoutSprint", ReplyAction="http://tempuri.org/ITaskboardService/GetAllStoriesWithoutSprintResponse")]
+        ServiceDataTypes.Story[] GetAllStoriesWithoutSprint(int projectID);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -86,7 +104,7 @@ namespace ServiceTester.TaskboardService {
             return base.Channel.UpdateStory(person);
         }
         
-        public ServiceDataTypes.Task CreateTask(ServiceDataTypes.Task task) {
+        public ServiceDataTypes.Story CreateTask(ServiceDataTypes.Task task) {
             return base.Channel.CreateTask(task);
         }
         
@@ -104,6 +122,30 @@ namespace ServiceTester.TaskboardService {
         
         public bool InsertWorkTime(int userID, int taskID, double spentTime) {
             return base.Channel.InsertWorkTime(userID, taskID, spentTime);
+        }
+        
+        public ServiceDataTypes.Task[] GetAllTasks() {
+            return base.Channel.GetAllTasks();
+        }
+        
+        public ServiceDataTypes.Task[] GetAllTasksByProject(int projectID) {
+            return base.Channel.GetAllTasksByProject(projectID);
+        }
+        
+        public ServiceDataTypes.Story[] GettAllStories() {
+            return base.Channel.GettAllStories();
+        }
+        
+        public ServiceDataTypes.Story[] GetAllStoriesByProject(int projectID) {
+            return base.Channel.GetAllStoriesByProject(projectID);
+        }
+        
+        public ServiceDataTypes.Story[] GetAllStoriesBySprint(int sprintID) {
+            return base.Channel.GetAllStoriesBySprint(sprintID);
+        }
+        
+        public ServiceDataTypes.Story[] GetAllStoriesWithoutSprint(int projectID) {
+            return base.Channel.GetAllStoriesWithoutSprint(projectID);
         }
     }
 }

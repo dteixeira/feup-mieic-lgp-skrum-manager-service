@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
 namespace ServiceTester
@@ -39,7 +39,7 @@ namespace ServiceTester
             // Test that is not possible to create a user with the same email.
             person.PersonID = null;
             person = UserServiceTest.client.CreatePerson(person);
-            Assert.IsNull(person, "The person was created again, dispite having the same email");
+            Assert.IsNull(person, "The person was created again, despite having the same email");
         }
 
         [TestMethod]
@@ -238,6 +238,67 @@ namespace ServiceTester
             Assert.AreNotEqual(person.Name, "Ninja Tina", "The person's name was not updated.");
             Assert.AreNotEqual(person.Email, "updatable_user@email.domain", "The person's email was no updated.");
             Assert.AreEqual(person.JobDescription, "I'm a master of disguise!", "The person's job description changed incorrectly.");
+        }
+
+        [TestMethod]
+        public void GiveRoleTest()
+        {
+            // Get a person.
+            ServiceDataTypes.Person person = UserServiceTest.client.GetPersonByEmail("complete_user@email.domain");
+            var project = UserServiceTest.context.Projects.FirstOrDefault();
+            Assert.IsNotNull(person, "Person was not found.");
+            int before = person.Roles.Count();
+
+            // Create a new role.
+            ServiceDataTypes.Role role = new ServiceDataTypes.Role
+            {
+                AssignedTime = 0.4,
+                Password = null,
+                PersonID = person.PersonID,
+                RoleDescription = ServiceDataTypes.RoleDescription.ScrumMaster,
+                ProjectID = project.ProjectID
+            };
+            person = UserServiceTest.client.GiveRole(role);
+            Assert.IsNotNull(person, "Error creating the new role.");
+            int after = person.Roles.Count();
+            Assert.AreNotEqual(before, after, "Person as same number of roles after adding a new one.");
+
+            // Check if invalid role creation detects an error.
+            role.ProjectID = null;
+            role.RoleID = null;
+            person = UserServiceTest.client.GiveRole(role);
+            Assert.IsNull(person, "Success was returned creating an invalid role.");
+        }
+
+        [TestMethod]
+        public void DeleteRoleTest()
+        {
+            // Get a person and create a new role.
+            ServiceDataTypes.Person person = UserServiceTest.client.GetPersonByEmail("complete_user@email.domain");
+            var project = UserServiceTest.context.Projects.FirstOrDefault();
+            Assert.IsNotNull(person, "Person was not found.");
+            ServiceDataTypes.Role role = new ServiceDataTypes.Role
+            {
+                AssignedTime = 0.4,
+                Password = null,
+                PersonID = person.PersonID,
+                RoleDescription = ServiceDataTypes.RoleDescription.ScrumMaster,
+                ProjectID = project.ProjectID
+            };
+            person = UserServiceTest.client.GiveRole(role);
+            Assert.IsNotNull(person, "Error creating the new role.");
+            int before = person.Roles.Count();
+            role = person.Roles.FirstOrDefault(r => r.RoleDescription == ServiceDataTypes.RoleDescription.ScrumMaster);
+            Assert.IsNotNull(person, "Error retrieving the new role.");
+
+            // Try to delete the role.
+            Assert.IsTrue(UserServiceTest.client.DeleteRole((int)role.RoleID), "Error deleting the role.");
+            person = UserServiceTest.client.GetPersonByEmail("complete_user@email.domain");
+            int after = person.Roles.Count();
+            Assert.AreNotEqual(before, after, "Number of roles was not modified after removing one.");
+
+            // Try to delete role again, should fail.
+            Assert.IsFalse(UserServiceTest.client.DeleteRole((int)role.RoleID), "Success returned even though the role no longer existed.");
         }
     }
 }

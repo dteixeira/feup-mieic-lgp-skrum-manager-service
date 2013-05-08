@@ -57,17 +57,31 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetProjectByName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProjectByNameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetProjectByNameResult" nillable="true" type="q6:Project" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="CreateSprint">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="sprint" nillable="true" type="q6:Sprint" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="sprint" nillable="true" type="q7:Sprint" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateSprintResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="CreateSprintResult" nillable="true" type="q7:Sprint" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="CreateSprintResult" nillable="true" type="q8:Project" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -85,20 +99,6 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetSprintByID">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="sprintID" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetSprintByIDResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetSprintByIDResult" nillable="true" type="q8:Sprint" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="UpdateSprint">
     <xs:complexType>
       <xs:sequence>
@@ -109,63 +109,21 @@
   <xs:element name="UpdateSprintResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="UpdateSprintResult" nillable="true" type="q10:Sprint" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetSprintsInProject">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="projectID" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetSprintsInProjectResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetSprintsInProjectResult" nillable="true" type="q11:ArrayOfSprint" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GiveRole">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="role" nillable="true" type="q12:Role" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GiveRoleResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GiveRoleResult" nillable="true" type="q13:Role" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetClosedSprints">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="projectID" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetClosedSprintsResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetClosedSprintsResult" nillable="true" type="q14:ArrayOfSprint" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="UpdateSprintResult" nillable="true" type="q10:Project" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateMeeting">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="meeting" nillable="true" type="q15:Meeting" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="meeting" nillable="true" type="q11:Meeting" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateMeetingResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="CreateMeetingResult" nillable="true" type="q16:Meeting" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="CreateMeetingResult" nillable="true" type="q12:Project" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -183,60 +141,17 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetMeetingByID">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="meetingID" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetMeetingByIDResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetMeetingByIDResult" nillable="true" type="q17:Meeting" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="UpdateMeeting">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="meeting" nillable="true" type="q18:Meeting" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="meeting" nillable="true" type="q13:Meeting" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UpdateMeetingResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="UpdateMeetingResult" nillable="true" type="q19:Meeting" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetMeetingsInProject">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="projectID" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetMeetingsInProjectResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetMeetingsInProjectResult" nillable="true" type="q20:ArrayOfMeeting" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetMeetingsOnDate">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
-        <xs:element minOccurs="0" name="projectID" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetMeetingsOnDateResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetMeetingsOnDateResult" nillable="true" type="q21:ArrayOfMeeting" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="UpdateMeetingResult" nillable="true" type="q14:Project" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

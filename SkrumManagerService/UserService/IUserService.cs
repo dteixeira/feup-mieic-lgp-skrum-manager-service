@@ -1,4 +1,4 @@
-﻿using ServiceDataTypes;
+using ServiceDataTypes;
 using System.ServiceModel;
 
 namespace Users
@@ -32,5 +32,11 @@ namespace Users
 
         [OperationContract]
         Person GetPersonByEmail(string email);
+
+        [OperationContract]
+        Person GiveRole(Role role);
+
+        [OperationContract]
+        bool DeleteRole(int roleID);
     }
 }

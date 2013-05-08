@@ -71,6 +71,42 @@
   <wsdl:message name="ITaskboardService_InsertWorkTime_OutputMessage">
     <wsdl:part name="parameters" element="tns:InsertWorkTimeResponse" />
   </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetAllTasks_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTasks" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetAllTasks_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTasksResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetAllTasksByProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTasksByProject" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetAllTasksByProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTasksByProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GettAllStories_InputMessage">
+    <wsdl:part name="parameters" element="tns:GettAllStories" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GettAllStories_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GettAllStoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetAllStoriesByProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStoriesByProject" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetAllStoriesByProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStoriesByProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetAllStoriesBySprint_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStoriesBySprint" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetAllStoriesBySprint_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStoriesBySprintResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetAllStoriesWithoutSprint_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStoriesWithoutSprint" />
+  </wsdl:message>
+  <wsdl:message name="ITaskboardService_GetAllStoriesWithoutSprint_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStoriesWithoutSprintResponse" />
+  </wsdl:message>
   <wsdl:portType name="ITaskboardService">
     <wsdl:operation name="CreateStory">
       <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/CreateStory" message="tns:ITaskboardService_CreateStory_InputMessage" />
@@ -107,6 +143,30 @@
     <wsdl:operation name="InsertWorkTime">
       <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/InsertWorkTime" message="tns:ITaskboardService_InsertWorkTime_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/InsertWorkTimeResponse" message="tns:ITaskboardService_InsertWorkTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTasks">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/GetAllTasks" message="tns:ITaskboardService_GetAllTasks_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/GetAllTasksResponse" message="tns:ITaskboardService_GetAllTasks_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTasksByProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/GetAllTasksByProject" message="tns:ITaskboardService_GetAllTasksByProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/GetAllTasksByProjectResponse" message="tns:ITaskboardService_GetAllTasksByProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GettAllStories">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/GettAllStories" message="tns:ITaskboardService_GettAllStories_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/GettAllStoriesResponse" message="tns:ITaskboardService_GettAllStories_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStoriesByProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/GetAllStoriesByProject" message="tns:ITaskboardService_GetAllStoriesByProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/GetAllStoriesByProjectResponse" message="tns:ITaskboardService_GetAllStoriesByProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStoriesBySprint">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/GetAllStoriesBySprint" message="tns:ITaskboardService_GetAllStoriesBySprint_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/GetAllStoriesBySprintResponse" message="tns:ITaskboardService_GetAllStoriesBySprint_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStoriesWithoutSprint">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaskboardService/GetAllStoriesWithoutSprint" message="tns:ITaskboardService_GetAllStoriesWithoutSprint_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaskboardService/GetAllStoriesWithoutSprintResponse" message="tns:ITaskboardService_GetAllStoriesWithoutSprint_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="TaskboardServiceEndpoint" type="tns:ITaskboardService">
@@ -187,6 +247,60 @@
     </wsdl:operation>
     <wsdl:operation name="InsertWorkTime">
       <soap12:operation soapAction="http://tempuri.org/ITaskboardService/InsertWorkTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTasks">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/GetAllTasks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTasksByProject">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/GetAllTasksByProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GettAllStories">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/GettAllStories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStoriesByProject">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/GetAllStoriesByProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStoriesBySprint">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/GetAllStoriesBySprint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStoriesWithoutSprint">
+      <soap12:operation soapAction="http://tempuri.org/ITaskboardService/GetAllStoriesWithoutSprint" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

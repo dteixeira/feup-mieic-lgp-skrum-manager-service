@@ -59,6 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BaseServiceTests\ProjectServiceTest.cs" />
     <Compile Include="BaseServiceTests\UserServiceTest.cs" />
     <Compile Include="Service References\NotificationService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -80,6 +81,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="ServiceTests\ProjectServiceTest.cs" />
     <Compile Include="ServiceTests\UserServiceTest.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

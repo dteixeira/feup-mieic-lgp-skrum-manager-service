@@ -71,6 +71,18 @@
   <wsdl:message name="IUserService_GetPersonByEmail_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetPersonByEmailResponse" />
   </wsdl:message>
+  <wsdl:message name="IUserService_GiveRole_InputMessage">
+    <wsdl:part name="parameters" element="tns:GiveRole" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GiveRole_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GiveRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_DeleteRole_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRole" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_DeleteRole_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRoleResponse" />
+  </wsdl:message>
   <wsdl:portType name="IUserService">
     <wsdl:operation name="CreatePerson">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/CreatePerson" message="tns:IUserService_CreatePerson_InputMessage" />
@@ -107,6 +119,14 @@
     <wsdl:operation name="GetPersonByEmail">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetPersonByEmail" message="tns:IUserService_GetPersonByEmail_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetPersonByEmailResponse" message="tns:IUserService_GetPersonByEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GiveRole">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GiveRole" message="tns:IUserService_GiveRole_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GiveRoleResponse" message="tns:IUserService_GiveRole_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRole">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/DeleteRole" message="tns:IUserService_DeleteRole_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/DeleteRoleResponse" message="tns:IUserService_DeleteRole_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="UserServiceEndpoint" type="tns:IUserService">
@@ -187,6 +207,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetPersonByEmail">
       <soap12:operation soapAction="http://tempuri.org/IUserService/GetPersonByEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GiveRole">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/GiveRole" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRole">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/DeleteRole" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

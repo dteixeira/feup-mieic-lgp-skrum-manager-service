@@ -38,4 +38,10 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Task" nillable="true" type="tns:Task" />
+  <xs:complexType name="ArrayOfStory">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Story" nillable="true" type="tns:Story" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfStory" nillable="true" type="tns:ArrayOfStory" />
 </xs:schema>

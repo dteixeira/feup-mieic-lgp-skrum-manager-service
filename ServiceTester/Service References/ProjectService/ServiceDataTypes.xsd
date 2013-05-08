@@ -3,13 +3,38 @@
   <xs:complexType name="Project">
     <xs:sequence>
       <xs:element minOccurs="0" name="AlertLimit" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Meetings" nillable="true" type="tns:ArrayOfMeeting" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="ProjectID" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="Speed" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="SprintDuration" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Sprints" nillable="true" type="tns:ArrayOfSprint" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Project" nillable="true" type="tns:Project" />
+  <xs:complexType name="ArrayOfMeeting">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Meeting" nillable="true" type="tns:Meeting" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMeeting" nillable="true" type="tns:ArrayOfMeeting" />
+  <xs:complexType name="Meeting">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MeetingID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Notes" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Number" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProjectID" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Meeting" nillable="true" type="tns:Meeting" />
+  <xs:complexType name="ArrayOfSprint">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Sprint" nillable="true" type="tns:Sprint" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSprint" nillable="true" type="tns:ArrayOfSprint" />
   <xs:complexType name="Sprint">
     <xs:sequence>
       <xs:element minOccurs="0" name="BeginDate" type="xs:dateTime" />
@@ -66,47 +91,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Task" nillable="true" type="tns:Task" />
-  <xs:complexType name="ArrayOfSprint">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Sprint" nillable="true" type="tns:Sprint" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfSprint" nillable="true" type="tns:ArrayOfSprint" />
-  <xs:complexType name="Role">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="AssignedTime" nillable="true" type="xs:double" />
-      <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="PersonID" nillable="true" type="xs:int" />
-      <xs:element minOccurs="0" name="ProjectID" nillable="true" type="xs:int" />
-      <xs:element minOccurs="0" name="RoleDescription" type="tns:RoleDescription" />
-      <xs:element minOccurs="0" name="RoleID" nillable="true" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Role" nillable="true" type="tns:Role" />
-  <xs:simpleType name="RoleDescription">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Null" />
-      <xs:enumeration value="ProjectManager" />
-      <xs:enumeration value="ScrumMaster" />
-      <xs:enumeration value="ProductOwner" />
-      <xs:enumeration value="TeamMember" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="RoleDescription" nillable="true" type="tns:RoleDescription" />
-  <xs:complexType name="Meeting">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
-      <xs:element minOccurs="0" name="MeetingID" nillable="true" type="xs:int" />
-      <xs:element minOccurs="0" name="Notes" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Number" nillable="true" type="xs:int" />
-      <xs:element minOccurs="0" name="ProjectID" nillable="true" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Meeting" nillable="true" type="tns:Meeting" />
-  <xs:complexType name="ArrayOfMeeting">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Meeting" nillable="true" type="tns:Meeting" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfMeeting" nillable="true" type="tns:ArrayOfMeeting" />
 </xs:schema>

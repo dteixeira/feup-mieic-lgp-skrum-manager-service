@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using ServiceDataTypes;
-using Users;
 using System.ServiceModel;
 
 namespace Projects
@@ -8,6 +7,10 @@ namespace Projects
     [ServiceContract]
     public interface IProjectService
     {
+        /**
+         * Project CRUD
+         */
+
         [OperationContract]
         Project CreateProject(Project project);
 
@@ -20,51 +23,47 @@ namespace Projects
         [OperationContract]
         Project UpdateProject(Project project);
 
-        //--------------------//
+        [OperationContract]
+        Project GetProjectByName(string name);
+
+        /**
+         * Sprint CRUD
+         */
 
         [OperationContract]
-        Sprint CreateSprint(Sprint sprint);
+        Project CreateSprint(Sprint sprint);
 
         [OperationContract]
         bool DeleteSprint(int sprintID);
 
         [OperationContract]
-        Sprint GetSprintByID(int sprintID);
+        Project UpdateSprint(Sprint sprint);
+
+        /**
+         * Meeting CRUD
+         */
 
         [OperationContract]
-        Sprint UpdateSprint(Sprint sprint);
-
-        //--------------------//
-        
-        [OperationContract]
-        List<Sprint> GetSprintsInProject(int projectID);
-
-        [OperationContract]
-        Role GiveRole(Role role);
-
-        [OperationContract]
-        List<Sprint> GetClosedSprints(int projectID);
-
-        //--------------------//
-
-        [OperationContract]
-        Meeting CreateMeeting(Meeting meeting);
+        Project CreateMeeting(Meeting meeting);
 
         [OperationContract]
         bool DeleteMeeting(int meetingID);
 
         [OperationContract]
-        Meeting GetMeetingByID(int meetingID);
+        Project UpdateMeeting(Meeting meeting);
+
+        /**
+         * Stories in Sprints / Projects
+         */
 
         [OperationContract]
-        Meeting UpdateMeeting(Meeting meeting);
+        List<Story> GetAllStoriesByProject(int projectID);
 
         [OperationContract]
-        List<Meeting> GetMeetingsInProject(int projectID);
+        List<Story> GetAllStoriesBySprint(int sprintID);
 
         [OperationContract]
-        List<Meeting> GetMeetingsOnDate(System.DateTime date, int projectID);
-
-
+        List<Story> GetAllStoriesWithoutSprint(int projectID);      
+         
     }
 }

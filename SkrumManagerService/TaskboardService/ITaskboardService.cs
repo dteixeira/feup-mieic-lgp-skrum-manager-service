@@ -22,7 +22,7 @@ namespace Taskboards
         //------------------------------//
 
         [OperationContract]
-        Task CreateTask(Task task);
+        Story CreateTask(Task task);
 
         [OperationContract]
         bool DeleteTask(int taskID);
@@ -38,8 +38,14 @@ namespace Taskboards
         [OperationContract]
         bool InsertWorkTime(int userID, int taskID, double spentTime);
 
+        [OperationContract]
+        List<Task> GetAllTasks();
 
+        [OperationContract]
+        List<Task> GetAllTasksByProject(int projectID);
 
-       
+        [OperationContract]
+        List<Story> GetAllStories();
+
     }
 }

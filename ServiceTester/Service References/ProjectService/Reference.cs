@@ -27,44 +27,26 @@ namespace ServiceTester.ProjectService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/UpdateProject", ReplyAction="http://tempuri.org/IProjectService/UpdateProjectResponse")]
         ServiceDataTypes.Project UpdateProject(ServiceDataTypes.Project project);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetProjectByName", ReplyAction="http://tempuri.org/IProjectService/GetProjectByNameResponse")]
+        ServiceDataTypes.Project GetProjectByName(string name);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/CreateSprint", ReplyAction="http://tempuri.org/IProjectService/CreateSprintResponse")]
-        ServiceDataTypes.Sprint CreateSprint(ServiceDataTypes.Sprint sprint);
+        ServiceDataTypes.Project CreateSprint(ServiceDataTypes.Sprint sprint);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/DeleteSprint", ReplyAction="http://tempuri.org/IProjectService/DeleteSprintResponse")]
         bool DeleteSprint(int sprintID);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetSprintByID", ReplyAction="http://tempuri.org/IProjectService/GetSprintByIDResponse")]
-        ServiceDataTypes.Sprint GetSprintByID(int sprintID);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/UpdateSprint", ReplyAction="http://tempuri.org/IProjectService/UpdateSprintResponse")]
-        ServiceDataTypes.Sprint UpdateSprint(ServiceDataTypes.Sprint sprint);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetSprintsInProject", ReplyAction="http://tempuri.org/IProjectService/GetSprintsInProjectResponse")]
-        ServiceDataTypes.Sprint[] GetSprintsInProject(int projectID);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GiveRole", ReplyAction="http://tempuri.org/IProjectService/GiveRoleResponse")]
-        ServiceDataTypes.Role GiveRole(ServiceDataTypes.Role role);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetClosedSprints", ReplyAction="http://tempuri.org/IProjectService/GetClosedSprintsResponse")]
-        ServiceDataTypes.Sprint[] GetClosedSprints(int projectID);
+        ServiceDataTypes.Project UpdateSprint(ServiceDataTypes.Sprint sprint);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/CreateMeeting", ReplyAction="http://tempuri.org/IProjectService/CreateMeetingResponse")]
-        ServiceDataTypes.Meeting CreateMeeting(ServiceDataTypes.Meeting meeting);
+        ServiceDataTypes.Project CreateMeeting(ServiceDataTypes.Meeting meeting);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/DeleteMeeting", ReplyAction="http://tempuri.org/IProjectService/DeleteMeetingResponse")]
         bool DeleteMeeting(int meetingID);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetMeetingByID", ReplyAction="http://tempuri.org/IProjectService/GetMeetingByIDResponse")]
-        ServiceDataTypes.Meeting GetMeetingByID(int meetingID);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/UpdateMeeting", ReplyAction="http://tempuri.org/IProjectService/UpdateMeetingResponse")]
-        ServiceDataTypes.Meeting UpdateMeeting(ServiceDataTypes.Meeting meeting);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetMeetingsInProject", ReplyAction="http://tempuri.org/IProjectService/GetMeetingsInProjectResponse")]
-        ServiceDataTypes.Meeting[] GetMeetingsInProject(int projectID);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetMeetingsOnDate", ReplyAction="http://tempuri.org/IProjectService/GetMeetingsOnDateResponse")]
-        ServiceDataTypes.Meeting[] GetMeetingsOnDate(System.DateTime date, int projectID);
+        ServiceDataTypes.Project UpdateMeeting(ServiceDataTypes.Meeting meeting);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -110,7 +92,11 @@ namespace ServiceTester.ProjectService {
             return base.Channel.UpdateProject(project);
         }
         
-        public ServiceDataTypes.Sprint CreateSprint(ServiceDataTypes.Sprint sprint) {
+        public ServiceDataTypes.Project GetProjectByName(string name) {
+            return base.Channel.GetProjectByName(name);
+        }
+        
+        public ServiceDataTypes.Project CreateSprint(ServiceDataTypes.Sprint sprint) {
             return base.Channel.CreateSprint(sprint);
         }
         
@@ -118,27 +104,11 @@ namespace ServiceTester.ProjectService {
             return base.Channel.DeleteSprint(sprintID);
         }
         
-        public ServiceDataTypes.Sprint GetSprintByID(int sprintID) {
-            return base.Channel.GetSprintByID(sprintID);
-        }
-        
-        public ServiceDataTypes.Sprint UpdateSprint(ServiceDataTypes.Sprint sprint) {
+        public ServiceDataTypes.Project UpdateSprint(ServiceDataTypes.Sprint sprint) {
             return base.Channel.UpdateSprint(sprint);
         }
         
-        public ServiceDataTypes.Sprint[] GetSprintsInProject(int projectID) {
-            return base.Channel.GetSprintsInProject(projectID);
-        }
-        
-        public ServiceDataTypes.Role GiveRole(ServiceDataTypes.Role role) {
-            return base.Channel.GiveRole(role);
-        }
-        
-        public ServiceDataTypes.Sprint[] GetClosedSprints(int projectID) {
-            return base.Channel.GetClosedSprints(projectID);
-        }
-        
-        public ServiceDataTypes.Meeting CreateMeeting(ServiceDataTypes.Meeting meeting) {
+        public ServiceDataTypes.Project CreateMeeting(ServiceDataTypes.Meeting meeting) {
             return base.Channel.CreateMeeting(meeting);
         }
         
@@ -146,20 +116,8 @@ namespace ServiceTester.ProjectService {
             return base.Channel.DeleteMeeting(meetingID);
         }
         
-        public ServiceDataTypes.Meeting GetMeetingByID(int meetingID) {
-            return base.Channel.GetMeetingByID(meetingID);
-        }
-        
-        public ServiceDataTypes.Meeting UpdateMeeting(ServiceDataTypes.Meeting meeting) {
+        public ServiceDataTypes.Project UpdateMeeting(ServiceDataTypes.Meeting meeting) {
             return base.Channel.UpdateMeeting(meeting);
-        }
-        
-        public ServiceDataTypes.Meeting[] GetMeetingsInProject(int projectID) {
-            return base.Channel.GetMeetingsInProject(projectID);
-        }
-        
-        public ServiceDataTypes.Meeting[] GetMeetingsOnDate(System.DateTime date, int projectID) {
-            return base.Channel.GetMeetingsOnDate(date, projectID);
         }
     }
 }

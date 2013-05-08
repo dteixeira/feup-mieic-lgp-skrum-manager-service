@@ -9,10 +9,13 @@ namespace ServiceDataTypes
     public class Project
     {
         private int? alertLimit;
+        private System.Collections.Generic.List<Meeting> meetings;
+        private string name;
         private string password;
         private int? projectID;
         private int? speed;
         private int? sprintDuration;
+        private System.Collections.Generic.List<Sprint> sprints;
 
         /// <summary>
         /// Default constructor of the Project class.
@@ -22,13 +25,33 @@ namespace ServiceDataTypes
         }
 
         /// <summary>
-        /// The alert limit parameter for this project
+        /// The alert limit parameter for this project.
         /// </summary>
         [DataMember]
         public int? AlertLimit
         {
             get { return this.alertLimit; }
             set { this.alertLimit = value; }
+        }
+
+        /// <summary>
+        /// List of meetings in virtue of this project.
+        /// </summary>
+        [DataMember]
+        public System.Collections.Generic.List<Meeting> Meetings
+        {
+            get { return this.meetings; }
+            set { this.meetings = value; }
+        }
+
+        /// <summary>
+        /// The project's unique name (used as an identifier).
+        /// </summary>
+        [DataMember]
+        public string Name
+        {
+            get { return this.name; }
+            set { this.name = value; }
         }
 
         /// <summary>
@@ -62,13 +85,23 @@ namespace ServiceDataTypes
         }
 
         /// <summary>
-        /// The sprint duration parameter for this project
+        /// The sprint duration parameter for this project.
         /// </summary>
         [DataMember]
         public int? SprintDuration
         {
             get { return this.sprintDuration; }
             set { this.sprintDuration = value; }
+        }
+
+        /// <summary>
+        /// List of the project's sprints.
+        /// </summary>
+        [DataMember]
+        public System.Collections.Generic.List<Sprint> Sprints
+        {
+            get { return this.sprints; }
+            set { this.sprints = value; }
         }
     }
 }

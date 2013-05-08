@@ -67,7 +67,7 @@
   <xs:element name="CreateTaskResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="CreateTaskResult" nillable="true" type="q7:Task" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="CreateTaskResult" nillable="true" type="q7:Story" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -126,6 +126,86 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="InsertWorkTimeResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllTasks">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllTasksResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetAllTasksResult" nillable="true" type="q11:ArrayOfTask" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllTasksByProject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="projectID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllTasksByProjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetAllTasksByProjectResult" nillable="true" type="q12:ArrayOfTask" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GettAllStories">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GettAllStoriesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GettAllStoriesResult" nillable="true" type="q13:ArrayOfStory" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllStoriesByProject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="projectID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllStoriesByProjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetAllStoriesByProjectResult" nillable="true" type="q14:ArrayOfStory" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllStoriesBySprint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sprintID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllStoriesBySprintResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetAllStoriesBySprintResult" nillable="true" type="q15:ArrayOfStory" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllStoriesWithoutSprint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="projectID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllStoriesWithoutSprintResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/ServiceDataTypes" minOccurs="0" name="GetAllStoriesWithoutSprintResult" nillable="true" type="q16:ArrayOfStory" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -440,5 +440,52 @@ namespace Users
                 return null;
             }
         }
+
+
+        public ServiceDataTypes.Person GiveRole(ServiceDataTypes.Role role)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var person = context.Persons.FirstOrDefault(p => p.PersonID == role.PersonID);
+                    person.Roles.Add(new SkrumManagerService.Role
+                    {
+                        AssignedTime = (int)role.AssignedTime,
+                        RoleDescription = context.RoleDescriptions.FirstOrDefault(rd => rd.Description == role.RoleDescription.ToString()),
+                        Password = role.Password,
+                        ProjectID = (int)role.ProjectID
+                    });
+                    context.SubmitChanges();
+                    return this.GetPersonByID(person.PersonID);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public bool DeleteRole(int roleID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var role = context.Roles.FirstOrDefault(r => r.RoleID == roleID);
+                    context.Roles.DeleteOnSubmit(role);
+                    context.SubmitChanges();
+                    return true;
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns false if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return false;
+            }
+        }
     }
 }
