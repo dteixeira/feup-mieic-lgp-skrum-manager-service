@@ -8,13 +8,13 @@ namespace ServiceDataTypes
     [DataContract]
     public class Project
     {
-        private int? alertLimit;
+        private int alertLimit;
         private System.Collections.Generic.List<Meeting> meetings;
         private string name;
         private string password;
-        private int? projectID;
-        private int? speed;
-        private int? sprintDuration;
+        private int projectID;
+        private int speed;
+        private int sprintDuration;
         private System.Collections.Generic.List<Sprint> sprints;
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace ServiceDataTypes
         /// The alert limit parameter for this project.
         /// </summary>
         [DataMember]
-        public int? AlertLimit
+        public int AlertLimit
         {
             get { return this.alertLimit; }
             set { this.alertLimit = value; }
@@ -68,7 +68,7 @@ namespace ServiceDataTypes
         /// The Database ID of this project.
         /// </summary>
         [DataMember]
-        public int? ProjectID
+        public int ProjectID
         {
             get { return this.projectID; }
             set { this.projectID = value; }
@@ -78,7 +78,7 @@ namespace ServiceDataTypes
         /// The speed paramenter for this project.
         /// </summary>
         [DataMember]
-        public int? Speed
+        public int Speed
         {
             get { return this.speed; }
             set { this.speed = value; }
@@ -88,7 +88,7 @@ namespace ServiceDataTypes
         /// The sprint duration parameter for this project.
         /// </summary>
         [DataMember]
-        public int? SprintDuration
+        public int SprintDuration
         {
             get { return this.sprintDuration; }
             set { this.sprintDuration = value; }

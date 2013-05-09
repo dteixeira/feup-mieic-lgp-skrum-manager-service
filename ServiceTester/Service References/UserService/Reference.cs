@@ -18,35 +18,59 @@ namespace ServiceTester.UserService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/CreatePerson", ReplyAction="http://tempuri.org/IUserService/CreatePersonResponse")]
         ServiceDataTypes.Person CreatePerson(ServiceDataTypes.Person person);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdatePerson", ReplyAction="http://tempuri.org/IUserService/UpdatePersonResponse")]
+        ServiceDataTypes.Person UpdatePerson(ServiceDataTypes.Person person);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdatePersonPassword", ReplyAction="http://tempuri.org/IUserService/UpdatePersonPasswordResponse")]
+        ServiceDataTypes.Person UpdatePersonPassword(int personID, string password);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/DeletePerson", ReplyAction="http://tempuri.org/IUserService/DeletePersonResponse")]
         bool DeletePerson(int personID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetPersonByID", ReplyAction="http://tempuri.org/IUserService/GetPersonByIDResponse")]
         ServiceDataTypes.Person GetPersonByID(int personID);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdatePerson", ReplyAction="http://tempuri.org/IUserService/UpdatePersonResponse")]
-        ServiceDataTypes.Person UpdatePerson(ServiceDataTypes.Person person);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetPersonsInProject", ReplyAction="http://tempuri.org/IUserService/GetPersonsInProjectResponse")]
-        ServiceDataTypes.Person[] GetPersonsInProject(int projectID);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/LoginAdmin", ReplyAction="http://tempuri.org/IUserService/LoginAdminResponse")]
-        bool LoginAdmin(ServiceDataTypes.Person person);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/LoginProjectAdmin", ReplyAction="http://tempuri.org/IUserService/LoginProjectAdminResponse")]
-        bool LoginProjectAdmin(ServiceDataTypes.Role role);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAllPersons", ReplyAction="http://tempuri.org/IUserService/GetAllPersonsResponse")]
-        ServiceDataTypes.Person[] GetAllPersons();
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetPersonByEmail", ReplyAction="http://tempuri.org/IUserService/GetPersonByEmailResponse")]
         ServiceDataTypes.Person GetPersonByEmail(string email);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GiveRole", ReplyAction="http://tempuri.org/IUserService/GiveRoleResponse")]
-        ServiceDataTypes.Person GiveRole(ServiceDataTypes.Role role);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/CreateRole", ReplyAction="http://tempuri.org/IUserService/CreateRoleResponse")]
+        ServiceDataTypes.Role CreateRole(ServiceDataTypes.Role role);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateRole", ReplyAction="http://tempuri.org/IUserService/UpdateRoleResponse")]
+        ServiceDataTypes.Role UpdateRole(ServiceDataTypes.Role role);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateRolePassword", ReplyAction="http://tempuri.org/IUserService/UpdateRolePasswordResponse")]
+        ServiceDataTypes.Role UpdateRolePassword(int roleID, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/DeleteRole", ReplyAction="http://tempuri.org/IUserService/DeleteRoleResponse")]
         bool DeleteRole(int roleID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetRoleByID", ReplyAction="http://tempuri.org/IUserService/GetRoleByIDResponse")]
+        ServiceDataTypes.Role GetRoleByID(int roleID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAllPeopleInProject", ReplyAction="http://tempuri.org/IUserService/GetAllPeopleInProjectResponse")]
+        ServiceDataTypes.Person[] GetAllPeopleInProject(int projectID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAllRolesInProject", ReplyAction="http://tempuri.org/IUserService/GetAllRolesInProjectResponse")]
+        ServiceDataTypes.Role[] GetAllRolesInProject(int projectID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAllPeople", ReplyAction="http://tempuri.org/IUserService/GetAllPeopleResponse")]
+        ServiceDataTypes.Person[] GetAllPeople();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/LoginAdmin", ReplyAction="http://tempuri.org/IUserService/LoginAdminResponse")]
+        bool LoginAdmin(int personID, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAllTasksInPerson", ReplyAction="http://tempuri.org/IUserService/GetAllTasksInPersonResponse")]
+        ServiceDataTypes.Task[] GetAllTasksInPerson(int personID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAllRolesInPerson", ReplyAction="http://tempuri.org/IUserService/GetAllRolesInPersonResponse")]
+        ServiceDataTypes.Role[] GetAllRolesInPerson(int personID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/LoginProjectAdmin", ReplyAction="http://tempuri.org/IUserService/LoginProjectAdminResponse")]
+        bool LoginProjectAdmin(int roleID, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAllPeopleWorkingInTask", ReplyAction="http://tempuri.org/IUserService/GetAllPeopleWorkingInTaskResponse")]
+        ServiceDataTypes.Person[] GetAllPeopleWorkingInTask(int taskID);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -80,6 +104,14 @@ namespace ServiceTester.UserService {
             return base.Channel.CreatePerson(person);
         }
         
+        public ServiceDataTypes.Person UpdatePerson(ServiceDataTypes.Person person) {
+            return base.Channel.UpdatePerson(person);
+        }
+        
+        public ServiceDataTypes.Person UpdatePersonPassword(int personID, string password) {
+            return base.Channel.UpdatePersonPassword(personID, password);
+        }
+        
         public bool DeletePerson(int personID) {
             return base.Channel.DeletePerson(personID);
         }
@@ -88,36 +120,60 @@ namespace ServiceTester.UserService {
             return base.Channel.GetPersonByID(personID);
         }
         
-        public ServiceDataTypes.Person UpdatePerson(ServiceDataTypes.Person person) {
-            return base.Channel.UpdatePerson(person);
-        }
-        
-        public ServiceDataTypes.Person[] GetPersonsInProject(int projectID) {
-            return base.Channel.GetPersonsInProject(projectID);
-        }
-        
-        public bool LoginAdmin(ServiceDataTypes.Person person) {
-            return base.Channel.LoginAdmin(person);
-        }
-        
-        public bool LoginProjectAdmin(ServiceDataTypes.Role role) {
-            return base.Channel.LoginProjectAdmin(role);
-        }
-        
-        public ServiceDataTypes.Person[] GetAllPersons() {
-            return base.Channel.GetAllPersons();
-        }
-        
         public ServiceDataTypes.Person GetPersonByEmail(string email) {
             return base.Channel.GetPersonByEmail(email);
         }
         
-        public ServiceDataTypes.Person GiveRole(ServiceDataTypes.Role role) {
-            return base.Channel.GiveRole(role);
+        public ServiceDataTypes.Role CreateRole(ServiceDataTypes.Role role) {
+            return base.Channel.CreateRole(role);
+        }
+        
+        public ServiceDataTypes.Role UpdateRole(ServiceDataTypes.Role role) {
+            return base.Channel.UpdateRole(role);
+        }
+        
+        public ServiceDataTypes.Role UpdateRolePassword(int roleID, string password) {
+            return base.Channel.UpdateRolePassword(roleID, password);
         }
         
         public bool DeleteRole(int roleID) {
             return base.Channel.DeleteRole(roleID);
+        }
+        
+        public ServiceDataTypes.Role GetRoleByID(int roleID) {
+            return base.Channel.GetRoleByID(roleID);
+        }
+        
+        public ServiceDataTypes.Person[] GetAllPeopleInProject(int projectID) {
+            return base.Channel.GetAllPeopleInProject(projectID);
+        }
+        
+        public ServiceDataTypes.Role[] GetAllRolesInProject(int projectID) {
+            return base.Channel.GetAllRolesInProject(projectID);
+        }
+        
+        public ServiceDataTypes.Person[] GetAllPeople() {
+            return base.Channel.GetAllPeople();
+        }
+        
+        public bool LoginAdmin(int personID, string password) {
+            return base.Channel.LoginAdmin(personID, password);
+        }
+        
+        public ServiceDataTypes.Task[] GetAllTasksInPerson(int personID) {
+            return base.Channel.GetAllTasksInPerson(personID);
+        }
+        
+        public ServiceDataTypes.Role[] GetAllRolesInPerson(int personID) {
+            return base.Channel.GetAllRolesInPerson(personID);
+        }
+        
+        public bool LoginProjectAdmin(int roleID, string password) {
+            return base.Channel.LoginProjectAdmin(roleID, password);
+        }
+        
+        public ServiceDataTypes.Person[] GetAllPeopleWorkingInTask(int taskID) {
+            return base.Channel.GetAllPeopleWorkingInTask(taskID);
         }
     }
 }

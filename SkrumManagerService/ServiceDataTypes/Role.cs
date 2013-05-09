@@ -8,12 +8,12 @@ namespace ServiceDataTypes
     [DataContract]
     public class Role
     {
-        private double? assignedTime;
+        private double assignedTime;
         private string password;
-        private int? personID;
-        private int? projectID;
+        private int personID;
+        private int projectID;
         private ServiceDataTypes.RoleDescription roleDescription;
-        private int? roleID;
+        private int roleID;
 
         /// <summary>
         /// Instantiates a new role object.
@@ -27,7 +27,7 @@ namespace ServiceDataTypes
         /// is spent in this role.
         /// </summary>
         [DataMember]
-        public double? AssignedTime
+        public double AssignedTime
         {
             get { return this.assignedTime; }
             set { this.assignedTime = value; }
@@ -47,7 +47,7 @@ namespace ServiceDataTypes
         /// ID of the persons that has this role.
         /// </summary>
         [DataMember]
-        public int? PersonID
+        public int PersonID
         {
             get { return this.personID; }
             set { this.personID = value; }
@@ -57,7 +57,7 @@ namespace ServiceDataTypes
         /// ID of the project that has this role.
         /// </summary>
         [DataMember]
-        public int? ProjectID
+        public int ProjectID
         {
             get { return this.projectID; }
             set { this.projectID = value; }
@@ -77,7 +77,7 @@ namespace ServiceDataTypes
         /// Role's database ID.
         /// </summary>
         [DataMember]
-        public int? RoleID
+        public int RoleID
         {
             get { return this.roleID; }
             set { this.roleID = value; }

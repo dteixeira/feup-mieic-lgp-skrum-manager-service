@@ -89,6 +89,7 @@
     <Compile Include="ServiceDataTypes\Sprint.cs" />
     <Compile Include="ServiceDataTypes\Story.cs" />
     <Compile Include="ServiceDataTypes\Task.cs" />
+    <Compile Include="ServiceHelper.cs" />
     <Compile Include="SkrumDataclasses.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

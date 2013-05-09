@@ -5,32 +5,20 @@ namespace ServiceDataTypes
     [DataContract]
     public class Person
     {
-        private bool? admin;
         private string email;
         private string jobDescription;
         private string name;
         private string password;
-        private int? personID;
+        private int personID;
         private string photoURL;
         private System.Collections.Generic.List<Role> roles;
         private System.Collections.Generic.List<Task> tasks;
-        private System.Collections.Generic.List<Task> ownedTasks;
 
         /// <summary>
         /// Default constructor of the Person class.
         /// </summary>
         public Person()
         {
-        }
-
-        /// <summary>
-        /// Represents if this person is admin.
-        /// </summary>
-        [DataMember]
-        public bool? Admin
-        {
-            get { return this.admin; }
-            set { this.admin = value; }
         }
 
         /// <summary>
@@ -77,7 +65,7 @@ namespace ServiceDataTypes
         /// The database ID of this person.
         /// </summary>
         [DataMember]
-        public int? PersonID
+        public int PersonID
         {
             get { return this.personID; }
             set { this.personID = value; }
@@ -111,16 +99,6 @@ namespace ServiceDataTypes
         {
             get { return this.tasks; }
             set { this.tasks = value; }
-        }
-
-        /// <summary>
-        /// List of tasks owned by this person.
-        /// </summary>
-        [DataMember]
-        public System.Collections.Generic.List<Task> OwnedTasks
-        {
-            get { return this.ownedTasks; }
-            set { this.ownedTasks = value; }
         }
     }
 }

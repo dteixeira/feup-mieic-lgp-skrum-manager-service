@@ -6,9 +6,6 @@ namespace ServiceDataTypes
     public enum RoleDescription
     {
         [EnumMember]
-        Null,
-
-        [EnumMember]
         ProjectManager,
 
         [EnumMember]
@@ -24,9 +21,6 @@ namespace ServiceDataTypes
     [DataContract]
     public enum StoryPriority
     {
-        [EnumMember]
-        Null,
-
         [EnumMember]
         Must,
 
@@ -44,9 +38,6 @@ namespace ServiceDataTypes
     public enum StoryState
     {
         [EnumMember]
-        Null,
-
-        [EnumMember]
         InProgress,
 
         [EnumMember]
@@ -54,5 +45,21 @@ namespace ServiceDataTypes
 
         [EnumMember]
         Abandoned
+    }
+
+    [DataContract]
+    public enum TaskState
+    {
+        [EnumMember]
+        Waiting,
+
+        [EnumMember]
+        InProgress,
+
+        [EnumMember]
+        Testing,
+
+        [EnumMember]
+        Completed
     }
 }

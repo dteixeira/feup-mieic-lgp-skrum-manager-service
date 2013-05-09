@@ -94,16 +94,21 @@
     </None>
     <None Include="Properties\DataSources\ServiceDataTypes.Meeting.datasource" />
     <None Include="Properties\DataSources\ServiceDataTypes.Person.datasource" />
+    <None Include="Properties\DataSources\ServiceDataTypes.PersonTask.datasource" />
     <None Include="Properties\DataSources\ServiceDataTypes.Project.datasource" />
     <None Include="Properties\DataSources\ServiceDataTypes.Role.datasource" />
     <None Include="Properties\DataSources\ServiceDataTypes.Sprint.datasource" />
     <None Include="Properties\DataSources\ServiceDataTypes.Story.datasource" />
+    <None Include="Properties\DataSources\ServiceDataTypes.StorySprint.datasource" />
     <None Include="Properties\DataSources\ServiceDataTypes.Task.datasource" />
     <None Include="Service References\NotificationService\service.wsdl" />
     <None Include="Service References\NotificationService\service.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\NotificationService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProjectService\Arrays.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ProjectService\service.wsdl" />

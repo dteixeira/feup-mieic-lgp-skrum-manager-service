@@ -30,12 +30,12 @@ namespace SkrumManagerService
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertTask(Task instance);
-    partial void UpdateTask(Task instance);
-    partial void DeleteTask(Task instance);
     partial void InsertMeeting(Meeting instance);
     partial void UpdateMeeting(Meeting instance);
     partial void DeleteMeeting(Meeting instance);
+    partial void InsertTaskState(TaskState instance);
+    partial void UpdateTaskState(TaskState instance);
+    partial void DeleteTaskState(TaskState instance);
     partial void InsertPerson(Person instance);
     partial void UpdatePerson(Person instance);
     partial void DeletePerson(Person instance);
@@ -66,6 +66,9 @@ namespace SkrumManagerService
     partial void InsertStoryState(StoryState instance);
     partial void UpdateStoryState(StoryState instance);
     partial void DeleteStoryState(StoryState instance);
+    partial void InsertTask(Task instance);
+    partial void UpdateTask(Task instance);
+    partial void DeleteTask(Task instance);
     #endregion
 		
 		public SkrumDataclassesDataContext() : 
@@ -98,19 +101,19 @@ namespace SkrumManagerService
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Task> Tasks
-		{
-			get
-			{
-				return this.GetTable<Task>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Meeting> Meetings
 		{
 			get
 			{
 				return this.GetTable<Meeting>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TaskState> TaskStates
+		{
+			get
+			{
+				return this.GetTable<TaskState>();
 			}
 		}
 		
@@ -193,297 +196,13 @@ namespace SkrumManagerService
 				return this.GetTable<StoryState>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Task")]
-	public partial class Task : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _TaskID;
-		
-		private System.DateTime _CreationDate;
-		
-		private int _Estimation;
-		
-		private int _StoryID;
-		
-		private System.Nullable<int> _PersonID;
-		
-		private string _Description;
-		
-		private EntitySet<PersonTask> _PersonTasks;
-		
-		private EntityRef<Person> _Person;
-		
-		private EntityRef<Story> _Story;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnTaskIDChanging(int value);
-    partial void OnTaskIDChanged();
-    partial void OnCreationDateChanging(System.DateTime value);
-    partial void OnCreationDateChanged();
-    partial void OnEstimationChanging(int value);
-    partial void OnEstimationChanged();
-    partial void OnStoryIDChanging(int value);
-    partial void OnStoryIDChanged();
-    partial void OnPersonIDChanging(System.Nullable<int> value);
-    partial void OnPersonIDChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    #endregion
-		
-		public Task()
-		{
-			this._PersonTasks = new EntitySet<PersonTask>(new Action<PersonTask>(this.attach_PersonTasks), new Action<PersonTask>(this.detach_PersonTasks));
-			this._Person = default(EntityRef<Person>);
-			this._Story = default(EntityRef<Story>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int TaskID
+		public System.Data.Linq.Table<Task> Tasks
 		{
 			get
 			{
-				return this._TaskID;
+				return this.GetTable<Task>();
 			}
-			set
-			{
-				if ((this._TaskID != value))
-				{
-					this.OnTaskIDChanging(value);
-					this.SendPropertyChanging();
-					this._TaskID = value;
-					this.SendPropertyChanged("TaskID");
-					this.OnTaskIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
-		public System.DateTime CreationDate
-		{
-			get
-			{
-				return this._CreationDate;
-			}
-			set
-			{
-				if ((this._CreationDate != value))
-				{
-					this.OnCreationDateChanging(value);
-					this.SendPropertyChanging();
-					this._CreationDate = value;
-					this.SendPropertyChanged("CreationDate");
-					this.OnCreationDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Estimation", DbType="Int NOT NULL")]
-		public int Estimation
-		{
-			get
-			{
-				return this._Estimation;
-			}
-			set
-			{
-				if ((this._Estimation != value))
-				{
-					this.OnEstimationChanging(value);
-					this.SendPropertyChanging();
-					this._Estimation = value;
-					this.SendPropertyChanged("Estimation");
-					this.OnEstimationChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StoryID", DbType="Int NOT NULL")]
-		public int StoryID
-		{
-			get
-			{
-				return this._StoryID;
-			}
-			set
-			{
-				if ((this._StoryID != value))
-				{
-					if (this._Story.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnStoryIDChanging(value);
-					this.SendPropertyChanging();
-					this._StoryID = value;
-					this.SendPropertyChanged("StoryID");
-					this.OnStoryIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonID", DbType="Int")]
-		public System.Nullable<int> PersonID
-		{
-			get
-			{
-				return this._PersonID;
-			}
-			set
-			{
-				if ((this._PersonID != value))
-				{
-					if (this._Person.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPersonIDChanging(value);
-					this.SendPropertyChanging();
-					this._PersonID = value;
-					this.SendPropertyChanged("PersonID");
-					this.OnPersonIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NText", UpdateCheck=UpdateCheck.Never)]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Task_PersonTask", Storage="_PersonTasks", ThisKey="TaskID", OtherKey="TaskID")]
-		public EntitySet<PersonTask> PersonTasks
-		{
-			get
-			{
-				return this._PersonTasks;
-			}
-			set
-			{
-				this._PersonTasks.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Person_Task", Storage="_Person", ThisKey="PersonID", OtherKey="PersonID", IsForeignKey=true)]
-		public Person Person
-		{
-			get
-			{
-				return this._Person.Entity;
-			}
-			set
-			{
-				Person previousValue = this._Person.Entity;
-				if (((previousValue != value) 
-							|| (this._Person.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Person.Entity = null;
-						previousValue.Tasks.Remove(this);
-					}
-					this._Person.Entity = value;
-					if ((value != null))
-					{
-						value.Tasks.Add(this);
-						this._PersonID = value.PersonID;
-					}
-					else
-					{
-						this._PersonID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Person");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_Task", Storage="_Story", ThisKey="StoryID", OtherKey="StoryID", IsForeignKey=true)]
-		public Story Story
-		{
-			get
-			{
-				return this._Story.Entity;
-			}
-			set
-			{
-				Story previousValue = this._Story.Entity;
-				if (((previousValue != value) 
-							|| (this._Story.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Story.Entity = null;
-						previousValue.Tasks.Remove(this);
-					}
-					this._Story.Entity = value;
-					if ((value != null))
-					{
-						value.Tasks.Add(this);
-						this._StoryID = value.StoryID;
-					}
-					else
-					{
-						this._StoryID = default(int);
-					}
-					this.SendPropertyChanged("Story");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_PersonTasks(PersonTask entity)
-		{
-			this.SendPropertyChanging();
-			entity.Task = this;
-		}
-		
-		private void detach_PersonTasks(PersonTask entity)
-		{
-			this.SendPropertyChanging();
-			entity.Task = null;
 		}
 	}
 	
@@ -686,6 +405,120 @@ namespace SkrumManagerService
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TaskState")]
+	public partial class TaskState : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _TaskStateID;
+		
+		private string _State;
+		
+		private EntitySet<Task> _Tasks;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTaskStateIDChanging(int value);
+    partial void OnTaskStateIDChanged();
+    partial void OnStateChanging(string value);
+    partial void OnStateChanged();
+    #endregion
+		
+		public TaskState()
+		{
+			this._Tasks = new EntitySet<Task>(new Action<Task>(this.attach_Tasks), new Action<Task>(this.detach_Tasks));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskStateID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int TaskStateID
+		{
+			get
+			{
+				return this._TaskStateID;
+			}
+			set
+			{
+				if ((this._TaskStateID != value))
+				{
+					this.OnTaskStateIDChanging(value);
+					this.SendPropertyChanging();
+					this._TaskStateID = value;
+					this.SendPropertyChanged("TaskStateID");
+					this.OnTaskStateIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_State", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string State
+		{
+			get
+			{
+				return this._State;
+			}
+			set
+			{
+				if ((this._State != value))
+				{
+					this.OnStateChanging(value);
+					this.SendPropertyChanging();
+					this._State = value;
+					this.SendPropertyChanged("State");
+					this.OnStateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TaskState_Task", Storage="_Tasks", ThisKey="TaskStateID", OtherKey="State")]
+		public EntitySet<Task> Tasks
+		{
+			get
+			{
+				return this._Tasks;
+			}
+			set
+			{
+				this._Tasks.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Tasks(Task entity)
+		{
+			this.SendPropertyChanging();
+			entity.TaskState = this;
+		}
+		
+		private void detach_Tasks(Task entity)
+		{
+			this.SendPropertyChanging();
+			entity.TaskState = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Person")]
 	public partial class Person : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -700,13 +533,9 @@ namespace SkrumManagerService
 		
 		private string _Email;
 		
-		private bool _Admin;
-		
 		private string _JobDescription;
 		
 		private string _Password;
-		
-		private EntitySet<Task> _Tasks;
 		
 		private EntitySet<PersonTask> _PersonTasks;
 		
@@ -724,8 +553,6 @@ namespace SkrumManagerService
     partial void OnPhotoURLChanged();
     partial void OnEmailChanging(string value);
     partial void OnEmailChanged();
-    partial void OnAdminChanging(bool value);
-    partial void OnAdminChanged();
     partial void OnJobDescriptionChanging(string value);
     partial void OnJobDescriptionChanged();
     partial void OnPasswordChanging(string value);
@@ -734,7 +561,6 @@ namespace SkrumManagerService
 		
 		public Person()
 		{
-			this._Tasks = new EntitySet<Task>(new Action<Task>(this.attach_Tasks), new Action<Task>(this.detach_Tasks));
 			this._PersonTasks = new EntitySet<PersonTask>(new Action<PersonTask>(this.attach_PersonTasks), new Action<PersonTask>(this.detach_PersonTasks));
 			this._Roles = new EntitySet<Role>(new Action<Role>(this.attach_Roles), new Action<Role>(this.detach_Roles));
 			OnCreated();
@@ -820,26 +646,6 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Admin", DbType="Bit NOT NULL")]
-		public bool Admin
-		{
-			get
-			{
-				return this._Admin;
-			}
-			set
-			{
-				if ((this._Admin != value))
-				{
-					this.OnAdminChanging(value);
-					this.SendPropertyChanging();
-					this._Admin = value;
-					this.SendPropertyChanged("Admin");
-					this.OnAdminChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JobDescription", DbType="NText", UpdateCheck=UpdateCheck.Never)]
 		public string JobDescription
 		{
@@ -877,19 +683,6 @@ namespace SkrumManagerService
 					this.SendPropertyChanged("Password");
 					this.OnPasswordChanged();
 				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Person_Task", Storage="_Tasks", ThisKey="PersonID", OtherKey="PersonID")]
-		public EntitySet<Task> Tasks
-		{
-			get
-			{
-				return this._Tasks;
-			}
-			set
-			{
-				this._Tasks.Assign(value);
 			}
 		}
 		
@@ -937,18 +730,6 @@ namespace SkrumManagerService
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Tasks(Task entity)
-		{
-			this.SendPropertyChanging();
-			entity.Person = this;
-		}
-		
-		private void detach_Tasks(Task entity)
-		{
-			this.SendPropertyChanging();
-			entity.Person = null;
 		}
 		
 		private void attach_PersonTasks(PersonTask entity)
@@ -2190,7 +1971,7 @@ namespace SkrumManagerService
 		
 		private System.DateTime _CreationDate;
 		
-		private System.Nullable<int> _NextStory;
+		private System.Nullable<int> _PreviousStory;
 		
 		private int _State;
 		
@@ -2198,15 +1979,11 @@ namespace SkrumManagerService
 		
 		private string _Description;
 		
-		private EntitySet<Task> _Tasks;
-		
-		private EntitySet<Story> _Stories;
-		
 		private EntitySet<StorySprint> _StorySprints;
 		
-		private EntityRef<Project> _Project;
+		private EntitySet<Task> _Tasks;
 		
-		private EntityRef<Story> _Story1;
+		private EntityRef<Project> _Project;
 		
 		private EntityRef<StoryState> _StoryState;
 		
@@ -2218,8 +1995,8 @@ namespace SkrumManagerService
     partial void OnStoryIDChanged();
     partial void OnCreationDateChanging(System.DateTime value);
     partial void OnCreationDateChanged();
-    partial void OnNextStoryChanging(System.Nullable<int> value);
-    partial void OnNextStoryChanged();
+    partial void OnPreviousStoryChanging(System.Nullable<int> value);
+    partial void OnPreviousStoryChanged();
     partial void OnStateChanging(int value);
     partial void OnStateChanged();
     partial void OnProjectIDChanging(int value);
@@ -2230,11 +2007,9 @@ namespace SkrumManagerService
 		
 		public Story()
 		{
-			this._Tasks = new EntitySet<Task>(new Action<Task>(this.attach_Tasks), new Action<Task>(this.detach_Tasks));
-			this._Stories = new EntitySet<Story>(new Action<Story>(this.attach_Stories), new Action<Story>(this.detach_Stories));
 			this._StorySprints = new EntitySet<StorySprint>(new Action<StorySprint>(this.attach_StorySprints), new Action<StorySprint>(this.detach_StorySprints));
+			this._Tasks = new EntitySet<Task>(new Action<Task>(this.attach_Tasks), new Action<Task>(this.detach_Tasks));
 			this._Project = default(EntityRef<Project>);
-			this._Story1 = default(EntityRef<Story>);
 			this._StoryState = default(EntityRef<StoryState>);
 			OnCreated();
 		}
@@ -2279,26 +2054,22 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NextStory", DbType="Int")]
-		public System.Nullable<int> NextStory
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PreviousStory", DbType="Int")]
+		public System.Nullable<int> PreviousStory
 		{
 			get
 			{
-				return this._NextStory;
+				return this._PreviousStory;
 			}
 			set
 			{
-				if ((this._NextStory != value))
+				if ((this._PreviousStory != value))
 				{
-					if (this._Story1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnNextStoryChanging(value);
+					this.OnPreviousStoryChanging(value);
 					this.SendPropertyChanging();
-					this._NextStory = value;
-					this.SendPropertyChanged("NextStory");
-					this.OnNextStoryChanged();
+					this._PreviousStory = value;
+					this.SendPropertyChanged("PreviousStory");
+					this.OnPreviousStoryChanged();
 				}
 			}
 		}
@@ -2371,32 +2142,6 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_Task", Storage="_Tasks", ThisKey="StoryID", OtherKey="StoryID")]
-		public EntitySet<Task> Tasks
-		{
-			get
-			{
-				return this._Tasks;
-			}
-			set
-			{
-				this._Tasks.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_Story", Storage="_Stories", ThisKey="StoryID", OtherKey="NextStory")]
-		public EntitySet<Story> Stories
-		{
-			get
-			{
-				return this._Stories;
-			}
-			set
-			{
-				this._Stories.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_StorySprint", Storage="_StorySprints", ThisKey="StoryID", OtherKey="StoryID")]
 		public EntitySet<StorySprint> StorySprints
 		{
@@ -2407,6 +2152,19 @@ namespace SkrumManagerService
 			set
 			{
 				this._StorySprints.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_Task", Storage="_Tasks", ThisKey="StoryID", OtherKey="StoryID")]
+		public EntitySet<Task> Tasks
+		{
+			get
+			{
+				return this._Tasks;
+			}
+			set
+			{
+				this._Tasks.Assign(value);
 			}
 		}
 		
@@ -2440,40 +2198,6 @@ namespace SkrumManagerService
 						this._ProjectID = default(int);
 					}
 					this.SendPropertyChanged("Project");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_Story", Storage="_Story1", ThisKey="NextStory", OtherKey="StoryID", IsForeignKey=true)]
-		public Story Story1
-		{
-			get
-			{
-				return this._Story1.Entity;
-			}
-			set
-			{
-				Story previousValue = this._Story1.Entity;
-				if (((previousValue != value) 
-							|| (this._Story1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Story1.Entity = null;
-						previousValue.Stories.Remove(this);
-					}
-					this._Story1.Entity = value;
-					if ((value != null))
-					{
-						value.Stories.Add(this);
-						this._NextStory = value.StoryID;
-					}
-					else
-					{
-						this._NextStory = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Story1");
 				}
 			}
 		}
@@ -2532,30 +2256,6 @@ namespace SkrumManagerService
 			}
 		}
 		
-		private void attach_Tasks(Task entity)
-		{
-			this.SendPropertyChanging();
-			entity.Story = this;
-		}
-		
-		private void detach_Tasks(Task entity)
-		{
-			this.SendPropertyChanging();
-			entity.Story = null;
-		}
-		
-		private void attach_Stories(Story entity)
-		{
-			this.SendPropertyChanging();
-			entity.Story1 = this;
-		}
-		
-		private void detach_Stories(Story entity)
-		{
-			this.SendPropertyChanging();
-			entity.Story1 = null;
-		}
-		
 		private void attach_StorySprints(StorySprint entity)
 		{
 			this.SendPropertyChanging();
@@ -2563,6 +2263,18 @@ namespace SkrumManagerService
 		}
 		
 		private void detach_StorySprints(StorySprint entity)
+		{
+			this.SendPropertyChanging();
+			entity.Story = null;
+		}
+		
+		private void attach_Tasks(Task entity)
+		{
+			this.SendPropertyChanging();
+			entity.Story = this;
+		}
+		
+		private void detach_Tasks(Task entity)
 		{
 			this.SendPropertyChanging();
 			entity.Story = null;
@@ -3075,6 +2787,298 @@ namespace SkrumManagerService
 		{
 			this.SendPropertyChanging();
 			entity.StoryState = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Task")]
+	public partial class Task : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _TaskID;
+		
+		private System.DateTime _CreationDate;
+		
+		private int _Estimation;
+		
+		private int _StoryID;
+		
+		private string _Description;
+		
+		private int _State;
+		
+		private EntitySet<PersonTask> _PersonTasks;
+		
+		private EntityRef<Story> _Story;
+		
+		private EntityRef<TaskState> _TaskState;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTaskIDChanging(int value);
+    partial void OnTaskIDChanged();
+    partial void OnCreationDateChanging(System.DateTime value);
+    partial void OnCreationDateChanged();
+    partial void OnEstimationChanging(int value);
+    partial void OnEstimationChanged();
+    partial void OnStoryIDChanging(int value);
+    partial void OnStoryIDChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnStateChanging(int value);
+    partial void OnStateChanged();
+    #endregion
+		
+		public Task()
+		{
+			this._PersonTasks = new EntitySet<PersonTask>(new Action<PersonTask>(this.attach_PersonTasks), new Action<PersonTask>(this.detach_PersonTasks));
+			this._Story = default(EntityRef<Story>);
+			this._TaskState = default(EntityRef<TaskState>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int TaskID
+		{
+			get
+			{
+				return this._TaskID;
+			}
+			set
+			{
+				if ((this._TaskID != value))
+				{
+					this.OnTaskIDChanging(value);
+					this.SendPropertyChanging();
+					this._TaskID = value;
+					this.SendPropertyChanged("TaskID");
+					this.OnTaskIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreationDate
+		{
+			get
+			{
+				return this._CreationDate;
+			}
+			set
+			{
+				if ((this._CreationDate != value))
+				{
+					this.OnCreationDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreationDate = value;
+					this.SendPropertyChanged("CreationDate");
+					this.OnCreationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Estimation", DbType="Int NOT NULL")]
+		public int Estimation
+		{
+			get
+			{
+				return this._Estimation;
+			}
+			set
+			{
+				if ((this._Estimation != value))
+				{
+					this.OnEstimationChanging(value);
+					this.SendPropertyChanging();
+					this._Estimation = value;
+					this.SendPropertyChanged("Estimation");
+					this.OnEstimationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StoryID", DbType="Int NOT NULL")]
+		public int StoryID
+		{
+			get
+			{
+				return this._StoryID;
+			}
+			set
+			{
+				if ((this._StoryID != value))
+				{
+					if (this._Story.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnStoryIDChanging(value);
+					this.SendPropertyChanging();
+					this._StoryID = value;
+					this.SendPropertyChanged("StoryID");
+					this.OnStoryIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_State", DbType="Int NOT NULL")]
+		public int State
+		{
+			get
+			{
+				return this._State;
+			}
+			set
+			{
+				if ((this._State != value))
+				{
+					if (this._TaskState.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnStateChanging(value);
+					this.SendPropertyChanging();
+					this._State = value;
+					this.SendPropertyChanged("State");
+					this.OnStateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Task_PersonTask", Storage="_PersonTasks", ThisKey="TaskID", OtherKey="TaskID")]
+		public EntitySet<PersonTask> PersonTasks
+		{
+			get
+			{
+				return this._PersonTasks;
+			}
+			set
+			{
+				this._PersonTasks.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_Task", Storage="_Story", ThisKey="StoryID", OtherKey="StoryID", IsForeignKey=true)]
+		public Story Story
+		{
+			get
+			{
+				return this._Story.Entity;
+			}
+			set
+			{
+				Story previousValue = this._Story.Entity;
+				if (((previousValue != value) 
+							|| (this._Story.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Story.Entity = null;
+						previousValue.Tasks.Remove(this);
+					}
+					this._Story.Entity = value;
+					if ((value != null))
+					{
+						value.Tasks.Add(this);
+						this._StoryID = value.StoryID;
+					}
+					else
+					{
+						this._StoryID = default(int);
+					}
+					this.SendPropertyChanged("Story");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TaskState_Task", Storage="_TaskState", ThisKey="State", OtherKey="TaskStateID", IsForeignKey=true)]
+		public TaskState TaskState
+		{
+			get
+			{
+				return this._TaskState.Entity;
+			}
+			set
+			{
+				TaskState previousValue = this._TaskState.Entity;
+				if (((previousValue != value) 
+							|| (this._TaskState.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TaskState.Entity = null;
+						previousValue.Tasks.Remove(this);
+					}
+					this._TaskState.Entity = value;
+					if ((value != null))
+					{
+						value.Tasks.Add(this);
+						this._State = value.TaskStateID;
+					}
+					else
+					{
+						this._State = default(int);
+					}
+					this.SendPropertyChanged("TaskState");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_PersonTasks(PersonTask entity)
+		{
+			this.SendPropertyChanging();
+			entity.Task = this;
+		}
+		
+		private void detach_PersonTasks(PersonTask entity)
+		{
+			this.SendPropertyChanging();
+			entity.Task = null;
 		}
 	}
 }

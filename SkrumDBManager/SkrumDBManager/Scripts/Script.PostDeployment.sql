@@ -11,13 +11,19 @@ Post-Deployment Script Template
 */
 
 /* Default admin */
-INSERT INTO [dbo].[Person] ([Name], [PhotoURL], [Email], [Admin], [JobDescription], [Password])
-	VALUES ('Default Admin', null, 'admin@default.com', 1, null, '123456');
+INSERT INTO [dbo].[Person] ([Name], [PhotoURL], [Email], [JobDescription], [Password])
+	VALUES ('Default Admin', null, 'admin@default.com', null, 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413');
 
 /* StoryState enumaration values */
 INSERT INTO [dbo].[StoryState] ([State]) VALUES ('InProgress');
 INSERT INTO [dbo].[StoryState] ([State]) VALUES ('Completed');
 INSERT INTO [dbo].[StoryState] ([State]) VALUES ('Abandoned');
+
+/* TaskState enumaration values */
+INSERT INTO [dbo].[TaskState] ([State]) VALUES ('Waiting');
+INSERT INTO [dbo].[TaskState] ([State]) VALUES ('InProgress');
+INSERT INTO [dbo].[TaskState] ([State]) VALUES ('Testing');
+INSERT INTO [dbo].[TaskState] ([State]) VALUES ('Completed');
 
 /* StoryPriority enumaration values */
 INSERT INTO [dbo].[StoryPriority] ([Priority]) VALUES ('Must');

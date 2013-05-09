@@ -7,217 +7,23 @@ namespace Users
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class UserService : IUserService
     {
-        /// <summary>
-        /// Creates a new person in the database.
-        /// </summary>
-        /// <param name="person">Contains the information of the user to be created.</param>
-        /// <returns>Created person's information</returns>
         public ServiceDataTypes.Person CreatePerson(ServiceDataTypes.Person person)
         {
             try
             {
-                // Create a database person instance.
-                SkrumManagerService.Person created = new SkrumManagerService.Person();
-                created.Name = person.Name;
-                created.Email = person.Email;
-                created.JobDescription = person.JobDescription;
-                created.PhotoURL = person.PhotoURL;
-                created.Admin = person.Admin == null ? false : (bool)person.Admin;
-
-                // Hash the password if it exists.
-                if (person.Password != null)
-                {
-                    System.Security.Cryptography.SHA512 sha512 = new System.Security.Cryptography.SHA512Managed();
-                    System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
-                    byte[] digest = sha512.ComputeHash(encoder.GetBytes(person.Password));
-                    sha512.Dispose();
-                    string password = System.BitConverter.ToString(digest);
-                    password = password.Replace("-", "");
-                    created.Password = password;
-                }
-
-                // Saves the person to the database.
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    context.GetTable<SkrumManagerService.Person>().InsertOnSubmit(created);
+                    SkrumManagerService.Person created = new SkrumManagerService.Person
+                    {
+                        Email = person.Email,
+                        JobDescription = person.JobDescription,
+                        Name = person.Name,
+                        Password = SkrumManagerService.ServiceHelper.HashPassword(person.Password),
+                        PhotoURL = person.PhotoURL
+                    };
+                    context.Persons.InsertOnSubmit(created);
                     context.SubmitChanges();
-                }
-
-                // Return the person's info.
-                return this.GetPersonByID(created.PersonID);
-            }
-            catch (System.Exception e)
-            {
-                // Returns null if anything goes wrong.
-                System.Console.WriteLine(e.Message);
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Deletes someones record.
-        /// </summary>
-        /// <param name="person">Person to delete</param>
-        /// <returns>true if the person was deleted, false otherwise.</returns>
-        public bool DeletePerson(int personID)
-        {
-            try
-            {
-                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
-                {
-                    var persons = context.GetTable<SkrumManagerService.Person>();
-                    var result = persons.FirstOrDefault(p => p.PersonID == personID);
-                    if (result != null)
-                    {
-                        persons.DeleteOnSubmit(result);
-                        context.SubmitChanges();
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            catch (System.Exception e)
-            {
-                // Returns false if anything goes wrong.
-                System.Console.WriteLine(e.Message);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Gives all persons involved in a project.
-        /// </summary>
-        /// <param name="projectID">ID of the project</param>
-        /// <returns>A list of the people involved in the project.</returns>
-        public System.Collections.Generic.List<ServiceDataTypes.Person> GetPersonsInProject(int projectID)
-        {
-            try
-            {
-                System.Collections.Generic.List<ServiceDataTypes.Person> result = new System.Collections.Generic.List<ServiceDataTypes.Person>();
-                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
-                {
-                    SkrumManagerService.Project project = context.GetTable<SkrumManagerService.Project>().FirstOrDefault(p => p.ProjectID == projectID);
-                    if (project == null)
-                    {
-                        // Return null if the project no longer exists.
-                        return null;
-                    }
-                    else
-                    {
-                        // Gets all the people in the project.
-                        var results = project.Roles.Select(r => r.Person.PersonID).Distinct();
-                        foreach (int personID in results)
-                        {
-                            ServiceDataTypes.Person person = this.GetPersonByID(personID);
-                            if(person != null)
-                            {
-                                result.Add(person);
-                            }
-                        }
-                    }
-                }
-                return result;
-            }
-            catch (System.Exception e)
-            {
-                // Returns null if anything goes wrong.
-                System.Console.WriteLine(e.Message);
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Returns a person's information using that person's ID to search.
-        /// </summary>
-        /// <param name="person">Person instance containing the ID to search for</param>
-        /// <returns>The filled Person instance if found, null otherwise.</returns>
-        public ServiceDataTypes.Person GetPersonByID(int personID)
-        {
-            try
-            {
-                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
-                {
-                    var result = context.GetTable<SkrumManagerService.Person>().FirstOrDefault(p => p.PersonID == personID);
-
-                    // Return null if no result was found, or a the filled person instance.
-                    if (result == null)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        ServiceDataTypes.Person person = new ServiceDataTypes.Person()
-                        {
-                            PersonID = personID,
-                            Name = result.Name,
-                            Admin = result.Admin,
-                            Email = result.Email,
-                            JobDescription = result.JobDescription,
-                            PhotoURL = result.PhotoURL
-                        };
-
-                        // Generate roles.
-                        person.Roles = (result.Roles.Select(p => new ServiceDataTypes.Role
-                        {
-                            AssignedTime = p.AssignedTime,
-                            Password = p.Password,
-                            PersonID = p.PersonID,
-                            ProjectID = p.ProjectID,
-                            RoleDescription = (ServiceDataTypes.RoleDescription)System.Enum.Parse(typeof(ServiceDataTypes.RoleDescription), p.RoleDescription.Description),
-                            RoleID = p.RoleID
-                        })).ToList<ServiceDataTypes.Role>();
-
-                        // Generate owned tasks.
-                        person.OwnedTasks = (result.Tasks.Select(p => new ServiceDataTypes.Task
-                        {
-                            CreationDate = p.CreationDate,
-                            Description = p.Description,
-                            Estimation = p.Estimation,
-                            PersonID = p.PersonID,
-                            StoryID = p.StoryID,
-                            TaskID = p.TaskID,
-                            PersonTasks = (
-                                from pt in p.PersonTasks
-                                select new ServiceDataTypes.PersonTask
-                                {
-                                    CreationDate = pt.CreationDate,
-                                    PersonID = pt.PersonID,
-                                    PersonTaskID = pt.PersonTaskID,
-                                    SpentTime = pt.SpentTime,
-                                    TaskID = pt.TaskID
-                                }
-                            ).ToList<ServiceDataTypes.PersonTask>()
-                        })).ToList<ServiceDataTypes.Task>();
-
-                        // Generate associated tasks.
-                        var personTasks = context.GetTable<SkrumManagerService.PersonTask>();
-                        person.Tasks = personTasks.Where(t => t.PersonID == person.PersonID).Select(p => new ServiceDataTypes.Task
-                        {
-                            CreationDate = p.Task.CreationDate,
-                            Description = p.Task.Description,
-                            Estimation = p.Task.Estimation,
-                            PersonID = p.Task.PersonID,
-                            StoryID = p.Task.StoryID,
-                            TaskID = p.Task.TaskID,
-                            PersonTasks = (
-                                from pt in p.Task.PersonTasks
-                                select new ServiceDataTypes.PersonTask
-                                {
-                                    CreationDate = pt.CreationDate,
-                                    PersonID = pt.PersonID,
-                                    PersonTaskID = pt.PersonTaskID,
-                                    SpentTime = pt.SpentTime,
-                                    TaskID = pt.TaskID
-                                }
-                            ).ToList<ServiceDataTypes.PersonTask>()
-                        }).ToList<ServiceDataTypes.Task>();
-
-                        // Returns the person's info.
-                        return person;
-                    }
+                    return this.GetPersonByID(created.PersonID);
                 }
             }
             catch (System.Exception e)
@@ -228,165 +34,19 @@ namespace Users
             }
         }
 
-        /// <summary>
-        /// Logs a given person as an admin.
-        /// </summary>
-        /// <param name="person">Person to login</param>
-        /// <returns>true if login is valid, false otherwise.</returns>
-        public bool LoginAdmin(ServiceDataTypes.Person person)
-        {
-            try
-            {
-                if (person.Admin == null || !(bool)person.Admin || person.PersonID == null || person.Password == null)
-                {
-                    // Return false if information is missing.
-                    return false;
-                }
-                else
-                {
-                    // Hash the password.
-                    System.Security.Cryptography.SHA512 sha512 = new System.Security.Cryptography.SHA512Managed();
-                    System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
-                    byte[] digest = sha512.ComputeHash(encoder.GetBytes(person.Password));
-                    sha512.Dispose();
-                    string password = System.BitConverter.ToString(digest);
-                    password = password.Replace("-", "");
-
-                    using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
-                    {
-                        // Tries to find the user.
-                        var persons = context.GetTable<SkrumManagerService.Person>();
-
-                        System.Console.WriteLine("{0}\n{1}", persons.FirstOrDefault(p => p.Admin).Password, password);
-
-                        var result = persons.FirstOrDefault(p => p.PersonID == person.PersonID &&
-                            p.Admin == (bool)person.Admin &&
-                            p.Password == password);
-
-                        if (result == null)
-                        {
-                            // Return false if no user if found.
-                            return false;
-                        }
-                        else
-                        {
-                            // Return true if login is valid.
-                            return true;
-                        }
-                    }
-                }
-            }
-            catch (System.Exception e)
-            {
-                // Returns false if anything goes wrong.
-                System.Console.WriteLine(e.Message);
-                return false;
-            }
-        }
-
-        public bool LoginProjectAdmin(ServiceDataTypes.Role role)
-        {
-            try
-            {
-                if (role.ProjectID == null || role.PersonID == null || role.Password == null)
-                {
-                    // Return false if information is missing.
-                    return false;
-                }
-                else
-                {
-                    // Hash the password.
-                    System.Security.Cryptography.SHA512 sha512 = new System.Security.Cryptography.SHA512Managed();
-                    System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
-                    byte[] digest = sha512.ComputeHash(encoder.GetBytes(role.Password));
-                    sha512.Dispose();
-                    string password = System.BitConverter.ToString(digest);
-                    password = password.Replace("-", "");
-
-                    // Check if the role exists.
-                    using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
-                    {
-                        var roles = context.GetTable<SkrumManagerService.Role>();
-                        var result = roles.FirstOrDefault(r => r.ProjectID == role.ProjectID &&
-                            r.PersonID == role.PersonID &&
-                            r.Password == password);
-
-                        if (result == null)
-                        {
-                            // Return false if user no longer exists.
-                            return false;
-                        }
-                        else
-                        {
-                            // Return true if the role exists.
-                            return true;
-                        }
-                    }
-                }
-            }
-            catch (System.Exception e)
-            {
-                // Returns false if anything goes wrong.
-                System.Console.WriteLine(e.Message);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Updates a person's information with the given values.
-        /// </summary>
-        /// <param name="person">Contains the new values</param>
-        /// <returns>The person's current information.</returns>
         public ServiceDataTypes.Person UpdatePerson(ServiceDataTypes.Person person)
         {
             try
             {
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    var persons = context.GetTable<SkrumManagerService.Person>();
-                    var result = persons.FirstOrDefault(p => p.PersonID == person.PersonID);
-                    if (result == null)
-                    {
-                        // Return null if user no longer exists.
-                        return null;
-                    }
-                    else
-                    {
-                        if (person.Name != null)
-                        {
-                            result.Name = person.Name;
-                        }
-                        if (person.Email != null)
-                        {
-                            result.Email = person.Email;
-                        }
-                        if (person.PhotoURL != null)
-                        {
-                            result.PhotoURL = person.PhotoURL;
-                        }
-                        if (person.JobDescription != null)
-                        {
-                            result.JobDescription = person.JobDescription;
-                        }
-                        if (person.Admin != null)
-                        {
-                            result.Admin = (bool)person.Admin;
-                        }
-                        if (result.Admin && person.Password != null)
-                        {
-                            System.Security.Cryptography.SHA512 sha512 = new System.Security.Cryptography.SHA512Managed();
-                            System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
-                            byte[] digest = sha512.ComputeHash(encoder.GetBytes(person.Password));
-                            sha512.Dispose();
-                            result.Password = encoder.GetString(digest);
-                        }
-
-                        // Update the person's information.
-                        context.SubmitChanges();
-
-                        // Get and return the person's info.
-                        return this.GetPersonByID(result.PersonID);
-                    }
+                    var updated = context.Persons.FirstOrDefault(p => p.PersonID == person.PersonID);
+                    updated.Email = person.Email;
+                    updated.JobDescription = person.JobDescription;
+                    updated.Name = person.Name;
+                    updated.PhotoURL = person.PhotoURL;
+                    context.SubmitChanges();
+                    return this.GetPersonByID(updated.PersonID);
                 }
             }
             catch (System.Exception e)
@@ -397,28 +57,17 @@ namespace Users
             }
         }
 
-        /// <summary>
-        /// Fetches a list of all the system's users.
-        /// </summary>
-        /// <returns>A list containing the information about all the users in the system.</returns>
-        public System.Collections.Generic.List<ServiceDataTypes.Person> GetAllPersons()
+        public ServiceDataTypes.Person UpdatePersonPassword(int personID, string password)
         {
             try
             {
-                System.Collections.Generic.List<ServiceDataTypes.Person> persons = null;
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    persons = (
-                        from id in
-                            (
-                                from p in context.GetTable<SkrumManagerService.Person>()
-                                select p.PersonID
-                            ).AsEnumerable()
-                        let person = this.GetPersonByID(id)
-                        where person != null
-                        select person).ToList();
+                    var person = context.Persons.FirstOrDefault(p => p.PersonID == personID);
+                    person.Password = SkrumManagerService.ServiceHelper.HashPassword(password);
+                    context.SubmitChanges();
+                    return this.GetPersonByID(person.PersonID);
                 }
-                return persons;
             }
             catch (System.Exception e)
             {
@@ -428,31 +77,95 @@ namespace Users
             }
         }
 
-        /// <summary>
-        /// Gets a certain person, identified by its email.
-        /// </summary>
-        /// <param name="email">Email of the person to get</param>
-        /// <returns>The info about the email's owner.</returns>
+        public bool DeletePerson(int personID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var person = context.Persons.FirstOrDefault(p => p.PersonID == personID);
+                    context.Persons.DeleteOnSubmit(person);
+                    context.SubmitChanges();
+                    return true;
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public ServiceDataTypes.Person GetPersonByID(int personID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var person = context.Persons.FirstOrDefault(p => p.PersonID == personID);
+                    return new ServiceDataTypes.Person
+                    {
+                        Email = person.Email,
+                        JobDescription = person.JobDescription,
+                        Name = person.Name,
+                        Password = person.Password == null ? null : "",
+                        PersonID = person.PersonID,
+                        PhotoURL = person.PhotoURL,
+                        Roles = (
+                            from r in person.Roles
+                            select new ServiceDataTypes.Role
+                            {
+                                AssignedTime = r.AssignedTime,
+                                Password = r.Password == null ? null : "",
+                                PersonID = r.PersonID,
+                                ProjectID = r.ProjectID,
+                                RoleDescription = (ServiceDataTypes.RoleDescription)System.Enum.Parse(typeof(ServiceDataTypes.RoleDescription), r.RoleDescription.Description),
+                                RoleID = r.RoleID
+                            }
+                        ).ToList<ServiceDataTypes.Role>(),
+                        Tasks = (
+                            from t in person.PersonTasks
+                            select new ServiceDataTypes.Task
+                            {
+                                CreationDate = t.Task.CreationDate,
+                                Description = t.Task.Description,
+                                Estimation = t.Task.Estimation,
+                                StoryID = t.Task.StoryID,
+                                TaskID = t.Task.TaskID,
+                                State = (ServiceDataTypes.TaskState)System.Enum.Parse(typeof(ServiceDataTypes.TaskState), t.Task.TaskState.State),
+                                PersonTasks = (
+                                    from pt in t.Task.PersonTasks
+                                    select new ServiceDataTypes.PersonTask
+                                    {
+                                        CreationDate = pt.CreationDate,
+                                        PersonID = pt.PersonID,
+                                        PersonTaskID = pt.PersonTaskID,
+                                        SpentTime = pt.SpentTime,
+                                        TaskID = pt.TaskID
+                                    }
+                                ).ToList<ServiceDataTypes.PersonTask>()
+                            }
+                        ).ToList<ServiceDataTypes.Task>()
+                    };
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
         public ServiceDataTypes.Person GetPersonByEmail(string email)
         {
             try
             {
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    // Searches for the users email, case insensitive.
-                    var persons = context.GetTable<SkrumManagerService.Person>();
-                    var person = persons.FirstOrDefault(p => System.String.Compare(email, p.Email, System.StringComparison.OrdinalIgnoreCase) == 0);
-                    
-                    if (person == null)
-                    {
-                        // No user with that email was found, returns null.
-                        return null;
-                    }
-                    else
-                    {
-                        // User was found, returns its info.
-                        return this.GetPersonByID(person.PersonID);
-                    }
+                    var person = context.Persons.FirstOrDefault(p => System.String.Compare(p.Email, email, true) == 0);
+                    return this.GetPersonByID(person.PersonID);
                 }
             }
             catch (System.Exception e)
@@ -463,29 +176,64 @@ namespace Users
             }
         }
 
-
-        public ServiceDataTypes.Person GiveRole(ServiceDataTypes.Role role)
+        public ServiceDataTypes.Role CreateRole(ServiceDataTypes.Role role)
         {
             try
             {
-                // Return null if no role description is passed.
-                if (role.RoleDescription == ServiceDataTypes.RoleDescription.Null)
-                {
-                    return null;
-                }
-
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    var person = context.Persons.FirstOrDefault(p => p.PersonID == role.PersonID);
-                    person.Roles.Add(new SkrumManagerService.Role
+                    SkrumManagerService.Role created = new SkrumManagerService.Role
                     {
-                        AssignedTime = (int)role.AssignedTime,
-                        RoleDescription = context.RoleDescriptions.FirstOrDefault(rd => rd.Description == role.RoleDescription.ToString()),
-                        Password = role.Password,
-                        ProjectID = (int)role.ProjectID
-                    });
+                        AssignedTime = role.AssignedTime,
+                        Description = context.RoleDescriptions.FirstOrDefault(rd => rd.Description == role.RoleDescription.ToString()).RoleDescriptionID,
+                        Password = SkrumManagerService.ServiceHelper.HashPassword(role.Password),
+                        PersonID = role.PersonID,
+                        ProjectID = role.ProjectID,
+                    };
+                    context.Roles.InsertOnSubmit(created);
                     context.SubmitChanges();
-                    return this.GetPersonByID(person.PersonID);
+                    return this.GetRoleByID(created.RoleID);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Role UpdateRole(ServiceDataTypes.Role role)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var updated = context.Roles.FirstOrDefault(r => r.RoleID == role.RoleID);
+                    updated.AssignedTime = role.AssignedTime;
+                    updated.Description = context.RoleDescriptions.FirstOrDefault(rd => rd.Description == role.RoleDescription.ToString()).RoleDescriptionID;
+                    context.SubmitChanges();
+                    return this.GetRoleByID(updated.RoleID);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Role UpdateRolePassword(int roleID, string password)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var role = context.Roles.FirstOrDefault(r => r.RoleID == roleID);
+                    role.Password = SkrumManagerService.ServiceHelper.HashPassword(password);
+                    context.SubmitChanges();
+                    return this.GetRoleByID(role.RoleID);
                 }
             }
             catch (System.Exception e)
@@ -513,6 +261,197 @@ namespace Users
                 // Returns false if anything goes wrong.
                 System.Console.WriteLine(e.Message);
                 return false;
+            }
+        }
+
+        public ServiceDataTypes.Role GetRoleByID(int roleID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var role = context.Roles.FirstOrDefault(r => r.RoleID == roleID);
+                    return new ServiceDataTypes.Role
+                    {
+                        AssignedTime = role.AssignedTime,
+                        Password = role.Password == null ? null : "",
+                        PersonID = role.PersonID,
+                        ProjectID = role.ProjectID,
+                        RoleDescription = (ServiceDataTypes.RoleDescription)System.Enum.Parse(typeof(ServiceDataTypes.RoleDescription), role.RoleDescription.Description),
+                        RoleID = role.RoleID
+                    };
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public System.Collections.Generic.List<ServiceDataTypes.Person> GetAllPeopleInProject(int projectID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var project = context.Projects.FirstOrDefault(p => p.ProjectID == projectID);
+                    return (
+                        from id in (
+                            from r in project.Roles
+                            select r.PersonID
+                        ).Distinct().AsEnumerable()
+                        let person = this.GetPersonByID(id)
+                        where person != null
+                        select this.GetPersonByID(id)
+                    ).ToList<ServiceDataTypes.Person>();
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public System.Collections.Generic.List<ServiceDataTypes.Role> GetAllRolesInProject(int projectID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var project = context.Projects.FirstOrDefault(p => p.ProjectID == projectID);
+                    return (
+                        from r in project.Roles.AsEnumerable()
+                        let role = this.GetRoleByID(r.RoleID)
+                        where role != null
+                        select role
+                    ).ToList<ServiceDataTypes.Role>();
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public System.Collections.Generic.List<ServiceDataTypes.Person> GetAllPeople()
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    return (
+                        from p in context.Persons.AsEnumerable()
+                        let person = this.GetPersonByID(p.PersonID)
+                        where person != null
+                        select person
+                    ).ToList<ServiceDataTypes.Person>();
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public bool LoginAdmin(int personID, string password)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var person = context.Persons.FirstOrDefault(p => p.PersonID == personID);
+                    return person.Password == SkrumManagerService.ServiceHelper.HashPassword(password) && person.Password != null;
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns false if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public System.Collections.Generic.List<ServiceDataTypes.Task> GetAllTasksInPerson(int personID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    return this.GetPersonByID(personID).Tasks;
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public System.Collections.Generic.List<ServiceDataTypes.Role> GetAllRolesInPerson(int personID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    return this.GetPersonByID(personID).Roles;
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public bool LoginProjectAdmin(int roleID, string password)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var role = context.Roles.FirstOrDefault(r => r.RoleID == roleID);
+                    return role.Password == SkrumManagerService.ServiceHelper.HashPassword(password) && role.Password != null;
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns false if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+
+        public System.Collections.Generic.List<ServiceDataTypes.Person> GetAllPeopleWorkingInTask(int taskID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var task = context.Tasks.FirstOrDefault(t => t.TaskID == taskID);
+                    return (
+                       from pt in task.PersonTasks.AsEnumerable()
+                       let person = this.GetPersonByID(pt.PersonID)
+                       where person != null
+                       select person
+                    ).ToList<ServiceDataTypes.Person>();
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
             }
         }
     }

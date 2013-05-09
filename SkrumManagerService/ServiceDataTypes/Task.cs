@@ -8,13 +8,13 @@ namespace ServiceDataTypes
     [DataContract]
     public class Task
     {
-        private System.DateTime? creationDate;
+        private System.DateTime creationDate;
         private string description;
-        private int? estimation;
-        private int? personID;
+        private int estimation;
         private System.Collections.Generic.List<PersonTask> personTasks;
-        private int? storyID;
-        private int? taskID;
+        private TaskState state;
+        private int storyID;
+        private int taskID;
 
         /// <summary>
         /// Instantiates a task object.
@@ -27,7 +27,7 @@ namespace ServiceDataTypes
         /// Task's creation date.
         /// </summary>
         [DataMember]
-        public System.DateTime? CreationDate
+        public System.DateTime CreationDate
         {
             get { return this.creationDate; }
             set { this.creationDate = value; }
@@ -47,20 +47,10 @@ namespace ServiceDataTypes
         /// Task's estimation points.
         /// </summary>
         [DataMember]
-        public int? Estimation
+        public int Estimation
         {
             get { return this.estimation; }
             set { this.estimation = value; }
-        }
-
-        /// <summary>
-        /// ID of the person that owns this task.
-        /// </summary>
-        [DataMember]
-        public int? PersonID
-        {
-            get { return this.personID; }
-            set { this.personID = value; }
         }
 
         /// <summary>
@@ -74,10 +64,20 @@ namespace ServiceDataTypes
         }
 
         /// <summary>
+        /// Represents the task's state.
+        /// </summary>
+        [DataMember]
+        public TaskState State
+        {
+            get { return this.state; }
+            set { this.state = value; }
+        }
+
+        /// <summary>
         /// ID of the story that contains this task.
         /// </summary>
         [DataMember]
-        public int? StoryID
+        public int StoryID
         {
             get { return this.storyID; }
             set { this.storyID = value; }
@@ -87,7 +87,7 @@ namespace ServiceDataTypes
         /// Task's database ID.
         /// </summary>
         [DataMember]
-        public int? TaskID
+        public int TaskID
         {
             get { return this.taskID; }
             set { this.taskID = value; }

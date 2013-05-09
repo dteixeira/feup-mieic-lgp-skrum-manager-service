@@ -11,6 +11,484 @@ namespace Projects
         {
             try
             {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var created = new SkrumManagerService.Project
+                    {
+                        AlertLimit = project.AlertLimit,
+                        Name = project.Name,
+                        Password = SkrumManagerService.ServiceHelper.HashPassword(project.Password),
+                        Speed = project.Speed,
+                        SprintDuration = project.SprintDuration
+                    };
+                    context.Projects.InsertOnSubmit(created);
+                    context.SubmitChanges();
+                    return this.GetProjectByID(created.ProjectID);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Project UpdateProject(ServiceDataTypes.Project project)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var updated = context.Projects.FirstOrDefault(p => p.ProjectID == project.ProjectID);
+                    updated.AlertLimit = project.AlertLimit;
+                    updated.Name = project.Name;
+                    updated.Speed = project.Speed;
+                    updated.SprintDuration = project.SprintDuration;
+                    context.SubmitChanges();
+                    return this.GetProjectByID(updated.ProjectID);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Project UpdateProjectPassword(int projectID, string password)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var project = context.Projects.FirstOrDefault(p => p.ProjectID == projectID);
+                    project.Password = SkrumManagerService.ServiceHelper.HashPassword(password);
+                    context.SubmitChanges();
+                    return this.GetProjectByID(project.ProjectID);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public bool DeleteProject(int projectID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var project = context.Projects.FirstOrDefault(p => p.ProjectID == projectID);
+                    context.Projects.DeleteOnSubmit(project);
+                    context.SubmitChanges();
+                    return true;
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns false if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public ServiceDataTypes.Project GetProjectByID(int projectID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var project = context.Projects.FirstOrDefault(p => p.ProjectID == projectID);
+                    return new ServiceDataTypes.Project
+                    {
+                        AlertLimit = project.AlertLimit,
+                        Name = project.Name,
+                        Password = project.Password == null ? null : "",
+                        ProjectID = project.ProjectID,
+                        Speed = project.Speed,
+                        SprintDuration = project.SprintDuration,
+                        Meetings = (
+                            from m in project.Meetings.AsEnumerable()
+                            let meeting = this.GetMeetingByID(m.MeetingID)
+                            where meeting != null
+                            select meeting
+                        ).ToList<ServiceDataTypes.Meeting>(),
+                        Sprints = (
+                            from s in project.Sprints.AsEnumerable()
+                            let sprint = this.GetSprintByID(s.SprintID)
+                            where sprint != null
+                            select sprint
+                        ).ToList<ServiceDataTypes.Sprint>()
+                    };
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Project GetProjectByName(string name)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var project = context.Projects.FirstOrDefault(p => p.Name == name);
+                    return this.GetProjectByID(project.ProjectID);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Sprint CreateSprint(ServiceDataTypes.Sprint sprint)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var created = new SkrumManagerService.Sprint
+                    {
+                        BeginDate = sprint.BeginDate,
+                        Closed = sprint.Closed,
+                        EndDate = sprint.EndDate,
+                        Number = sprint.Number,
+                        ProjectID = sprint.ProjectID
+                    };
+                    context.Sprints.InsertOnSubmit(created);
+                    context.SubmitChanges();
+                    return this.GetSprintByID(created.SprintID);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public bool DeleteSprint(int sprintID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var sprint = context.Sprints.FirstOrDefault(s => s.SprintID == sprintID);
+                    context.Sprints.DeleteOnSubmit(sprint);
+                    context.SubmitChanges();
+                    return true;
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns false if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public ServiceDataTypes.Sprint UpdateSprint(ServiceDataTypes.Sprint sprint)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var updated = context.Sprints.FirstOrDefault(s => s.SprintID == sprint.SprintID);
+                    updated.BeginDate = sprint.BeginDate;
+                    updated.Closed = sprint.Closed;
+                    updated.EndDate = sprint.EndDate;
+                    updated.Number = sprint.Number;
+                    context.SubmitChanges();
+                    return this.GetSprintByID(updated.SprintID);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Sprint GetSprintByID(int sprintID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var sprint = context.Sprints.FirstOrDefault(s => s.SprintID == sprintID);
+                    return new ServiceDataTypes.Sprint
+                    {
+                        BeginDate = sprint.BeginDate,
+                        Closed = sprint.Closed,
+                        EndDate = sprint.EndDate,
+                        Number = sprint.Number,
+                        ProjectID = sprint.ProjectID,
+                        SprintID = sprint.SprintID,
+                        Stories = (
+                            from s in sprint.StorySprints.AsEnumerable()
+                            let story = this.GetStoryByID(s.StoryID)
+                            where story != null
+                            select story
+                        ).ToList<ServiceDataTypes.Story>()
+                    };
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Story CreateStory(ServiceDataTypes.Story story)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var previousStory = this.GetAllStoriesInProject(story.ProjectID).LastOrDefault();
+                    var created = new SkrumManagerService.Story
+                    {
+                        CreationDate = story.CreationDate,
+                        Description = story.Description,
+                        PreviousStory = previousStory == null ? null : (int?)previousStory.StoryID,
+                        ProjectID = story.ProjectID,
+                        State = context.StoryStates.FirstOrDefault(ss => ss.State == story.State.ToString()).StoryStateID
+                    };
+                    context.Stories.InsertOnSubmit(created);
+                    context.SubmitChanges();
+                    return this.GetStoryByID(created.StoryID);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public bool DeleteStory(int storyID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var story = context.Stories.FirstOrDefault(s => s.StoryID == storyID);
+                    context.Stories.DeleteOnSubmit(story);
+                    context.SubmitChanges();
+                    return true;
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns false if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public ServiceDataTypes.Story UpdateStory(ServiceDataTypes.Story story)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var updated = context.Stories.FirstOrDefault(s => s.StoryID == story.StoryID);
+                    updated.CreationDate = story.CreationDate;
+                    updated.Description = story.Description;
+                    updated.PreviousStory = story.PreviousStory;
+                    updated.State = context.StoryStates.FirstOrDefault(ss => ss.State == story.State.ToString()).StoryStateID;
+                    context.SubmitChanges();
+                    return this.GetStoryByID(updated.StoryID);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Story GetStoryByID(int storyID)
+        {
+            try
+            {
+                using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
+                {
+                    var story = context.Stories.FirstOrDefault(s => s.StoryID == storyID);
+                    return new ServiceDataTypes.Story
+                    {
+                        CreationDate = story.CreationDate,
+                        Description = story.Description,
+                        PreviousStory = story.PreviousStory,
+                        ProjectID = story.ProjectID,
+                        State = (ServiceDataTypes.StoryState)System.Enum.Parse(typeof(ServiceDataTypes.StoryState), story.StoryState.State),
+                        StoryID = story.StoryID,
+                        Tasks = (
+                            from t in story.Tasks.AsEnumerable()
+                            let task = this.GetTaskByID(t.TaskID)
+                            where task != null
+                            select task
+                        ).ToList<ServiceDataTypes.Task>(),
+                        StorySprints = (
+                            from ss in story.StorySprints
+                            select new ServiceDataTypes.StorySprint
+                            {
+                                Points = ss.Points,
+                                Priority = (ServiceDataTypes.StoryPriority)System.Enum.Parse(typeof(ServiceDataTypes.StoryPriority), ss.StoryPriority.Priority),
+                                SprintID = ss.SprintID,
+                                StoryID = ss.StoryID,
+                                StorySprintID = ss.StorySprintID
+                            }
+                        ).ToList<ServiceDataTypes.StorySprint>()
+                    };
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Returns null if anything goes wrong.
+                System.Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public ServiceDataTypes.Task CreateTask(ServiceDataTypes.Task task)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool DeleteTask(int taskID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ServiceDataTypes.Task UpdateTask(ServiceDataTypes.Task task)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ServiceDataTypes.Task GetTaskByID(int taskID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ServiceDataTypes.Meeting CreateMeeting(ServiceDataTypes.Meeting meeting)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool DeleteMeeting(int meetingID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ServiceDataTypes.Meeting UpdateMeeting(ServiceDataTypes.Meeting meeting)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ServiceDataTypes.Meeting GetMeetingByID(int meetingID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Project> GetAllProjects()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool LoginProject(int projectID, string password)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Sprint> GetAllSprintsInProject(int projectID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Story> GetAllStoriesInProject(int projectID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Task> GetAllTasksInProject(int projectID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Story> GetAllStoriesWithoutSprintInProject(int projectID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Meeting> GetAllMeetingsInProject(int projectID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Task> GetAllTasksInProjectByState(int projectID, ServiceDataTypes.TaskState state)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Story> GetAllStoriesInProjectByState(int projectID, ServiceDataTypes.StoryState state)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Story> GetAllStoriesInSprint(int sprintID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Task> GetAllTasksInSprint(int sprintID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ServiceDataTypes.StorySprint AddStoryInSprint(ServiceDataTypes.StorySprint storySprint)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Task> GetAllTasksInStory(int storyID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<ServiceDataTypes.Story> UpdateStoryOrder(int projectID, List<int> ordered)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ServiceDataTypes.PersonTask AddWorkInTask(ServiceDataTypes.PersonTask personTask)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /*
+        public ServiceDataTypes.Project CreateProject(ServiceDataTypes.Project project)
+        {
+            try
+            {
                 // Create a database project instance and assume some
                 // default values if they're not given.
                 SkrumManagerService.Project created = new SkrumManagerService.Project();
@@ -19,16 +497,32 @@ namespace Projects
                 created.Speed = project.Speed == null ? 1 : (int)project.Speed;
                 created.Name = project.Name;
 
-                // Hash the password if it exists.
-                if (project.Password != null)
+                if (project.PasswordProtected != null)
                 {
-                    System.Security.Cryptography.SHA512 sha512 = new System.Security.Cryptography.SHA512Managed();
-                    System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
-                    byte[] digest = sha512.ComputeHash(encoder.GetBytes(project.Password));
-                    sha512.Dispose();
-                    string password = System.BitConverter.ToString(digest);
-                    password = password.Replace("-", "");
-                    created.Password = password;
+                    created.PasswordProtected = (bool)project.PasswordProtected;
+                    if (created.PasswordProtected)
+                    {
+                        if (project.Password != null)
+                        {
+                            System.Security.Cryptography.SHA512 sha512 = new System.Security.Cryptography.SHA512Managed();
+                            System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
+                            byte[] digest = sha512.ComputeHash(encoder.GetBytes(project.Password));
+                            sha512.Dispose();
+                            string password = System.BitConverter.ToString(digest);
+                            password = password.Replace("-", "");
+                            created.Password = password;
+                        }
+                        else
+                        {
+                            // Return null if project is set as password protected but
+                            // no password is supplied.
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        created.Password = null;
+                    }
                 }
 
                 // Saves the project to the database.
@@ -147,15 +641,32 @@ namespace Projects
                         {
                             result.Speed = (int)project.Speed;
                         }
-                        if (project.Password != null)
+                        if (project.PasswordProtected != null)
                         {
-                            System.Security.Cryptography.SHA512 sha512 = new System.Security.Cryptography.SHA512Managed();
-                            System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
-                            byte[] digest = sha512.ComputeHash(encoder.GetBytes(project.Password));
-                            sha512.Dispose();
-                            string password = System.BitConverter.ToString(digest);
-                            password = password.Replace("-", "");
-                            result.Password = password;
+                            result.PasswordProtected = (bool)project.PasswordProtected;
+                            if (result.PasswordProtected)
+                            {
+                                if (project.Password != null)
+                                {
+                                    System.Security.Cryptography.SHA512 sha512 = new System.Security.Cryptography.SHA512Managed();
+                                    System.Text.ASCIIEncoding encoder = new System.Text.ASCIIEncoding();
+                                    byte[] digest = sha512.ComputeHash(encoder.GetBytes(project.Password));
+                                    sha512.Dispose();
+                                    string password = System.BitConverter.ToString(digest);
+                                    password = password.Replace("-", "");
+                                    result.Password = password;
+                                }
+                                else
+                                {
+                                    // Return null if project is set as password protected but
+                                    // no password is supplied.
+                                    return null;
+                                }
+                            }
+                            else
+                            {
+                                result.Password = null;
+                            }
                         }
 
                         // Update the person's information.
@@ -660,5 +1171,6 @@ namespace Projects
                 return null;
             }
         }
+         * */
     }
 }

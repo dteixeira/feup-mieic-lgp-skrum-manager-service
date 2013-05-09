@@ -5,11 +5,11 @@ namespace ServiceDataTypes
     [DataContract]
     public class Meeting
     {
-        private System.DateTime? date;
-        private int? meetingID;
+        private System.DateTime date;
+        private int meetingID;
         private string notes;
-        private int? number;
-        private int? projectID;
+        private int number;
+        private int projectID;
 
         /// <summary>
         /// Default constructor of the Meeting class.
@@ -22,7 +22,7 @@ namespace ServiceDataTypes
         /// Represents this Meetings date.
         /// </summary>
         [DataMember]
-        public System.DateTime? Date
+        public System.DateTime Date
         {
             get { return this.date; }
             set { this.date = value; }
@@ -32,7 +32,7 @@ namespace ServiceDataTypes
         /// The database ID of this Meeting.
         /// </summary>
         [DataMember]
-        public int? MeetingID
+        public int MeetingID
         {
             get { return this.meetingID; }
             set { this.meetingID = value; }
@@ -52,7 +52,7 @@ namespace ServiceDataTypes
         /// The sprint duration parameter for this project
         /// </summary>
         [DataMember]
-        public int? Number
+        public int Number
         {
             get { return this.number; }
             set { this.number = value; }
@@ -62,7 +62,7 @@ namespace ServiceDataTypes
         /// The Database ID of the project of this Meeting.
         /// </summary>
         [DataMember]
-        public int? ProjectID
+        public int ProjectID
         {
             get { return this.projectID; }
             set { this.projectID = value; }

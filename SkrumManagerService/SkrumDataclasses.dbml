@@ -1,18 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SkrumDB" Class="SkrumDataclassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=192.168.55.86;Initial Catalog=SkrumDB;Persist Security Info=True;User ID=Administrator" SettingsObjectName="SkrumManagerService.Properties.Settings" SettingsPropertyName="SkrumDBConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Task" Member="Tasks">
-    <Type Name="Task">
-      <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Estimation" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="StoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PersonID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="Task_PersonTask" Member="PersonTasks" ThisKey="TaskID" OtherKey="TaskID" Type="PersonTask" />
-      <Association Name="Person_Task" Member="Person" ThisKey="PersonID" OtherKey="PersonID" Type="Person" IsForeignKey="true" />
-      <Association Name="Story_Task" Member="Story" ThisKey="StoryID" OtherKey="StoryID" Type="Story" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Meeting" Member="Meetings">
     <Type Name="Meeting">
       <Column Name="MeetingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -23,16 +10,21 @@
       <Association Name="Project_Meeting" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.TaskState" Member="TaskStates">
+    <Type Name="TaskState">
+      <Column Name="TaskStateID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="State" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="TaskState_Task" Member="Tasks" ThisKey="TaskStateID" OtherKey="State" Type="Task" />
+    </Type>
+  </Table>
   <Table Name="dbo.Person" Member="Persons">
     <Type Name="Person">
       <Column Name="PersonID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
       <Column Name="PhotoURL" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
       <Column Name="Email" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
-      <Column Name="Admin" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="JobDescription" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="Password" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
-      <Association Name="Person_Task" Member="Tasks" ThisKey="PersonID" OtherKey="PersonID" Type="Task" />
       <Association Name="Person_PersonTask" Member="PersonTasks" ThisKey="PersonID" OtherKey="PersonID" Type="PersonTask" />
       <Association Name="Person_Role" Member="Roles" ThisKey="PersonID" OtherKey="PersonID" Type="Role" />
     </Type>
@@ -98,15 +90,13 @@
     <Type Name="Story">
       <Column Name="StoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="NextStory" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PreviousStory" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="State" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="Story_Task" Member="Tasks" ThisKey="StoryID" OtherKey="StoryID" Type="Task" />
-      <Association Name="Story_Story" Member="Stories" ThisKey="StoryID" OtherKey="NextStory" Type="Story" />
       <Association Name="Story_StorySprint" Member="StorySprints" ThisKey="StoryID" OtherKey="StoryID" Type="StorySprint" />
+      <Association Name="Story_Task" Member="Tasks" ThisKey="StoryID" OtherKey="StoryID" Type="Task" />
       <Association Name="Project_Story" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
-      <Association Name="Story_Story" Member="Story1" ThisKey="NextStory" OtherKey="StoryID" Type="Story" IsForeignKey="true" />
       <Association Name="StoryState_Story" Member="StoryState" ThisKey="State" OtherKey="StoryStateID" Type="StoryState" IsForeignKey="true" />
     </Type>
   </Table>
@@ -134,6 +124,19 @@
       <Column Name="StoryStateID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="State" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="StoryState_Story" Member="Stories" ThisKey="StoryStateID" OtherKey="State" Type="Story" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Task" Member="Tasks">
+    <Type Name="Task">
+      <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Estimation" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="State" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Task_PersonTask" Member="PersonTasks" ThisKey="TaskID" OtherKey="TaskID" Type="PersonTask" />
+      <Association Name="Story_Task" Member="Story" ThisKey="StoryID" OtherKey="StoryID" Type="Story" IsForeignKey="true" />
+      <Association Name="TaskState_Task" Member="TaskState" ThisKey="State" OtherKey="TaskStateID" Type="TaskState" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

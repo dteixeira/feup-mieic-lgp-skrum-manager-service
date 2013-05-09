@@ -7,4 +7,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="PersonTaskID" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="16a7a2d6-1e45-40fa-938a-ee83d040a4e2" ChangeDateTime="05/09/2013 10:47:55">
+    <Property Name="ElementName" Value="[dbo].[Project].[Private]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Project]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PasswordProtected" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="179ca296-7d0d-436f-a9a6-2484ceeefd4e" ChangeDateTime="05/09/2013 15:15:38">
+    <Property Name="ElementName" Value="[dbo].[TaskState].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TaskState]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TaskStateID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="939cb5e5-9f69-40bc-913b-715c9216c860" ChangeDateTime="05/09/2013 16:41:36">
+    <Property Name="ElementName" Value="[dbo].[Story].[NextStory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Story]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PreviousStory" />
+  </Operation>
 </Operations>

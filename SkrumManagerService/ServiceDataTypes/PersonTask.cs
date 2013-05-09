@@ -8,11 +8,11 @@ namespace ServiceDataTypes
     [DataContract]
     public class PersonTask
     {
-        private System.DateTime? creationDate;
-        private int? personID;
-        private int? personTaskID;
-        private double? spentTime;
-        private int? taskID;
+        private System.DateTime creationDate;
+        private int personID;
+        private int personTaskID;
+        private double spentTime;
+        private int taskID;
 
         /// <summary>
         /// Instantiates a task object.
@@ -25,7 +25,7 @@ namespace ServiceDataTypes
         /// Task's creation date.
         /// </summary>
         [DataMember]
-        public System.DateTime? CreationDate
+        public System.DateTime CreationDate
         {
             get { return this.creationDate; }
             set { this.creationDate = value; }
@@ -35,7 +35,7 @@ namespace ServiceDataTypes
         /// ID of the person that owns this task.
         /// </summary>
         [DataMember]
-        public int? PersonID
+        public int PersonID
         {
             get { return this.personID; }
             set { this.personID = value; }
@@ -45,7 +45,7 @@ namespace ServiceDataTypes
         /// PersonTask's database ID.
         /// </summary>
         [DataMember]
-        public int? PersonTaskID
+        public int PersonTaskID
         {
             get { return this.personTaskID; }
             set { this.personTaskID = value; }
@@ -55,7 +55,7 @@ namespace ServiceDataTypes
         /// Time that person spent on the task.
         /// </summary>
         [DataMember]
-        public double? SpentTime
+        public double SpentTime
         {
             get { return this.spentTime; }
             set { this.spentTime = value; }
@@ -65,7 +65,7 @@ namespace ServiceDataTypes
         /// ID of the task.
         /// </summary>
         [DataMember]
-        public int? TaskID
+        public int TaskID
         {
             get { return this.taskID; }
             set { this.taskID = value; }

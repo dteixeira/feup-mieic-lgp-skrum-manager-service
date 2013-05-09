@@ -8,12 +8,12 @@ namespace ServiceDataTypes
     [DataContract]
     public class Story
     {
-        private System.DateTime? creationDate;
+        private System.DateTime creationDate;
         private string description;
-        private int? nextStory;
-        private int? projectID;
+        private int? previousStory;
+        private int projectID;
         private ServiceDataTypes.StoryState state;
-        private int? storyID;
+        private int storyID;
         private System.Collections.Generic.List<StorySprint> storySprints;
         private System.Collections.Generic.List<Task> tasks;
 
@@ -28,7 +28,7 @@ namespace ServiceDataTypes
         /// Story's creation date.
         /// </summary>
         [DataMember]
-        public System.DateTime? CreationDate
+        public System.DateTime CreationDate
         {
             get { return this.creationDate; }
             set { this.creationDate = value; }
@@ -48,17 +48,17 @@ namespace ServiceDataTypes
         /// ID of the next story in order.
         /// </summary>
         [DataMember]
-        public int? NextStory
+        public int? PreviousStory
         {
-            get { return this.nextStory; }
-            set { this.nextStory = value; }
+            get { return this.previousStory; }
+            set { this.previousStory = value; }
         }
 
         /// <summary>
         /// ID of the project that contains this user story.
         /// </summary>
         [DataMember]
-        public int? ProjectID
+        public int ProjectID
         {
             get { return this.projectID; }
             set { this.projectID = value; }
@@ -78,7 +78,7 @@ namespace ServiceDataTypes
         /// Story's database ID.
         /// </summary>
         [DataMember]
-        public int? StoryID
+        public int StoryID
         {
             get { return this.storyID; }
             set { this.storyID = value; }

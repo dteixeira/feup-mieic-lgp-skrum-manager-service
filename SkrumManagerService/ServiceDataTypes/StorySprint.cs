@@ -8,11 +8,11 @@ namespace ServiceDataTypes
     [DataContract]
     public class StorySprint
     {
-        private int? points;
+        private int points;
         private ServiceDataTypes.StoryPriority priority;
-        private int? sprintID;
-        private int? storyID;
-        private int? storySprintID;
+        private int sprintID;
+        private int storyID;
+        private int storySprintID;
 
         /// <summary>
         /// Instantiates a task object.
@@ -25,7 +25,7 @@ namespace ServiceDataTypes
         /// Points given to the story in this sprint.
         /// </summary>
         [DataMember]
-        public int? Points
+        public int Points
         {
             get { return this.points; }
             set { this.points = value; }
@@ -45,7 +45,7 @@ namespace ServiceDataTypes
         /// Sprint's database ID.
         /// </summary>
         [DataMember]
-        public int? SprintID
+        public int SprintID
         {
             get { return this.sprintID; }
             set { this.sprintID = value; }
@@ -55,7 +55,7 @@ namespace ServiceDataTypes
         /// ID of the story that contains this task.
         /// </summary>
         [DataMember]
-        public int? StoryID
+        public int StoryID
         {
             get { return this.storyID; }
             set { this.storyID = value; }
@@ -65,7 +65,7 @@ namespace ServiceDataTypes
         /// StorySprint's database ID.
         /// </summary>
         [DataMember]
-        public int? StorySprintID
+        public int StorySprintID
         {
             get { return this.storySprintID; }
             set { this.storySprintID = value; }
