@@ -5,7 +5,7 @@ namespace ServiceDataTypes
     [DataContract]
     public class Meeting
     {
-        private System.DateTime date;
+        private System.DateTime? date;
         private int? meetingID;
         private string notes;
         private int? number;
@@ -22,7 +22,7 @@ namespace ServiceDataTypes
         /// Represents this Meetings date.
         /// </summary>
         [DataMember]
-        public System.DateTime Date
+        public System.DateTime? Date
         {
             get { return this.date; }
             set { this.date = value; }

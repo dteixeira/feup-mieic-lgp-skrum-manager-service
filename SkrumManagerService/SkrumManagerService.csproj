@@ -79,6 +79,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceDataTypes\PersonTask.cs" />
+    <Compile Include="ServiceDataTypes\StorySprint.cs" />
     <Compile Include="ServiceDataTypes\EnumerationTypes.cs" />
     <Compile Include="ServiceDataTypes\Meeting.cs" />
     <Compile Include="ServiceDataTypes\Person.cs" />

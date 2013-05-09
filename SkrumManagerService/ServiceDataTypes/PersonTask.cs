@@ -3,23 +3,21 @@ using System.Runtime.Serialization;
 namespace ServiceDataTypes
 {
     /// <summary>
-    /// Represents a task of a certain story.
+    /// Represents the amount of work someone put in a task.
     /// </summary>
     [DataContract]
-    public class Task
+    public class PersonTask
     {
         private System.DateTime? creationDate;
-        private string description;
-        private int? estimation;
         private int? personID;
-        private System.Collections.Generic.List<PersonTask> personTasks;
-        private int? storyID;
+        private int? personTaskID;
+        private double? spentTime;
         private int? taskID;
 
         /// <summary>
         /// Instantiates a task object.
         /// </summary>
-        public Task()
+        public PersonTask()
         {
         }
 
@@ -34,26 +32,6 @@ namespace ServiceDataTypes
         }
 
         /// <summary>
-        /// Task's description.
-        /// </summary>
-        [DataMember]
-        public string Description
-        {
-            get { return this.description; }
-            set { this.description = value; }
-        }
-
-        /// <summary>
-        /// Task's estimation points.
-        /// </summary>
-        [DataMember]
-        public int? Estimation
-        {
-            get { return this.estimation; }
-            set { this.estimation = value; }
-        }
-
-        /// <summary>
         /// ID of the person that owns this task.
         /// </summary>
         [DataMember]
@@ -64,27 +42,27 @@ namespace ServiceDataTypes
         }
 
         /// <summary>
-        /// Represents who worked in this task and how much they worked.
+        /// PersonTask's database ID.
         /// </summary>
         [DataMember]
-        public System.Collections.Generic.List<PersonTask> PersonTasks
+        public int? PersonTaskID
         {
-            get { return this.personTasks; }
-            set { this.personTasks = value; }
+            get { return this.personTaskID; }
+            set { this.personTaskID = value; }
         }
 
         /// <summary>
-        /// ID of the story that contains this task.
+        /// Time that person spent on the task.
         /// </summary>
         [DataMember]
-        public int? StoryID
+        public double? SpentTime
         {
-            get { return this.storyID; }
-            set { this.storyID = value; }
+            get { return this.spentTime; }
+            set { this.spentTime = value; }
         }
 
         /// <summary>
-        /// Task's database ID.
+        /// ID of the task.
         /// </summary>
         [DataMember]
         public int? TaskID

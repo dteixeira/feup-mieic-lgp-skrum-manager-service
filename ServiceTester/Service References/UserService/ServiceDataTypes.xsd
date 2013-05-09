@@ -23,15 +23,32 @@
   <xs:element name="ArrayOfTask" nillable="true" type="tns:ArrayOfTask" />
   <xs:complexType name="Task">
     <xs:sequence>
-      <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CreationDate" nillable="true" type="xs:dateTime" />
       <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Estimation" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="PersonID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PersonTasks" nillable="true" type="tns:ArrayOfPersonTask" />
       <xs:element minOccurs="0" name="StoryID" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="TaskID" nillable="true" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Task" nillable="true" type="tns:Task" />
+  <xs:complexType name="ArrayOfPersonTask">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PersonTask" nillable="true" type="tns:PersonTask" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPersonTask" nillable="true" type="tns:ArrayOfPersonTask" />
+  <xs:complexType name="PersonTask">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CreationDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PersonID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PersonTaskID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="SpentTime" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="TaskID" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PersonTask" nillable="true" type="tns:PersonTask" />
   <xs:complexType name="ArrayOfRole">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Role" nillable="true" type="tns:Role" />

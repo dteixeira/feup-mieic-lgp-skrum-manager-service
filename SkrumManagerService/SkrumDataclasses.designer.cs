@@ -30,12 +30,12 @@ namespace SkrumManagerService
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertMeeting(Meeting instance);
-    partial void UpdateMeeting(Meeting instance);
-    partial void DeleteMeeting(Meeting instance);
     partial void InsertTask(Task instance);
     partial void UpdateTask(Task instance);
     partial void DeleteTask(Task instance);
+    partial void InsertMeeting(Meeting instance);
+    partial void UpdateMeeting(Meeting instance);
+    partial void DeleteMeeting(Meeting instance);
     partial void InsertPerson(Person instance);
     partial void UpdatePerson(Person instance);
     partial void DeletePerson(Person instance);
@@ -98,19 +98,19 @@ namespace SkrumManagerService
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Meeting> Meetings
-		{
-			get
-			{
-				return this.GetTable<Meeting>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Task> Tasks
 		{
 			get
 			{
 				return this.GetTable<Task>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Meeting> Meetings
+		{
+			get
+			{
+				return this.GetTable<Meeting>();
 			}
 		}
 		
@@ -191,205 +191,6 @@ namespace SkrumManagerService
 			get
 			{
 				return this.GetTable<StoryState>();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Meeting")]
-	public partial class Meeting : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _MeetingID;
-		
-		private System.DateTime _Date;
-		
-		private int _Number;
-		
-		private string _Notes;
-		
-		private int _ProjectID;
-		
-		private EntityRef<Project> _Project;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnMeetingIDChanging(int value);
-    partial void OnMeetingIDChanged();
-    partial void OnDateChanging(System.DateTime value);
-    partial void OnDateChanged();
-    partial void OnNumberChanging(int value);
-    partial void OnNumberChanged();
-    partial void OnNotesChanging(string value);
-    partial void OnNotesChanged();
-    partial void OnProjectIDChanging(int value);
-    partial void OnProjectIDChanged();
-    #endregion
-		
-		public Meeting()
-		{
-			this._Project = default(EntityRef<Project>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MeetingID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int MeetingID
-		{
-			get
-			{
-				return this._MeetingID;
-			}
-			set
-			{
-				if ((this._MeetingID != value))
-				{
-					this.OnMeetingIDChanging(value);
-					this.SendPropertyChanging();
-					this._MeetingID = value;
-					this.SendPropertyChanged("MeetingID");
-					this.OnMeetingIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
-		public System.DateTime Date
-		{
-			get
-			{
-				return this._Date;
-			}
-			set
-			{
-				if ((this._Date != value))
-				{
-					this.OnDateChanging(value);
-					this.SendPropertyChanging();
-					this._Date = value;
-					this.SendPropertyChanged("Date");
-					this.OnDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
-		public int Number
-		{
-			get
-			{
-				return this._Number;
-			}
-			set
-			{
-				if ((this._Number != value))
-				{
-					this.OnNumberChanging(value);
-					this.SendPropertyChanging();
-					this._Number = value;
-					this.SendPropertyChanged("Number");
-					this.OnNumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Notes", DbType="NText", UpdateCheck=UpdateCheck.Never)]
-		public string Notes
-		{
-			get
-			{
-				return this._Notes;
-			}
-			set
-			{
-				if ((this._Notes != value))
-				{
-					this.OnNotesChanging(value);
-					this.SendPropertyChanging();
-					this._Notes = value;
-					this.SendPropertyChanged("Notes");
-					this.OnNotesChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProjectID", DbType="Int NOT NULL")]
-		public int ProjectID
-		{
-			get
-			{
-				return this._ProjectID;
-			}
-			set
-			{
-				if ((this._ProjectID != value))
-				{
-					if (this._Project.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnProjectIDChanging(value);
-					this.SendPropertyChanging();
-					this._ProjectID = value;
-					this.SendPropertyChanged("ProjectID");
-					this.OnProjectIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_Meeting", Storage="_Project", ThisKey="ProjectID", OtherKey="ProjectID", IsForeignKey=true)]
-		public Project Project
-		{
-			get
-			{
-				return this._Project.Entity;
-			}
-			set
-			{
-				Project previousValue = this._Project.Entity;
-				if (((previousValue != value) 
-							|| (this._Project.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Project.Entity = null;
-						previousValue.Meetings.Remove(this);
-					}
-					this._Project.Entity = value;
-					if ((value != null))
-					{
-						value.Meetings.Add(this);
-						this._ProjectID = value.ProjectID;
-					}
-					else
-					{
-						this._ProjectID = default(int);
-					}
-					this.SendPropertyChanged("Project");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -683,6 +484,205 @@ namespace SkrumManagerService
 		{
 			this.SendPropertyChanging();
 			entity.Task = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Meeting")]
+	public partial class Meeting : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MeetingID;
+		
+		private System.DateTime _Date;
+		
+		private int _Number;
+		
+		private string _Notes;
+		
+		private int _ProjectID;
+		
+		private EntityRef<Project> _Project;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMeetingIDChanging(int value);
+    partial void OnMeetingIDChanged();
+    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanged();
+    partial void OnNumberChanging(int value);
+    partial void OnNumberChanged();
+    partial void OnNotesChanging(string value);
+    partial void OnNotesChanged();
+    partial void OnProjectIDChanging(int value);
+    partial void OnProjectIDChanged();
+    #endregion
+		
+		public Meeting()
+		{
+			this._Project = default(EntityRef<Project>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MeetingID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MeetingID
+		{
+			get
+			{
+				return this._MeetingID;
+			}
+			set
+			{
+				if ((this._MeetingID != value))
+				{
+					this.OnMeetingIDChanging(value);
+					this.SendPropertyChanging();
+					this._MeetingID = value;
+					this.SendPropertyChanged("MeetingID");
+					this.OnMeetingIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
+		public int Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this.OnNumberChanging(value);
+					this.SendPropertyChanging();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Notes", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string Notes
+		{
+			get
+			{
+				return this._Notes;
+			}
+			set
+			{
+				if ((this._Notes != value))
+				{
+					this.OnNotesChanging(value);
+					this.SendPropertyChanging();
+					this._Notes = value;
+					this.SendPropertyChanged("Notes");
+					this.OnNotesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProjectID", DbType="Int NOT NULL")]
+		public int ProjectID
+		{
+			get
+			{
+				return this._ProjectID;
+			}
+			set
+			{
+				if ((this._ProjectID != value))
+				{
+					if (this._Project.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnProjectIDChanging(value);
+					this.SendPropertyChanging();
+					this._ProjectID = value;
+					this.SendPropertyChanged("ProjectID");
+					this.OnProjectIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_Meeting", Storage="_Project", ThisKey="ProjectID", OtherKey="ProjectID", IsForeignKey=true)]
+		public Project Project
+		{
+			get
+			{
+				return this._Project.Entity;
+			}
+			set
+			{
+				Project previousValue = this._Project.Entity;
+				if (((previousValue != value) 
+							|| (this._Project.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Project.Entity = null;
+						previousValue.Meetings.Remove(this);
+					}
+					this._Project.Entity = value;
+					if ((value != null))
+					{
+						value.Meetings.Add(this);
+						this._ProjectID = value.ProjectID;
+					}
+					else
+					{
+						this._ProjectID = default(int);
+					}
+					this.SendPropertyChanged("Project");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -982,13 +982,13 @@ namespace SkrumManagerService
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _PersonTaskId;
+		private int _PersonTaskID;
 		
 		private int _TaskID;
 		
 		private int _PersonID;
 		
-		private int _SpentTime;
+		private double _SpentTime;
 		
 		private System.DateTime _CreationDate;
 		
@@ -1000,13 +1000,13 @@ namespace SkrumManagerService
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnPersonTaskIdChanging(int value);
-    partial void OnPersonTaskIdChanged();
+    partial void OnPersonTaskIDChanging(int value);
+    partial void OnPersonTaskIDChanged();
     partial void OnTaskIDChanging(int value);
     partial void OnTaskIDChanged();
     partial void OnPersonIDChanging(int value);
     partial void OnPersonIDChanged();
-    partial void OnSpentTimeChanging(int value);
+    partial void OnSpentTimeChanging(double value);
     partial void OnSpentTimeChanged();
     partial void OnCreationDateChanging(System.DateTime value);
     partial void OnCreationDateChanged();
@@ -1019,22 +1019,22 @@ namespace SkrumManagerService
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonTaskId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int PersonTaskId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonTaskID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int PersonTaskID
 		{
 			get
 			{
-				return this._PersonTaskId;
+				return this._PersonTaskID;
 			}
 			set
 			{
-				if ((this._PersonTaskId != value))
+				if ((this._PersonTaskID != value))
 				{
-					this.OnPersonTaskIdChanging(value);
+					this.OnPersonTaskIDChanging(value);
 					this.SendPropertyChanging();
-					this._PersonTaskId = value;
-					this.SendPropertyChanged("PersonTaskId");
-					this.OnPersonTaskIdChanged();
+					this._PersonTaskID = value;
+					this.SendPropertyChanged("PersonTaskID");
+					this.OnPersonTaskIDChanged();
 				}
 			}
 		}
@@ -1087,8 +1087,8 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SpentTime", DbType="Int NOT NULL")]
-		public int SpentTime
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SpentTime", DbType="Float NOT NULL")]
+		public double SpentTime
 		{
 			get
 			{
@@ -1941,7 +1941,7 @@ namespace SkrumManagerService
 		
 		private System.DateTime _BeginDate;
 		
-		private System.DateTime _EndDate;
+		private System.Nullable<System.DateTime> _EndDate;
 		
 		private bool _Closed;
 		
@@ -1961,7 +1961,7 @@ namespace SkrumManagerService
     partial void OnNumberChanged();
     partial void OnBeginDateChanging(System.DateTime value);
     partial void OnBeginDateChanged();
-    partial void OnEndDateChanging(System.DateTime value);
+    partial void OnEndDateChanging(System.Nullable<System.DateTime> value);
     partial void OnEndDateChanged();
     partial void OnClosedChanging(bool value);
     partial void OnClosedChanged();
@@ -2036,8 +2036,8 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime NOT NULL")]
-		public System.DateTime EndDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> EndDate
 		{
 			get
 			{

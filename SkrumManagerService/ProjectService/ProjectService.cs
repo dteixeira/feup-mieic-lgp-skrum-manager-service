@@ -200,9 +200,9 @@ namespace Projects
                 {
                     var created = new SkrumManagerService.Sprint
                     {
-                        BeginDate = sprint.BeginDate,
+                        BeginDate = (System.DateTime)sprint.BeginDate,
                         Closed = (bool)sprint.Closed,
-                        EndDate = sprint.EndDate,
+                        EndDate = (System.DateTime)sprint.EndDate,
                         Number = (int)sprint.Number,
                         ProjectID = (int)sprint.ProjectID
                     };
@@ -248,7 +248,7 @@ namespace Projects
                     var updated = context.Sprints.FirstOrDefault(s => s.SprintID == sprint.SprintID);
                     if (sprint.BeginDate != null)
                     {
-                        updated.BeginDate = sprint.BeginDate;
+                        updated.BeginDate = (System.DateTime)sprint.BeginDate;
                     }
                     if (sprint.Closed != null)
                     {
@@ -314,7 +314,7 @@ namespace Projects
                 {
                     var created = new SkrumManagerService.Meeting
                     {
-                        Date = meeting.Date,
+                        Date = (System.DateTime)meeting.Date,
                         Notes = meeting.Notes,
                         Number = (int)meeting.Number,
                         ProjectID = (int)meeting.ProjectID
@@ -365,7 +365,7 @@ namespace Projects
                     }
                     if (meeting.Date != null)
                     {
-                        updated.Date = meeting.Date;
+                        updated.Date = (System.DateTime)meeting.Date;
                     }
                     if (meeting.Number != null)
                     {
@@ -508,7 +508,18 @@ namespace Projects
                             let task = this.GetTaskByID(t.TaskID)
                             where task != null
                             select task
-                        ).ToList<ServiceDataTypes.Task>()
+                        ).ToList<ServiceDataTypes.Task>(),
+                        StorySprints = (
+                            from ss in story.StorySprints
+                            select new ServiceDataTypes.StorySprint
+                            {
+                                Points = ss.Points,
+                                Priority = (ServiceDataTypes.StoryPriority)System.Enum.Parse(typeof(ServiceDataTypes.StoryPriority), ss.StoryPriority.Priority),
+                                SprintID = ss.SprintID,
+                                StoryID = ss.StoryID,
+                                StorySprintID = ss.StorySprintID
+                            }
+                        ).ToList<ServiceDataTypes.StorySprint>()
                     };
                 }
             }
@@ -549,7 +560,18 @@ namespace Projects
                         Estimation = task.Estimation,
                         PersonID = task.PersonID,
                         StoryID = task.StoryID,
-                        TaskID = task.TaskID
+                        TaskID = task.TaskID,
+                        PersonTasks = (
+                            from pt in task.PersonTasks
+                            select new ServiceDataTypes.PersonTask
+                            {
+                                CreationDate = pt.CreationDate,
+                                PersonID = pt.PersonID,
+                                PersonTaskID = pt.PersonTaskID,
+                                SpentTime = pt.SpentTime,
+                                TaskID = pt.TaskID
+                            }
+                        ).ToList<ServiceDataTypes.PersonTask>()
                     };
                 }
             }

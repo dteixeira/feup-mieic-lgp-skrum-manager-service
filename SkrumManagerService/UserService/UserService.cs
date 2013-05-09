@@ -168,7 +168,7 @@ namespace Users
                             ProjectID = p.ProjectID,
                             RoleDescription = (ServiceDataTypes.RoleDescription)System.Enum.Parse(typeof(ServiceDataTypes.RoleDescription), p.RoleDescription.Description),
                             RoleID = p.RoleID
-                        })).ToList();
+                        })).ToList<ServiceDataTypes.Role>();
 
                         // Generate owned tasks.
                         person.OwnedTasks = (result.Tasks.Select(p => new ServiceDataTypes.Task
@@ -178,8 +178,19 @@ namespace Users
                             Estimation = p.Estimation,
                             PersonID = p.PersonID,
                             StoryID = p.StoryID,
-                            TaskID = p.TaskID
-                        })).ToList();
+                            TaskID = p.TaskID,
+                            PersonTasks = (
+                                from pt in p.PersonTasks
+                                select new ServiceDataTypes.PersonTask
+                                {
+                                    CreationDate = pt.CreationDate,
+                                    PersonID = pt.PersonID,
+                                    PersonTaskID = pt.PersonTaskID,
+                                    SpentTime = pt.SpentTime,
+                                    TaskID = pt.TaskID
+                                }
+                            ).ToList<ServiceDataTypes.PersonTask>()
+                        })).ToList<ServiceDataTypes.Task>();
 
                         // Generate associated tasks.
                         var personTasks = context.GetTable<SkrumManagerService.PersonTask>();
@@ -190,8 +201,19 @@ namespace Users
                             Estimation = p.Task.Estimation,
                             PersonID = p.Task.PersonID,
                             StoryID = p.Task.StoryID,
-                            TaskID = p.Task.TaskID
-                        }).ToList();
+                            TaskID = p.Task.TaskID,
+                            PersonTasks = (
+                                from pt in p.Task.PersonTasks
+                                select new ServiceDataTypes.PersonTask
+                                {
+                                    CreationDate = pt.CreationDate,
+                                    PersonID = pt.PersonID,
+                                    PersonTaskID = pt.PersonTaskID,
+                                    SpentTime = pt.SpentTime,
+                                    TaskID = pt.TaskID
+                                }
+                            ).ToList<ServiceDataTypes.PersonTask>()
+                        }).ToList<ServiceDataTypes.Task>();
 
                         // Returns the person's info.
                         return person;
@@ -446,6 +468,12 @@ namespace Users
         {
             try
             {
+                // Return null if no role description is passed.
+                if (role.RoleDescription == ServiceDataTypes.RoleDescription.Null)
+                {
+                    return null;
+                }
+
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
                     var person = context.Persons.FirstOrDefault(p => p.PersonID == role.PersonID);

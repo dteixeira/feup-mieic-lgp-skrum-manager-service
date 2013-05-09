@@ -8,12 +8,13 @@ namespace ServiceDataTypes
     [DataContract]
     public class Story
     {
-        private System.DateTime creationDate;
+        private System.DateTime? creationDate;
         private string description;
         private int? nextStory;
         private int? projectID;
         private ServiceDataTypes.StoryState state;
         private int? storyID;
+        private System.Collections.Generic.List<StorySprint> storySprints;
         private System.Collections.Generic.List<Task> tasks;
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace ServiceDataTypes
         /// Story's creation date.
         /// </summary>
         [DataMember]
-        public System.DateTime CreationDate
+        public System.DateTime? CreationDate
         {
             get { return this.creationDate; }
             set { this.creationDate = value; }
@@ -81,6 +82,17 @@ namespace ServiceDataTypes
         {
             get { return this.storyID; }
             set { this.storyID = value; }
+        }
+
+        /// <summary>
+        /// Represents the priority and points given to the story
+        /// in a specific sprint.
+        /// </summary>
+        [DataMember]
+        public System.Collections.Generic.List<StorySprint> StorySprints
+        {
+            get { return this.storySprints; }
+            set { this.storySprints = value; }
         }
 
         /// <summary>

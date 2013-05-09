@@ -5,9 +5,9 @@ namespace ServiceDataTypes
     [DataContract]
     public class Sprint
     {
-        private System.DateTime beginDate;
+        private System.DateTime? beginDate;
         private bool? closed;
-        private System.DateTime endDate;
+        private System.DateTime? endDate;
         private int? number;
         private int? projectID;
         private int? sprintID;
@@ -24,7 +24,7 @@ namespace ServiceDataTypes
         /// The begining date for the project
         /// </summary>
         [DataMember]
-        public System.DateTime BeginDate
+        public System.DateTime? BeginDate
         {
             get { return this.beginDate; }
             set { this.beginDate = value; }
@@ -44,7 +44,7 @@ namespace ServiceDataTypes
         /// The end date for the sprint
         /// </summary>
         [DataMember]
-        public System.DateTime EndDate
+        public System.DateTime? EndDate
         {
             get { return this.endDate; }
             set { this.endDate = value; }

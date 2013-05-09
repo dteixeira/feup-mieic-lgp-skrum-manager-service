@@ -1,15 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SkrumDB" Class="SkrumDataclassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=192.168.55.86;Initial Catalog=SkrumDB;Persist Security Info=True;User ID=Administrator" SettingsObjectName="SkrumManagerService.Properties.Settings" SettingsPropertyName="SkrumDBConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Meeting" Member="Meetings">
-    <Type Name="Meeting">
-      <Column Name="MeetingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Notes" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Project_Meeting" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Task" Member="Tasks">
     <Type Name="Task">
       <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -21,6 +11,16 @@
       <Association Name="Task_PersonTask" Member="PersonTasks" ThisKey="TaskID" OtherKey="TaskID" Type="PersonTask" />
       <Association Name="Person_Task" Member="Person" ThisKey="PersonID" OtherKey="PersonID" Type="Person" IsForeignKey="true" />
       <Association Name="Story_Task" Member="Story" ThisKey="StoryID" OtherKey="StoryID" Type="Story" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Meeting" Member="Meetings">
+    <Type Name="Meeting">
+      <Column Name="MeetingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Notes" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Project_Meeting" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Person" Member="Persons">
@@ -39,10 +39,10 @@
   </Table>
   <Table Name="dbo.PersonTask" Member="PersonTasks">
     <Type Name="PersonTask">
-      <Column Name="PersonTaskId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PersonTaskID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="PersonID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SpentTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SpentTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Person_PersonTask" Member="Person" ThisKey="PersonID" OtherKey="PersonID" Type="Person" IsForeignKey="true" />
       <Association Name="Task_PersonTask" Member="Task" ThisKey="TaskID" OtherKey="TaskID" Type="Task" IsForeignKey="true" />
@@ -87,7 +87,7 @@
       <Column Name="SprintID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="BeginDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Closed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Sprint_StorySprint" Member="StorySprints" ThisKey="SprintID" OtherKey="SprintID" Type="StorySprint" />
