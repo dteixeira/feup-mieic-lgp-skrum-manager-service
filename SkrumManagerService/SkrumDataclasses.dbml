@@ -31,9 +31,8 @@
   </Table>
   <Table Name="dbo.PersonTask" Member="PersonTasks">
     <Type Name="PersonTask">
-      <Column Name="PersonTaskID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PersonID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PersonID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="SpentTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Person_PersonTask" Member="Person" ThisKey="PersonID" OtherKey="PersonID" Type="Person" IsForeignKey="true" />
@@ -94,9 +93,11 @@
       <Column Name="State" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Story_Story" Member="Stories" ThisKey="StoryID" OtherKey="PreviousStory" Type="Story" />
       <Association Name="Story_StorySprint" Member="StorySprints" ThisKey="StoryID" OtherKey="StoryID" Type="StorySprint" />
       <Association Name="Story_Task" Member="Tasks" ThisKey="StoryID" OtherKey="StoryID" Type="Task" />
       <Association Name="Project_Story" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
+      <Association Name="Story_Story" Member="Story1" ThisKey="PreviousStory" OtherKey="StoryID" Type="Story" IsForeignKey="true" />
       <Association Name="StoryState_Story" Member="StoryState" ThisKey="State" OtherKey="StoryStateID" Type="StoryState" IsForeignKey="true" />
     </Type>
   </Table>
@@ -109,11 +110,10 @@
   </Table>
   <Table Name="dbo.StorySprint" Member="StorySprints">
     <Type Name="StorySprint">
-      <Column Name="StorySprintID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Priority" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Points" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="StoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SprintID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StoryID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SprintID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Sprint_StorySprint" Member="Sprint" ThisKey="SprintID" OtherKey="SprintID" Type="Sprint" IsForeignKey="true" />
       <Association Name="Story_StorySprint" Member="Story" ThisKey="StoryID" OtherKey="StoryID" Type="Story" IsForeignKey="true" />
       <Association Name="StoryPriority_StorySprint" Member="StoryPriority" ThisKey="Priority" OtherKey="StoryPriorityID" Type="StoryPriority" IsForeignKey="true" />

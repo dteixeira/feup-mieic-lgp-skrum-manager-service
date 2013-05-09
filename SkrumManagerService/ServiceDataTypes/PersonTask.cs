@@ -10,7 +10,6 @@ namespace ServiceDataTypes
     {
         private System.DateTime creationDate;
         private int personID;
-        private int personTaskID;
         private double spentTime;
         private int taskID;
 
@@ -39,16 +38,6 @@ namespace ServiceDataTypes
         {
             get { return this.personID; }
             set { this.personID = value; }
-        }
-
-        /// <summary>
-        /// PersonTask's database ID.
-        /// </summary>
-        [DataMember]
-        public int PersonTaskID
-        {
-            get { return this.personTaskID; }
-            set { this.personTaskID = value; }
         }
 
         /// <summary>

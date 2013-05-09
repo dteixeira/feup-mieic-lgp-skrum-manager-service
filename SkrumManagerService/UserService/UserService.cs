@@ -140,7 +140,6 @@ namespace Users
                                     {
                                         CreationDate = pt.CreationDate,
                                         PersonID = pt.PersonID,
-                                        PersonTaskID = pt.PersonTaskID,
                                         SpentTime = pt.SpentTime,
                                         TaskID = pt.TaskID
                                     }

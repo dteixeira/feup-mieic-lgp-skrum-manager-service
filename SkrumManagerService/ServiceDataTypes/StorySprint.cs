@@ -12,7 +12,6 @@ namespace ServiceDataTypes
         private ServiceDataTypes.StoryPriority priority;
         private int sprintID;
         private int storyID;
-        private int storySprintID;
 
         /// <summary>
         /// Instantiates a task object.
@@ -59,16 +58,6 @@ namespace ServiceDataTypes
         {
             get { return this.storyID; }
             set { this.storyID = value; }
-        }
-
-        /// <summary>
-        /// StorySprint's database ID.
-        /// </summary>
-        [DataMember]
-        public int StorySprintID
-        {
-            get { return this.storySprintID; }
-            set { this.storySprintID = value; }
         }
     }
 }
