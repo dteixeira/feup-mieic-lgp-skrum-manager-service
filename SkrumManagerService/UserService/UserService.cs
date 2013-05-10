@@ -7,6 +7,11 @@ namespace Users
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class UserService : IUserService
     {
+        /// <summary>
+        /// Creates a new person in the database.
+        /// </summary>
+        /// <param name="person">Contains the information of the person to be created.</param>
+        /// <returns>Created persons information</returns>
         public ServiceDataTypes.Person CreatePerson(ServiceDataTypes.Person person)
         {
             try
@@ -34,6 +39,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Updates a person record on the database.
+        /// </summary>
+        /// <param name="person">Contains the new data of the person.</param>
+        /// <returns>Updated persons information</returns>
         public ServiceDataTypes.Person UpdatePerson(ServiceDataTypes.Person person)
         {
             try
@@ -57,6 +67,12 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Updates the password of a person in the database.
+        /// </summary>
+        /// <param name="personID">The ID of the person to be updated</param>
+        /// <param name="password">The new password for the person</param>
+        /// <returns>Updated persons information</returns>
         public ServiceDataTypes.Person UpdatePersonPassword(int personID, string password)
         {
             try
@@ -77,6 +93,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Deletes a person in the database.
+        /// </summary>
+        /// <param name="personID">The ID of the person to be deleted.</param>
+        /// <returns>True if the deleting is successful, false otherwise</returns>
         public bool DeletePerson(int personID)
         {
             try
@@ -97,6 +118,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Returns the information of a person in the database, searching by its ID.
+        /// </summary>
+        /// <param name="personID">The Id of the person to be searched.</param>
+        /// <returns>The information of the person if found, null otherwise</returns>
         public ServiceDataTypes.Person GetPersonByID(int personID)
         {
             try
@@ -157,6 +183,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Returns the information of a person in the database, searching by its email.
+        /// </summary>
+        /// <param name="email">The email address of the person to be searched.</param>
+        /// <returns>The information of the person if found, null otherwise</returns>
         public ServiceDataTypes.Person GetPersonByEmail(string email)
         {
             try
@@ -175,6 +206,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Creates a new role (Skrum Master, Team Member, Owner...) in the database.
+        /// </summary>
+        /// <param name="role">Contains the information of the role to be created.</param>
+        /// <returns>Created roles information</returns>
         public ServiceDataTypes.Role CreateRole(ServiceDataTypes.Role role)
         {
             try
@@ -202,6 +238,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Updates a role record on the database.
+        /// </summary>
+        /// <param name="role">Contains the new data of the role.</param>
+        /// <returns>Updated roles information</returns>
         public ServiceDataTypes.Role UpdateRole(ServiceDataTypes.Role role)
         {
             try
@@ -223,6 +264,12 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Updates the password of a role in the database.
+        /// </summary>
+        /// <param name="roleID">The ID of the role to be updated</param>
+        /// <param name="password">The new password for the role</param>
+        /// <returns>Updated roles information</returns>
         public ServiceDataTypes.Role UpdateRolePassword(int roleID, string password)
         {
             try
@@ -243,6 +290,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Deletes a role in the database.
+        /// </summary>
+        /// <param name="roleID">The ID of the role to be deleted.</param>
+        /// <returns>True if the deleting is successful, false otherwise</returns>
         public bool DeleteRole(int roleID)
         {
             try
@@ -263,6 +315,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Returns the information of a role in the database, searching by its ID.
+        /// </summary>
+        /// <param name="roleID">The Id of the role to be searched.</param>
+        /// <returns>The information of the role if found, null otherwise</returns>
         public ServiceDataTypes.Role GetRoleByID(int roleID)
         {
             try
@@ -289,6 +346,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Get all the persons involved in a given project
+        /// </summary>
+        /// <param name="projectID">Contains the ID of the project to be searched.</param>
+        /// <returns>A List containing all the persons in the desired project, if found, null otherwise</returns>
         public System.Collections.Generic.List<ServiceDataTypes.Person> GetAllPeopleInProject(int projectID)
         {
             try
@@ -315,6 +377,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Get all the roles in a given project
+        /// </summary>
+        /// <param name="projectID">Contains the ID of the project to be searched.</param>
+        /// <returns>A List containing all the roles in the desired project, if found, null otherwise</returns>
         public System.Collections.Generic.List<ServiceDataTypes.Role> GetAllRolesInProject(int projectID)
         {
             try
@@ -338,6 +405,10 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Returns all the people in the system
+        /// </summary>
+        /// <returns>A List with the information about every person, if any. Null otherwise</returns>
         public System.Collections.Generic.List<ServiceDataTypes.Person> GetAllPeople()
         {
             try
@@ -360,6 +431,12 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Verifies if a given password is the real password of a given user
+        /// </summary>
+        /// <param name="personID">The ID of the desired user</param>
+        /// <param name="password"> Contains the password sent by the client</param>
+        /// <returns>True if the password is the correct one, false otherwise</returns>
         public bool LoginAdmin(int personID, string password)
         {
             try
@@ -378,6 +455,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Get all the tasks where a person is involved
+        /// </summary>
+        /// <param name="personID">Contains the ID of the person to be searched.</param>
+        /// <returns>A List containing all the tasks in which the person is involved, if found, null otherwise</returns>
         public System.Collections.Generic.List<ServiceDataTypes.Task> GetAllTasksInPerson(int personID)
         {
             try
@@ -395,6 +477,11 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Get all the roles associated to a single person
+        /// </summary>
+        /// <param name="personID">Contains the ID of the person to be searched.</param>
+        /// <returns>A List containing all the roles of the desired person, if found, null otherwise</returns>
         public System.Collections.Generic.List<ServiceDataTypes.Role> GetAllRolesInPerson(int personID)
         {
             try
@@ -412,6 +499,12 @@ namespace Users
             }
         }
 
+        /// <summary>
+        /// Verifies if a given password is the password of the admin of a project / of a given role
+        /// </summary>
+        /// <param name="roleID">The ID of the desired role</param>
+        /// <param name="password"> Contains the password sent by the client</param>
+        /// <returns>True if the password is the correct one, false otherwise</returns>
         public bool LoginProjectAdmin(int roleID, string password)
         {
             try
@@ -430,7 +523,11 @@ namespace Users
             }
         }
 
-
+        /// <summary>
+        /// Get all the persons involved in a given task
+        /// </summary>
+        /// <param name="taskID">Contains the ID of the task to be searched.</param>
+        /// <returns>A List containing all the persons associated to the task, if found, null otherwise</returns>
         public System.Collections.Generic.List<ServiceDataTypes.Person> GetAllPeopleWorkingInTask(int taskID)
         {
             try

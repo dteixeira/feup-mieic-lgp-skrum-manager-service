@@ -7,6 +7,11 @@ namespace Projects
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class ProjectService : IProjectService
     {
+        /// <summary>
+        /// Creates a new project in the database.
+        /// </summary>
+        /// <param name="project">Contains the information of the project to be created.</param>
+        /// <returns>Created projects information</returns>
         public ServiceDataTypes.Project CreateProject(ServiceDataTypes.Project project)
         {
             try
@@ -34,6 +39,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Updates a project record on the database.
+        /// </summary>
+        /// <param name="project">Contains the new data of the project.</param>
+        /// <returns>Updated projects information</returns>
         public ServiceDataTypes.Project UpdateProject(ServiceDataTypes.Project project)
         {
             try
@@ -57,6 +67,12 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Updates the password of a project in the database.
+        /// </summary>
+        /// <param name="projectID">The ID of the project to be updated</param>
+        /// <param name="password">The new password for the project</param>
+        /// <returns>Updated projects information</returns>
         public ServiceDataTypes.Project UpdateProjectPassword(int projectID, string password)
         {
             try
@@ -77,6 +93,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Deletes a project in the database.
+        /// </summary>
+        /// <param name="projectID">The ID of the project to be deleted.</param>
+        /// <returns>True if the deleting is successful, false otherwise</returns>
         public bool DeleteProject(int projectID)
         {
             try
@@ -97,6 +118,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Returns the information of a project in the database, searching by its ID.
+        /// </summary>
+        /// <param name="projectID">The Id of the project to be searched.</param>
+        /// <returns>The information of the project if found, null otherwise</returns>
         public ServiceDataTypes.Project GetProjectByID(int projectID)
         {
             try
@@ -135,6 +161,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Returns the information of a project in the database, searching by its name.
+        /// </summary>
+        /// <param name="name">The name of the project to be searched.</param>
+        /// <returns>The information of the project if found, null otherwise</returns>
         public ServiceDataTypes.Project GetProjectByName(string name)
         {
             try
@@ -153,6 +184,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Creates a new sprint in the database.
+        /// </summary>
+        /// <param name="sprint">Contains the information of the sprint to be created.</param>
+        /// <returns>Created sprints information</returns>
         public ServiceDataTypes.Sprint CreateSprint(ServiceDataTypes.Sprint sprint)
         {
             try
@@ -180,6 +216,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Deletes a Sprint record in the database.
+        /// </summary>
+        /// <param name="sprintID">Contains the ID of the Sprint to be deleted.</param>
+        /// <returns>True if the deleting is successful, false otherwise.</returns>
         public bool DeleteSprint(int sprintID)
         {
             try
@@ -200,6 +241,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Updates a sprint record on the database.
+        /// </summary>
+        /// <param name="sprint">Contains the new data of the sprint.</param>
+        /// <returns>Updated sprints information</returns>
         public ServiceDataTypes.Sprint UpdateSprint(ServiceDataTypes.Sprint sprint)
         {
             try
@@ -223,6 +269,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Returns the information of a sprint in the database, searching by its ID.
+        /// </summary>
+        /// <param name="sprintID">The Id of the sprint to be searched.</param>
+        /// <returns>The information of the sprint if found, null otherwise</returns>
         public ServiceDataTypes.Sprint GetSprintByID(int sprintID)
         {
             try
@@ -255,6 +306,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Creates a new story in the database.
+        /// </summary>
+        /// <param name="story">Contains the information of the story to be created.</param>
+        /// <returns>Created story's information</returns>
         public ServiceDataTypes.Story CreateStory(ServiceDataTypes.Story story)
         {
             try
@@ -283,6 +339,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Deletes a story in the database.
+        /// </summary>
+        /// <param name="storyID">The ID of the story to be deleted.</param>
+        /// <returns>True if the deleting is successful, false otherwise</returns>
         public bool DeleteStory(int storyID)
         {
             try
@@ -311,6 +372,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Updates a story record on the database.
+        /// </summary>
+        /// <param name="story">Contains the new data of the story.</param>
+        /// <returns>Updated story information</returns>
         public ServiceDataTypes.Story UpdateStory(ServiceDataTypes.Story story)
         {
             try
@@ -334,6 +400,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Returns the information of a story in the database, searching by its ID.
+        /// </summary>
+        /// <param name="storyID">The Id of the story to be searched.</param>
+        /// <returns>The information of the story if found, null otherwise</returns>
         public ServiceDataTypes.Story GetStoryByID(int storyID)
         {
             try
@@ -376,6 +447,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Creates a new task in the database.
+        /// </summary>
+        /// <param name="task">Contains the information of the task to be created.</param>
+        /// <returns>Created tasks information</returns>
         public ServiceDataTypes.Task CreateTask(ServiceDataTypes.Task task)
         {
             try
@@ -403,6 +479,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Deletes a task in the database.
+        /// </summary>
+        /// <param name="taskID">The ID of the task to be deleted.</param>
+        /// <returns>True if the deleting is successful, false otherwise</returns>
         public bool DeleteTask(int taskID)
         {
             try
@@ -423,6 +504,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Updates a task record on the database.
+        /// </summary>
+        /// <param name="task">Contains the new data of the task.</param>
+        /// <returns>Updated task information</returns>
         public ServiceDataTypes.Task UpdateTask(ServiceDataTypes.Task task)
         {
             try
@@ -446,6 +532,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Returns the information of a task in the database, searching by its ID.
+        /// </summary>
+        /// <param name="taskID">The Id of the task to be searched.</param>
+        /// <returns>The information of the task if found, null otherwise</returns>
         public ServiceDataTypes.Task GetTaskByID(int taskID)
         {
             try
@@ -482,6 +573,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Creates a new meeting in the database.
+        /// </summary>
+        /// <param name="meeting">Contains the information of the meeting to be created.</param>
+        /// <returns>Created meeting information</returns>
         public ServiceDataTypes.Meeting CreateMeeting(ServiceDataTypes.Meeting meeting)
         {
             try
@@ -508,6 +604,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Deletes a meeting in the database.
+        /// </summary>
+        /// <param name="meetingID">The ID of the meeting to be deleted.</param>
+        /// <returns>True if the deleting is successful, false otherwise</returns>
         public bool DeleteMeeting(int meetingID)
         {
             try
@@ -528,6 +629,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Updates a meeting record on the database.
+        /// </summary>
+        /// <param name="meeting">Contains the new data of the meeting.</param>
+        /// <returns>Updated meeting information</returns>
         public ServiceDataTypes.Meeting UpdateMeeting(ServiceDataTypes.Meeting meeting)
         {
             try
@@ -550,6 +656,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Returns the information of a meeting in the database, searching by its ID.
+        /// </summary>
+        /// <param name="meetingID">The Id of the meeting to be searched.</param>
+        /// <returns>The information of the meeting if found, null otherwise</returns>
         public ServiceDataTypes.Meeting GetMeetingByID(int meetingID)
         {
             try
@@ -575,6 +686,10 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Returns all the projects in the system
+        /// </summary>
+        /// <returns>A List with the information about every project, if any. Null otherwise</returns>
         public List<ServiceDataTypes.Project> GetAllProjects()
         {
             try
@@ -597,6 +712,12 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Verifies if a given password is the real password of a given project
+        /// </summary>
+        /// <param name="projectID">The ID of the desired project</param>
+        /// <param name="password"> Contains the password sent by the client</param>
+        /// <returns>True if the password is the correct one, false otherwise</returns>
         public bool LoginProject(int projectID, string password)
         {
             try
@@ -615,6 +736,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Get all the sprints in a given project
+        /// </summary>
+        /// <param name="projectID">Contains the ID of the project to be searched.</param>
+        /// <returns>A List containing all the sprints of the desired project, if found, null otherwise</returns>
         public List<ServiceDataTypes.Sprint> GetAllSprintsInProject(int projectID)
         {
             try
@@ -633,6 +759,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Get all the stories in a given project
+        /// </summary>
+        /// <param name="projectID">Contains the ID of the project to be searched.</param>
+        /// <returns>A List containing all the stories of the desired project, if found, null otherwise</returns>
         public List<ServiceDataTypes.Story> GetAllStoriesInProject(int projectID)
         {
             try
@@ -656,6 +787,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Get all the tasks in a given project
+        /// </summary>
+        /// <param name="projectID">Contains the ID of the project to be searched.</param>
+        /// <returns>A List containing all the tasks of the desired project, if found, null otherwise</returns>
         public List<ServiceDataTypes.Task> GetAllTasksInProject(int projectID)
         {
             try
@@ -680,6 +816,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Get all the stories in a given project which are not assigned to any sprint
+        /// </summary>
+        /// <param name="projectID">Contains the ID of the project to be searched.</param>
+        /// <returns>A List containing all the stories of the desired project, if found, null otherwise</returns>
         public List<ServiceDataTypes.Story> GetAllStoriesWithoutSprintInProject(int projectID)
         {
             try
@@ -704,6 +845,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Get all the meetings in a given project
+        /// </summary>
+        /// <param name="projectID">Contains the ID of the project to be searched.</param>
+        /// <returns>A List containing all the meetings of the desired project, if found, null otherwise</returns>
         public List<ServiceDataTypes.Meeting> GetAllMeetingsInProject(int projectID)
         {
             try
@@ -719,6 +865,12 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Get all the tasks in a given project with a given state
+        /// </summary>
+        /// <param name="projectID">Contains the ID of the project to be searched.</param>
+        /// <param name="state">The state to search for in each task</param>
+        /// <returns>A List containing all the tasks of the desired project with the desired state, if found, null otherwise</returns>
         public List<ServiceDataTypes.Task> GetAllTasksInProjectByState(int projectID, ServiceDataTypes.TaskState state)
         {
             try
@@ -734,6 +886,12 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Get all the stories in a given project with a given state
+        /// </summary>
+        /// <param name="projectID">Contains the ID of the project to be searched.</param>
+        /// <param name="state">The story state to search for in each task</param>
+        /// <returns>A List containing all the stories of the desired project with the desired state, if found, null otherwise</returns>
         public List<ServiceDataTypes.Story> GetAllStoriesInProjectByState(int projectID, ServiceDataTypes.StoryState state)
         {
             try
@@ -749,6 +907,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Get all the stories in a given sprint
+        /// </summary>
+        /// <param name="sprintID">Contains the ID of the sprint to be searched.</param>
+        /// <returns>A List containing all the stories of the desired sprint, if found, null otherwise</returns>
         public List<ServiceDataTypes.Story> GetAllStoriesInSprint(int sprintID)
         {
             try
@@ -764,6 +927,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Get all the tasks in a given sprint
+        /// </summary>
+        /// <param name="sprintID">Contains the ID of the sprint to be searched.</param>
+        /// <returns>A List containing all the tasks of the desired sprint, if found, null otherwise</returns>
         public List<ServiceDataTypes.Task> GetAllTasksInSprint(int sprintID)
         {
             try
@@ -783,6 +951,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Associates a Story to a sprint
+        /// </summary>
+        /// <param name="storySprint">The object containg all the information about the association of a story and a sprint</param>
+        /// <returns>Created StorySprint information</returns>
         public ServiceDataTypes.StorySprint AddStoryInSprint(ServiceDataTypes.StorySprint storySprint)
         {
             try
@@ -834,6 +1007,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Get all the tasks in a given story
+        /// </summary>
+        /// <param name="storyID">Contains the ID of the story to be searched.</param>
+        /// <returns>A List containing all the tasks of the desired story, if found, null otherwise</returns>
         public List<ServiceDataTypes.Task> GetAllTasksInStory(int storyID)
         {
             try
@@ -849,6 +1027,12 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Changes the order of the stories in a project
+        /// </summary>
+        /// <param name="projectID">Contains the information of the story to be created.</param>
+        /// <param name="ordered">A List containing the new order for the stories inside the sprint</param>
+        /// <returns>A List containing the stories inside a sprint with a new order</returns>
         public List<ServiceDataTypes.Story> UpdateStoryOrder(int projectID, List<int> ordered)
         {
             try
@@ -882,6 +1066,11 @@ namespace Projects
             }
         }
 
+        /// <summary>
+        /// Adds a record of a persons time spent working on a task to the database
+        /// </summary>
+        /// <param name="personTask">Object that contains the information of the person, task and time spent.</param>
+        /// <returns>Created PersonTask's information</returns>
         public ServiceDataTypes.PersonTask AddWorkInTask(ServiceDataTypes.PersonTask personTask)
         {
             try
