@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Data.Linq;
+using ServiceDataTypes;
 
 namespace ServiceTester
 {
@@ -34,6 +35,71 @@ namespace ServiceTester
                 object value = descriptor.GetValue(dump);
                 System.Console.WriteLine("{0}={1}", name, value);
             }
+        }
+
+        public static Person CreateDefaultPerson(ServiceTest tester)
+        {
+            Person person = new Person()
+            {
+                Email = "default@email.domain",
+                JobDescription = "I'm a default person entity.",
+                Name = "Default Person",
+                Password = null,
+                PhotoURL = "http://default.com"
+            };
+            return tester.Users.CreatePerson(person);
+        }
+
+        public static Project CreateDefaultProject(ServiceTest tester)
+        {
+            Project project = new Project()
+            {
+                AlertLimit = 1,
+                Name = "Default Project",
+                Password = null,
+                Speed = 1,
+                SprintDuration = 1
+            };
+            return tester.Projects.CreateProject(project);
+        }
+
+        public static Role CreateDefaultRole(ServiceTest tester, Project project, Person person)
+        {
+            Role role = new Role
+            {
+                AssignedTime = 1.0,
+                Password = null,
+                PersonID = person.PersonID,
+                ProjectID = project.ProjectID,
+                RoleDescription = RoleDescription.TeamMember
+            };
+            return tester.Users.CreateRole(role);
+        }
+
+        public static Story CreateDefaultStory(ServiceTest tester, Project project)
+        {
+            Story story = new Story
+            {
+                CreationDate = System.DateTime.Now,
+                Description = "Default Story",
+                PreviousStory = null,
+                ProjectID = project.ProjectID,
+                State = StoryState.InProgress,
+            };
+            return tester.Projects.CreateStory(story);
+        }
+
+        public static Task CreateDefaultTask(ServiceTest tester, Story story)
+        {
+            Task task = new Task
+            {
+                CreationDate = System.DateTime.Now,
+                Description = "Default Task",
+                Estimation = 1,
+                State = TaskState.Waiting,
+                StoryID = story.StoryID
+            };
+            return tester.Projects.CreateTask(task);
         }
     }
 }
