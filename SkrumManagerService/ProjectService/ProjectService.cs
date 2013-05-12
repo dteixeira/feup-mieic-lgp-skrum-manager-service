@@ -105,6 +105,9 @@ namespace Projects
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
                     var project = context.Projects.FirstOrDefault(p => p.ProjectID == projectID);
+
+                    // Needed as the database won't handle this as a cascade on delete.
+                    context.Stories.DeleteAllOnSubmit(project.Stories);
                     context.Projects.DeleteOnSubmit(project);
                     context.SubmitChanges();
                     return true;

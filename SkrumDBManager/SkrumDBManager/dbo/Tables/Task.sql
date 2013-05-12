@@ -6,7 +6,7 @@
     [Description] NTEXT NULL, 
     [State] INT NOT NULL, 
     PRIMARY KEY CLUSTERED ([TaskID] ASC),
-    CONSTRAINT [FK_Task_ToStory] FOREIGN KEY ([StoryID]) REFERENCES [dbo].[Story] ([StoryID]), 
-    CONSTRAINT [FK_Task_ToTaskState] FOREIGN KEY ([State]) REFERENCES [dbo].[TaskState]([TaskStateID])
+    CONSTRAINT [FK_Task_ToStory] FOREIGN KEY ([StoryID]) REFERENCES [dbo].[Story] ([StoryID]) ON DELETE CASCADE, 
+    CONSTRAINT [FK_Task_ToTaskState] FOREIGN KEY ([State]) REFERENCES [dbo].[TaskState]([TaskStateID]) ON DELETE CASCADE
 );
 

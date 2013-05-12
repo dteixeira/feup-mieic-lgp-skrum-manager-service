@@ -636,85 +636,259 @@ namespace ServiceTester
         [TestMethod]
         public void CreateProjectTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create a new project and check some values, should pass.
+            Project project = new Project
+            {
+                AlertLimit = 1,
+                Name = "Created Project",
+                Password = null,
+                Speed = 5,
+                SprintDuration = 3
+            };
+            project = this.projects.CreateProject(project);
+            Assert.IsNotNull(project, "Failed to create the project.");
+            Assert.AreEqual(project.Speed, 5, "Speed is different than expected.");
+            Assert.AreEqual(project.Name, "Created Project", "Name is different than expected.");
+            Assert.AreEqual(project.Meetings.Count(), 0, "Number of meetings is different than expected.");
+
+            // Try to create a project with the same name, should fail.
+            project = this.projects.CreateProject(project);
+            Assert.IsNull(project, "Project was created despite its name not being unique.");
+
+            // Try to create a project with password, should pass.
+            project = new Project
+            {
+                AlertLimit = 1,
+                Name = "Password Project",
+                Password = "123456",
+                Speed = 5,
+                SprintDuration = 3
+            };
+            project = this.projects.CreateProject(project);
+            Assert.IsNotNull(project, "Failed to create the project.");
+            Assert.IsNotNull(project.Password, "Password was not set.");
         }
 
         [TestMethod]
         public void UpdateProjectTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and modify a default project, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            project.Name = "Updated Project";
+            project.Speed = 20;
+            project = this.projects.UpdateProject(project);
+            Assert.IsNotNull(project, "Failed to update the project.");
+            Assert.AreEqual(project.Speed, 20, "Speed is not as expected.");
+            Assert.AreEqual(project.Name, "Updated Project", "Name is not as expected.");
+
+            // Try to update password, it should pass but make no effect.
+            project.Password = "123456";
+            project = this.projects.UpdateProject(project);
+            Assert.IsNotNull(project, "Failed to update the project.");
+            Assert.IsNull(project.Password, "Password was updated incorrectly.");
+
+            // Create a new project, try to update the name for an already
+            // existing one, should fail.
+            Project project2 = TestHelper.CreateDefaultProject(this);
+            project2.Name = "Updated Project";
+            project2 = this.projects.UpdateProject(project2);
+            Assert.IsNull(project2, "Project was created despite not having an unique name.");
         }
 
         [TestMethod]
         public void UpdateProjectPasswordTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create a new project without password.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Assert.IsNull(project.Password, "Password is not null as expected.");
+
+            // Update the password, should pass.
+            project = this.projects.UpdateProjectPassword(project.ProjectID, "123456");
+            Assert.IsNotNull(project, "Failed to update the password.");
+            Assert.IsNotNull(project.Password, "Password was not updated correctly.");
+
+            // Remove the password, should pass.
+            project = this.projects.UpdateProjectPassword(project.ProjectID, null);
+            Assert.IsNotNull(project, "Failed to update the password.");
+            Assert.IsNull(project.Password, "Password was not removed correctly.");
+
+            // Try to update invalid project, should fail.
+            project = this.projects.UpdateProjectPassword(-1, "123456");
+            Assert.IsNull(project, "Returned success despite invalid project.");
         }
 
         [TestMethod]
         public void DeleteProjectTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create a default project and delete it, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Assert.IsTrue(this.projects.DeleteProject(project.ProjectID), "Failed to delete the project.");
+
+            // Try to delete the project again, should fail.
+            Assert.IsFalse(this.projects.DeleteProject(project.ProjectID), "Returned success despite invalid project.");
         }
 
         [TestMethod]
         public void GetProjectByIDTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create a new project and fetch it by its ID.
+            Project project = TestHelper.CreateDefaultProject(this);
+            project.Name = "Fetchable Project";
+            this.projects.UpdateProject(project);
+            project = this.projects.GetProjectByID(project.ProjectID);
+            Assert.IsNotNull(project, "Failed to retrieve the project.");
+            Assert.AreEqual(project.Name, "Fetchable Project", "Project name is not as expected.");
+
+            // Try to fetch an invalid project, should fail.
+            project = this.projects.GetProjectByID(-1);
+            Assert.IsNull(project, "Returned success despite invalid project.");
         }
 
         [TestMethod]
         public void GetProjectByNameTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create a new project and fetch it by its ID.
+            Project project = TestHelper.CreateDefaultProject(this);
+            project.Name = "Fetchable Project";
+            this.projects.UpdateProject(project);
+            project = this.projects.GetProjectByName("Fetchable Project");
+            Assert.IsNotNull(project, "Failed to retrieve the project.");
+            Assert.AreEqual(project.Name, "Fetchable Project", "Project name is not as expected.");
+
+            // Try to fetch an invalid project, should fail.
+            project = this.projects.GetProjectByName("Nonexistent Project");
+            Assert.IsNull(project, "Returned success despite invalid project.");
         }
 
         [TestMethod]
         public void CreateSprintTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create a sprint, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Sprint sprint = TestHelper.CreateDefaultSprint(this, project);
+            Assert.IsNotNull(sprint, "Failed to create a sprint.");
+
+            // Create an invalid sprint, should fail.
+            sprint.ProjectID = -1;
+            sprint = this.projects.CreateSprint(sprint);
+            Assert.IsNull(sprint, "Created the sprint despite being invalid.");
         }
 
         [TestMethod]
         public void DeleteSprintTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and delete a sprint, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Sprint sprint = TestHelper.CreateDefaultSprint(this, project);
+            Assert.IsTrue(this.projects.DeleteSprint(sprint.SprintID), "Failed to delete the sprint.");
+
+            // Try to delete the sprint again, should fail.
+            Assert.IsFalse(this.projects.DeleteSprint(sprint.SprintID), "Returned success despite invalid sprint.");
+
+            // Check that deleting a project should delete the connected sprints.
+            sprint = TestHelper.CreateDefaultSprint(this, project);
+            Assert.IsNotNull(sprint, "Failed to create sprint.");
+            this.projects.DeleteProject(project.ProjectID);
+            Assert.IsFalse(this.projects.DeleteSprint(sprint.SprintID), "Returned success despite invalid sprint.");
         }
 
         [TestMethod]
         public void UpdateSprintTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and update a sprint, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Sprint sprint = TestHelper.CreateDefaultSprint(this, project);
+            sprint.Number = 7;
+            sprint = this.projects.UpdateSprint(sprint);
+            Assert.IsNotNull(sprint, "Failed to update the sprint.");
+            Assert.AreEqual(sprint.Number, 7, "Number is not as expected.");
+
+            // Try to update invalid sprint, should fail.
+            sprint.SprintID = -1;
+            sprint = this.projects.UpdateSprint(sprint);
+            Assert.IsNull(sprint, "Returned success despite invalid sprint.");
         }
 
         [TestMethod]
         public void GetSprintByIDTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and fetch it by ID, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Sprint sprint = TestHelper.CreateDefaultSprint(this, project);
+            sprint.Number = 3;
+            this.projects.UpdateSprint(sprint);
+            sprint = this.projects.GetSprintByID(sprint.SprintID);
+            Assert.IsNotNull(sprint, "Failed to fetch the sprint.");
+            Assert.AreEqual(sprint.Number, 3, "Number is not as expected.");
+
+            // Try to fetch invalid sprint, should fail.
+            sprint = this.projects.GetSprintByID(-1);
+            Assert.IsNull(sprint, "Returned success despite invalid sprint.");
         }
 
         [TestMethod]
         public void CreateStoryTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create a story, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Story story = TestHelper.CreateDefaultStory(this, project);
+            Assert.IsNotNull(story, "Failed to create a story.");
+
+            // Try to create an invalid story, should fail.
+            story.ProjectID = -1;
+            story = this.Projects.CreateStory(story);
+            Assert.IsNull(story, "Returned success despite invalid story.");
         }
 
         [TestMethod]
         public void DeleteStoryTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and delete a story, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Story story = TestHelper.CreateDefaultStory(this, project);
+            Assert.IsTrue(this.projects.DeleteStory(story.StoryID), "Failed to delete the story.");
+
+            // Try to delete the story again, should fail.
+            Assert.IsFalse(this.projects.DeleteStory(story.StoryID), "Returned success despite invalid story.");
+
+            // Check that deleting a project should delete all stories, should pass.
+            story = TestHelper.CreateDefaultStory(this, project);
+            Assert.IsTrue(this.projects.DeleteProject(project.ProjectID), "Failed to delete the project.");
+            Assert.IsFalse(this.projects.DeleteStory(story.StoryID), "Returned success despite the story should be already deleted.");
         }
 
         [TestMethod]
         public void UpdateStoryTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and update a story, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Story story = TestHelper.CreateDefaultStory(this, project);
+            story.State = StoryState.Completed;
+            story = this.projects.UpdateStory(story);
+            Assert.IsNotNull(story, "Failed to update the story.");
+            Assert.AreEqual(story.State, StoryState.Completed, "State is not as expected.");
+
+            // Try to update an invalid story, should fail.
+            story.StoryID = -1;
+            story = this.projects.UpdateStory(story);
+            Assert.IsNull(story, "Returned success despite invalid story.");
         }
 
         [TestMethod]
         public void GetStoryByIDTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and fetch a story, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Story story = TestHelper.CreateDefaultStory(this, project);
+            story.State = StoryState.Completed;
+            this.projects.UpdateStory(story);
+            story = this.projects.GetStoryByID(story.StoryID);
+            Assert.IsNotNull(story, "Failed to fetch the story.");
+            Assert.AreEqual(story.State, StoryState.Completed, "State is not as expected.");
+
+            // Try to fetch invalid story, should fail.
+            story = this.projects.GetStoryByID(-1);
+            Assert.IsNull(story, "Returned success despite story being invalid.");
         }
 
         [TestMethod]

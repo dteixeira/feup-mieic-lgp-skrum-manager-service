@@ -6,6 +6,6 @@
     [Closed]     BIT      NOT NULL,
     [ProjectID]  INT      NOT NULL,
     PRIMARY KEY CLUSTERED ([SprintID] ASC),
-    CONSTRAINT [FK_Sprint_ToProject] FOREIGN KEY ([ProjectID]) REFERENCES [dbo].[Project] ([ProjectID])
+    CONSTRAINT [FK_Sprint_ToProject] FOREIGN KEY ([ProjectID]) REFERENCES [dbo].[Project] ([ProjectID]) ON DELETE CASCADE
 );
 

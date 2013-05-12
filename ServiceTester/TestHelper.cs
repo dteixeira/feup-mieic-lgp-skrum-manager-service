@@ -101,5 +101,18 @@ namespace ServiceTester
             };
             return tester.Projects.CreateTask(task);
         }
+
+        public static Sprint CreateDefaultSprint(ServiceTest tester, Project project)
+        {
+            Sprint sprint = new Sprint
+            {
+                BeginDate = System.DateTime.Now,
+                Closed = false,
+                EndDate = null,
+                Number = 1,
+                ProjectID = project.ProjectID
+            };
+            return tester.Projects.CreateSprint(sprint);
+        }
     }
 }
