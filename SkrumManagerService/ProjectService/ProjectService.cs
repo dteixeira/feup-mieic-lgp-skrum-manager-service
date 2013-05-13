@@ -1063,7 +1063,7 @@ namespace Projects
                         project.Stories.FirstOrDefault(s => s.StoryID == current).PreviousStory = previous;
                         previous = current;
                     }
-
+                    context.SubmitChanges();
                     return this.GetAllStoriesInProject(project.ProjectID);
                 }
             }

@@ -1014,25 +1014,59 @@ namespace ServiceTester
         [TestMethod]
         public void CreateMeetingTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create a simple meeting, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Meeting meeting = TestHelper.CreateDefaultMeeting(this, project);
+            Assert.IsNotNull(meeting, "Failed to create a meeting.");
+
+            // Try to create an invalid meeting, should fail.
+            meeting.ProjectID = -1;
+            meeting = this.projects.CreateMeeting(meeting);
+            Assert.IsNull(meeting, "Returned success despite invalid meeting.");
         }
 
         [TestMethod]
         public void DeleteMeetingTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and delete a simple meeting, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Meeting meeting = TestHelper.CreateDefaultMeeting(this, project);
+            Assert.IsTrue(this.projects.DeleteMeeting(meeting.MeetingID), "Failed to delete the meeting.");
+
+            // Try to delete the same meeting, should fail.
+            Assert.IsFalse(this.projects.DeleteMeeting(meeting.MeetingID), "Returned success despite invalid meeting.");
         }
 
         [TestMethod]
         public void UpdateMeetingTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and update a meeting, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Meeting meeting = TestHelper.CreateDefaultMeeting(this, project);
+            Assert.AreEqual(1, meeting.Number, "Number is different than expected.");
+            meeting.Number = 20;
+            meeting = this.projects.UpdateMeeting(meeting);
+            Assert.IsNotNull(meeting, "Failed to update the meeting.");
+            Assert.AreEqual(20, meeting.Number, "Number is different than expected.");
+
+            // Try to update invalid meeting, should fail.
+            meeting.MeetingID = -1;
+            meeting = this.projects.UpdateMeeting(meeting);
+            Assert.IsNull(meeting, "Returned success despite invalid meeting.");
         }
 
         [TestMethod]
         public void GetMeetingByIDTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and fetch a meeting, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Meeting meeting = TestHelper.CreateDefaultMeeting(this, project);
+            meeting = this.projects.GetMeetingByID(meeting.MeetingID);
+            Assert.IsNotNull(meeting, "Failed to fetch the meeting.");
+
+            // Try to get an invalid meeting.
+            meeting = this.projects.GetMeetingByID(-1);
+            Assert.IsNull(meeting, "Returned success despite invalid meeting.");
         }
 
         [TestMethod]
@@ -1097,7 +1131,24 @@ namespace ServiceTester
         [TestMethod]
         public void GetAllStoriesInProjectTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Fetch all stories in the project, should pass and return an empty list.
+            Project project = TestHelper.CreateDefaultProject(this);
+            var stories = this.projects.GetAllStoriesInProject(project.ProjectID);
+            Assert.IsNotNull(stories, "Failed to fetch all stories.");
+            Assert.AreEqual(0, stories.Count(), "Incorrect number of stories returned.");
+
+            // Create some stories.
+            for (int i = 0; i < 5; ++i)
+            {
+                TestHelper.CreateDefaultStory(this, project);
+            }
+            stories = this.projects.GetAllStoriesInProject(project.ProjectID);
+            Assert.IsNotNull(stories, "Failed to fetch all stories.");
+            Assert.AreEqual(5, stories.Count(), "Incorrect number of stories returned.");
+
+            // Try to fetch stories from invalid project, should fail.
+            stories = this.projects.GetAllStoriesInProject(-1);
+            Assert.IsNull(stories, "Returned success despite invalid project.");
         }
 
         [TestMethod]
@@ -1115,7 +1166,24 @@ namespace ServiceTester
         [TestMethod]
         public void GetAllMeetingsInProjectTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Fetch all stories in the project, should pass and return an empty list.
+            Project project = TestHelper.CreateDefaultProject(this);
+            var meetings = this.projects.GetAllMeetingsInProject(project.ProjectID);
+            Assert.IsNotNull(meetings, "Failed to fetch all meetings.");
+            Assert.AreEqual(0, meetings.Count(), "Incorrect number of meetings returned.");
+
+            // Create some stories.
+            for (int i = 0; i < 5; ++i)
+            {
+                TestHelper.CreateDefaultMeeting(this, project);
+            }
+            meetings = this.projects.GetAllMeetingsInProject(project.ProjectID);
+            Assert.IsNotNull(meetings, "Failed to fetch all stories.");
+            Assert.AreEqual(5, meetings.Count(), "Incorrect number of stories returned.");
+
+            // Try to fetch stories from invalid project, should fail.
+            meetings = this.projects.GetAllMeetingsInProject(-1);
+            Assert.IsNull(meetings, "Returned success despite invalid project.");
         }
 
         [TestMethod]
@@ -1127,7 +1195,32 @@ namespace ServiceTester
         [TestMethod]
         public void GetAllStoriesInProjectByStateTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Fetch all stories in the project, should pass and return an empty list.
+            Project project = TestHelper.CreateDefaultProject(this);
+            var stories = this.projects.GetAllStoriesInProjectByState(project.ProjectID, StoryState.Completed);
+            Assert.IsNotNull(stories, "Failed to fetch all stories.");
+            Assert.AreEqual(0, stories.Count(), "Incorrect number of stories returned.");
+
+            // Create some stories.
+            for (int i = 0; i < 5; ++i)
+            {
+                Story story = TestHelper.CreateDefaultStory(this, project);
+                if (i < 3)
+                {
+                    story.State = StoryState.Completed;
+                    this.projects.UpdateStory(story);
+                }
+            }
+            stories = this.projects.GetAllStoriesInProjectByState(project.ProjectID, StoryState.InProgress);
+            Assert.IsNotNull(stories, "Failed to fetch all stories.");
+            Assert.AreEqual(2, stories.Count(), "Incorrect number of stories returned.");
+            stories = this.projects.GetAllStoriesInProjectByState(project.ProjectID, StoryState.Completed);
+            Assert.IsNotNull(stories, "Failed to fetch all stories.");
+            Assert.AreEqual(3, stories.Count(), "Incorrect number of stories returned.");
+
+            // Try to fetch stories from invalid project, should fail.
+            stories = this.projects.GetAllStoriesInProjectByState(-1, StoryState.InProgress);
+            Assert.IsNull(stories, "Returned success despite invalid project.");
         }
 
         [TestMethod]
@@ -1157,13 +1250,72 @@ namespace ServiceTester
         [TestMethod]
         public void UpdateStoryOrderTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create several stories and check their order.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Story story1 = TestHelper.CreateDefaultStory(this, project);
+            Story story2 = TestHelper.CreateDefaultStory(this, project);
+            Story story3 = TestHelper.CreateDefaultStory(this, project);
+            Story story4 = TestHelper.CreateDefaultStory(this, project);
+            Assert.IsNull(story1.PreviousStory, "Incorrect previous story.");
+            Assert.AreEqual(story1.StoryID, story2.PreviousStory, "Incorrect previous story.");
+            Assert.AreEqual(story2.StoryID, story3.PreviousStory, "Incorrect previous story.");
+            Assert.AreEqual(story3.StoryID, story4.PreviousStory, "Incorrect previous story.");
+
+            // Update the order and check again.
+            var stories = this.projects.UpdateStoryOrder(project.ProjectID, new int[] { story3.StoryID, story2.StoryID, story4.StoryID, story1.StoryID });
+            Assert.IsNotNull(stories, "Failed to update story order.");
+            story1 = this.projects.GetStoryByID(story1.StoryID);
+            story2 = this.projects.GetStoryByID(story2.StoryID);
+            story3 = this.projects.GetStoryByID(story3.StoryID);
+            story4 = this.projects.GetStoryByID(story4.StoryID);
+            Assert.IsNull(story3.PreviousStory, "Incorrect previous story.");
+            Assert.AreEqual(story3.StoryID, story2.PreviousStory, "Incorrect previous story.");
+            Assert.AreEqual(story2.StoryID, story4.PreviousStory, "Incorrect previous story.");
+            Assert.AreEqual(story4.StoryID, story1.PreviousStory, "Incorrect previous story.");
         }
 
         [TestMethod]
         public void AddWorkInTaskTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create a new task without work, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Person person = TestHelper.CreateDefaultPerson(this);
+            Story story = TestHelper.CreateDefaultStory(this, project);
+            Task task = TestHelper.CreateDefaultTask(this, story);
+            Assert.AreEqual(0, task.PersonTasks.Count(), "Incorrect number of tasks.");
+
+            // Work for someone, should pass.
+            PersonTask personTask = new PersonTask
+            {
+                CreationDate = System.DateTime.Now,
+                PersonID = person.PersonID,
+                SpentTime = 30,
+                TaskID = task.TaskID
+            };
+            personTask = this.projects.AddWorkInTask(personTask);
+            person = this.users.GetPersonByID(person.PersonID);
+            task = this.projects.GetTaskByID(task.TaskID);
+            Assert.IsNotNull(personTask, "Failed to create a PersonTask.");
+            Assert.AreEqual(1, task.PersonTasks.Count(), "Incorrect number of person tasks.");
+            Assert.AreEqual(person.PersonID, task.PersonTasks.First().PersonID, "Incorrect person ID");
+            Assert.AreEqual(30, task.PersonTasks.First().SpentTime, "Incorrect spent time.");
+            Assert.AreEqual(task.TaskID, person.Tasks.First().TaskID, "Incorrect task association.");
+
+            // Add more work to same person, should pass.
+            personTask = this.projects.AddWorkInTask(personTask);
+            task = this.projects.GetTaskByID(task.TaskID);
+            Assert.IsNotNull(personTask, "Failed to create a PersonTask.");
+            Assert.AreEqual(1, task.PersonTasks.Count(), "Incorrect number of person tasks.");
+            Assert.AreEqual(60, task.PersonTasks.First().SpentTime, "Incorrect spent time.");
+
+            // Add work to new person, should pass.
+            person.Email = "test@email.domain";
+            person = this.users.CreatePerson(person);
+            personTask.PersonID = person.PersonID;
+            personTask = this.projects.AddWorkInTask(personTask);
+            task = this.projects.GetTaskByID(task.TaskID);
+            Assert.IsNotNull(personTask, "Failed to create a PersonTask.");
+            Assert.AreEqual(2, task.PersonTasks.Count(), "Incorrect number of person tasks.");
         }
     }
 }
