@@ -62,15 +62,16 @@ namespace Notifications
                 {
                     if (this.clients.ContainsKey(projectID))
                     {
-                        foreach (OperationContext callback in this.clients[projectID])
+                        var clients = this.clients[projectID];
+                        for(int i = clients.Count() - 1; i >= 0; i--)
                         {
                             try
                             {
-                                callback.GetCallbackChannel<INotificationServiceCallback>().DataChanged(type);
+                                clients.ElementAt(i).GetCallbackChannel<INotificationServiceCallback>().DataChanged(type);
                             }
                             catch (System.Exception)
                             {
-                                this.clients[projectID].Remove(callback);
+                                this.clients[projectID].RemoveAt(i);
                             }
                         }
                     }
@@ -80,15 +81,16 @@ namespace Notifications
                 {
                     foreach (int key in this.clients.Keys)
                     {
-                        foreach (OperationContext callback in this.clients[key])
+                        var clients = this.clients[key];
+                        for (int i = clients.Count() - 1; i >= 0; i--)
                         {
                             try
                             {
-                                callback.GetCallbackChannel<INotificationServiceCallback>().DataChanged(type);
+                                clients.ElementAt(i).GetCallbackChannel<INotificationServiceCallback>().DataChanged(type);
                             }
                             catch (System.Exception)
                             {
-                                this.clients[key].Remove(callback);
+                                this.clients[projectID].RemoveAt(i);
                             }
                         }
                     }

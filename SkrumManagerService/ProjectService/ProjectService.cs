@@ -29,6 +29,9 @@ namespace Projects
                     };
                     context.Projects.InsertOnSubmit(created);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.GlobalProjectModification, -1);
                     return this.GetProjectByID(created.ProjectID);
                 }
             }
