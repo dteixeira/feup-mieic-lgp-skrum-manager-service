@@ -57,7 +57,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
       <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="NextStory" type="xs:int" />
+      <xs:element minOccurs="0" name="PreviousStory" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="ProjectID" type="xs:int" />
       <xs:element minOccurs="0" name="State" type="tns:StoryState" />
       <xs:element minOccurs="0" name="StoryID" type="xs:int" />
@@ -86,7 +86,6 @@
       <xs:element minOccurs="0" name="Priority" type="tns:StoryPriority" />
       <xs:element minOccurs="0" name="SprintID" type="xs:int" />
       <xs:element minOccurs="0" name="StoryID" type="xs:int" />
-      <xs:element minOccurs="0" name="StorySprintID" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="StorySprint" nillable="true" type="tns:StorySprint" />
@@ -127,7 +126,6 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
       <xs:element minOccurs="0" name="PersonID" type="xs:int" />
-      <xs:element minOccurs="0" name="PersonTaskID" type="xs:int" />
       <xs:element minOccurs="0" name="SpentTime" type="xs:double" />
       <xs:element minOccurs="0" name="TaskID" type="xs:int" />
     </xs:sequence>
@@ -142,4 +140,10 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="TaskState" nillable="true" type="tns:TaskState" />
+  <xs:complexType name="ArrayOfProject">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Project" nillable="true" type="tns:Project" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfProject" nillable="true" type="tns:ArrayOfProject" />
 </xs:schema>

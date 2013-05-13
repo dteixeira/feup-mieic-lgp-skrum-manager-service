@@ -5,6 +5,6 @@ namespace Notifications
     public interface INotificationServiceCallback
     {
         [OperationContract]
-        void ProjectChanged();
+        void DataChanged(ServiceDataTypes.NotificationType notification);
     }
 }

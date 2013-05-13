@@ -62,4 +62,17 @@ namespace ServiceDataTypes
         [EnumMember]
         Completed
     }
+
+    [DataContract]
+    public enum NotificationType
+    {
+        [EnumMember]
+        ProjectModification,
+
+        [EnumMember]
+        GlobalProjectModification,
+
+        [EnumMember]
+        GlobalPersonModification
+    }
 }

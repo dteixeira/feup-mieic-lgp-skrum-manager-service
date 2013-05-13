@@ -24,7 +24,8 @@ namespace Projects
                         Name = project.Name,
                         Password = SkrumManagerService.ServiceHelper.HashPassword(project.Password),
                         Speed = project.Speed,
-                        SprintDuration = project.SprintDuration
+                        SprintDuration = project.SprintDuration,
+                        CurrentStoryNumber = 1
                     };
                     context.Projects.InsertOnSubmit(created);
                     context.SubmitChanges();
@@ -320,15 +321,19 @@ namespace Projects
             {
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    var previousStory = this.GetAllStoriesInProject(story.ProjectID).LastOrDefault();
+                    var project = context.Projects.FirstOrDefault(p => p.ProjectID == story.ProjectID);
+                    var stories = this.GetAllStoriesInProject(story.ProjectID);
+                    var previousStory = stories.LastOrDefault();
                     var created = new SkrumManagerService.Story
                     {
                         CreationDate = story.CreationDate,
                         Description = story.Description,
                         PreviousStory = previousStory == null ? null : (int?)previousStory.StoryID,
                         ProjectID = story.ProjectID,
-                        State = context.StoryStates.FirstOrDefault(ss => ss.State == story.State.ToString()).StoryStateID
+                        State = context.StoryStates.FirstOrDefault(ss => ss.State == story.State.ToString()).StoryStateID,
+                        Number = project.CurrentStoryNumber
                     };
+                    project.CurrentStoryNumber++;
                     context.Stories.InsertOnSubmit(created);
                     context.SubmitChanges();
                     return this.GetStoryByID(created.StoryID);
@@ -423,6 +428,7 @@ namespace Projects
                         ProjectID = story.ProjectID,
                         State = (ServiceDataTypes.StoryState)System.Enum.Parse(typeof(ServiceDataTypes.StoryState), story.StoryState.State),
                         StoryID = story.StoryID,
+                        Number = story.Number,
                         Tasks = (
                             from t in story.Tasks.AsEnumerable()
                             let task = this.GetTaskByID(t.TaskID)

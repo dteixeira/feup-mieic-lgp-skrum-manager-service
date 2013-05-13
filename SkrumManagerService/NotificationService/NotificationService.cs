@@ -53,21 +53,43 @@ namespace Notifications
         /// changes occurred.
         /// </summary>
         /// <param name="projectID">ID of the project in which the change occurred</param>
-        public void NotifyClients(int projectID)
+        public void NotifyClients(ServiceDataTypes.NotificationType type, int projectID)
         {
             lock (this.clients)
             {
-                if (this.clients.ContainsKey(projectID))
+                // Handles project modification notifications, only to specific clients.
+                if (type == ServiceDataTypes.NotificationType.ProjectModification)
                 {
-                    foreach (OperationContext callback in this.clients[projectID])
+                    if (this.clients.ContainsKey(projectID))
                     {
-                        try
+                        foreach (OperationContext callback in this.clients[projectID])
                         {
-                            callback.GetCallbackChannel<INotificationServiceCallback>().ProjectChanged();
+                            try
+                            {
+                                callback.GetCallbackChannel<INotificationServiceCallback>().DataChanged(type);
+                            }
+                            catch (System.Exception)
+                            {
+                                this.clients[projectID].Remove(callback);
+                            }
                         }
-                        catch (System.Exception)
+                    }
+                }
+                // Handles environment-wise notifications, to every registered client. 
+                else
+                {
+                    foreach (int key in this.clients.Keys)
+                    {
+                        foreach (OperationContext callback in this.clients[key])
                         {
-                            this.clients[projectID].Remove(callback);
+                            try
+                            {
+                                callback.GetCallbackChannel<INotificationServiceCallback>().DataChanged(type);
+                            }
+                            catch (System.Exception)
+                            {
+                                this.clients[key].Remove(callback);
+                            }
                         }
                     }
                 }

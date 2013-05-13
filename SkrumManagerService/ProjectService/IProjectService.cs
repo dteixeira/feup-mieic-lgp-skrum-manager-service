@@ -96,6 +96,7 @@ namespace Projects
          * System-wise operations
          */
 
+        [OperationContract]
         System.Collections.Generic.List<Project> GetAllProjects();
 
         /*

@@ -5,6 +5,7 @@
     [State]     INT NOT NULL,
     [ProjectID] INT        NOT NULL,
     [Description] NTEXT NULL, 
+    [Number] INT NOT NULL, 
     PRIMARY KEY CLUSTERED ([StoryID] ASC),
     CONSTRAINT [FK_Story_ToProject] FOREIGN KEY ([ProjectID]) REFERENCES [dbo].[Project] ([ProjectID]) ON DELETE NO ACTION, 
     CONSTRAINT [FK_Story_ToStoryState] FOREIGN KEY ([State]) REFERENCES [dbo].[StoryState] ([StoryStateID]) ON DELETE CASCADE, 

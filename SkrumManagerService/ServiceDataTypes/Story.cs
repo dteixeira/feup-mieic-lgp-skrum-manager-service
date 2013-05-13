@@ -16,6 +16,7 @@ namespace ServiceDataTypes
         private int storyID;
         private System.Collections.Generic.List<StorySprint> storySprints;
         private System.Collections.Generic.List<Task> tasks;
+        private int number;
 
         /// <summary>
         /// Instantiates a new Story object.
@@ -82,6 +83,17 @@ namespace ServiceDataTypes
         {
             get { return this.storyID; }
             set { this.storyID = value; }
+        }
+
+        /// <summary>
+        /// Ordinal number of the story in the project, used
+        /// to create story identifiers.
+        /// </summary>
+        [DataMember]
+        public int Number
+        {
+            get { return this.number; }
+            set { this.number = value; }
         }
 
         /// <summary>

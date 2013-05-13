@@ -114,5 +114,17 @@ namespace ServiceTester
             };
             return tester.Projects.CreateSprint(sprint);
         }
+
+        public static Meeting CreateDefaultMeeting(ServiceTest tester, Project project)
+        {
+            Meeting meeting = new Meeting
+            {
+                Date = System.DateTime.Now,
+                Notes = "I am a note.",
+                Number = 1,
+                ProjectID = project.ProjectID
+            };
+            return tester.Projects.CreateMeeting(meeting);
+        }
     }
 }

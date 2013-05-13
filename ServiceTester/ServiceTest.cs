@@ -831,13 +831,29 @@ namespace ServiceTester
         {
             // Create a story, should pass.
             Project project = TestHelper.CreateDefaultProject(this);
-            Story story = TestHelper.CreateDefaultStory(this, project);
-            Assert.IsNotNull(story, "Failed to create a story.");
+            Story story1 = TestHelper.CreateDefaultStory(this, project);
+            Assert.IsNotNull(story1, "Failed to create a story.");
+            Assert.IsNull(story1.PreviousStory, "Story references another one when it shouldn't.");
+            Assert.AreEqual(story1.Number, 1, "Number is not as expected.");
+
+            // Create a new task, see if it points to the previous one, should pass.
+            Story story2 = TestHelper.CreateDefaultStory(this, project);
+            story1 = this.projects.GetStoryByID(story1.StoryID);
+            Assert.IsNotNull(story2, "Failed to create a second story.");
+            Assert.AreEqual(story2.Number, 2, "Number is not as expected.");
+            Assert.AreEqual(story2.PreviousStory, story1.StoryID, "Second story does not point to the first one.");
+            Assert.IsNull(story1.PreviousStory, "Story points in story when it shouldn't.");
+
+            // Create a new task, see if it points to the previous one, should pass.
+            Story story3 = TestHelper.CreateDefaultStory(this, project);
+            Assert.IsNotNull(story3, "Failed to create a second story.");
+            Assert.AreEqual(story3.Number, 3, "Number is not as expected.");
+            Assert.AreEqual(story3.PreviousStory, story2.StoryID, "Second story does not point to the first one.");
 
             // Try to create an invalid story, should fail.
-            story.ProjectID = -1;
-            story = this.Projects.CreateStory(story);
-            Assert.IsNull(story, "Returned success despite invalid story.");
+            story1.ProjectID = -1;
+            story1 = this.Projects.CreateStory(story1);
+            Assert.IsNull(story1, "Returned success despite invalid story.");
         }
 
         [TestMethod]
@@ -845,16 +861,44 @@ namespace ServiceTester
         {
             // Create and delete a story, should pass.
             Project project = TestHelper.CreateDefaultProject(this);
-            Story story = TestHelper.CreateDefaultStory(this, project);
-            Assert.IsTrue(this.projects.DeleteStory(story.StoryID), "Failed to delete the story.");
+            Story story1 = TestHelper.CreateDefaultStory(this, project);
+            Story story2 = TestHelper.CreateDefaultStory(this, project);
+            Story story3 = TestHelper.CreateDefaultStory(this, project);
+            Story story4 = TestHelper.CreateDefaultStory(this, project);
+            Assert.IsTrue(this.projects.DeleteStory(story1.StoryID), "Failed to delete the story.");
+
+            // Check if story2 reference was updated.
+            Assert.AreEqual(story2.PreviousStory, story1.StoryID, "Story2 does not point to previous story.");
+            story2 = this.projects.GetStoryByID(story2.StoryID);
+            Assert.IsNull(story2.PreviousStory, "The story still points to an invalid previous story.");
+
+            // Delete story3, story2 should stay the same, story 4 should be changed.
+            Assert.AreEqual(story4.PreviousStory, story3.StoryID, "Story4 does not point to previous story.");
+            Assert.IsTrue(this.projects.DeleteStory(story3.StoryID), "Failed to delete the story.");
+            story2 = this.projects.GetStoryByID(story2.StoryID);
+            story4 = this.projects.GetStoryByID(story4.StoryID);
+            Assert.IsNull(story2.PreviousStory, "Story2 points to an invalid story.");
+            Assert.AreEqual(story4.PreviousStory, story2.StoryID, "Story4 does not point to previous story.");
+
+            // Delete another story, check if updates correctly.
+            Assert.IsTrue(this.projects.DeleteStory(story2.StoryID), "Failed to delete the story.");
+            story4 = this.projects.GetStoryByID(story4.StoryID);
+            Assert.IsNull(story4.PreviousStory, "Story4 points to an invalid story.");
+
+            // Try to delete the last story.
+            Assert.IsTrue(this.projects.DeleteStory(story4.StoryID), "Failed to delete the story.");
 
             // Try to delete the story again, should fail.
-            Assert.IsFalse(this.projects.DeleteStory(story.StoryID), "Returned success despite invalid story.");
+            Assert.IsFalse(this.projects.DeleteStory(story4.StoryID), "Returned success despite invalid story.");
+
+            // Check that creating a new story should continue its number;
+            Story story5 = TestHelper.CreateDefaultStory(this, project);
+            Assert.AreEqual(5, story5.Number, "Number is not as expected.");
 
             // Check that deleting a project should delete all stories, should pass.
-            story = TestHelper.CreateDefaultStory(this, project);
+            story1 = TestHelper.CreateDefaultStory(this, project);
             Assert.IsTrue(this.projects.DeleteProject(project.ProjectID), "Failed to delete the project.");
-            Assert.IsFalse(this.projects.DeleteStory(story.StoryID), "Returned success despite the story should be already deleted.");
+            Assert.IsFalse(this.projects.DeleteStory(story1.StoryID), "Returned success despite the story should be already deleted.");
         }
 
         [TestMethod]
@@ -894,25 +938,77 @@ namespace ServiceTester
         [TestMethod]
         public void CreateTaskTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create task, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Story story = TestHelper.CreateDefaultStory(this, project);
+            Task task = TestHelper.CreateDefaultTask(this, story);
+            Assert.IsNotNull(task, "Failed to create the task.");
+            
+            // Try to create task with invalid story, should fail.
+            task.StoryID = -1;
+            task = this.projects.CreateTask(task);
+            Assert.IsNull(task, "Returned success despite invalid task.");
         }
 
         [TestMethod]
         public void DeleteTaskTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and delete a task, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Story story = TestHelper.CreateDefaultStory(this, project);
+            Task task = TestHelper.CreateDefaultTask(this, story);
+            Assert.IsTrue(this.projects.DeleteTask(task.TaskID), "Failed to delete the task.");
+
+            // Try to delete the task again, should fail.
+            Assert.IsFalse(this.projects.DeleteTask(task.TaskID), "Returned success despite invalid task.");
+
+            // Check if deleting the story deletes the associated tasks.
+            task = TestHelper.CreateDefaultTask(this, story);
+            Assert.IsTrue(this.projects.DeleteStory(story.StoryID), "Failed to delete the story.");
+            Assert.IsFalse(this.projects.DeleteTask(task.TaskID), "Task was not deleted automaticaly.");
+
+            // Check if deleting the project deletes the associated tasks.
+            story = TestHelper.CreateDefaultStory(this, project);
+            task = TestHelper.CreateDefaultTask(this, story);
+            Assert.IsTrue(this.projects.DeleteProject(project.ProjectID), "Failed to delete the project.");
+            Assert.IsFalse(this.projects.DeleteTask(task.TaskID), "Task was not deleted automaticaly.");
         }
 
         [TestMethod]
         public void UpdateTaskTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and update a task, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Story story = TestHelper.CreateDefaultStory(this, project);
+            Task task = TestHelper.CreateDefaultTask(this, story);
+            Assert.AreEqual(task.Estimation, 1, "Estimation is not as expected.");
+            Assert.AreEqual(task.Description, "Default Task", "Description is not as expected.");
+            task.Estimation = 20;
+            task.Description = "I am a description.";
+            task = this.projects.UpdateTask(task);
+            Assert.IsNotNull(task, "Failed to update the task.");
+            Assert.AreEqual(task.Estimation, 20, "Estimation is not as expected.");
+            Assert.AreEqual(task.Description, "I am a description.", "Description is not as expected.");
+
+            // Try to update an invalid task, should fail.
+            task.TaskID = -1;
+            task = this.projects.UpdateTask(task);
+            Assert.IsNull(task, "Returned success despite invalid task.");
         }
 
         [TestMethod]
         public void GetTaskByIDTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create and fetch a task by its ID, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Story story = TestHelper.CreateDefaultStory(this, project);
+            Task task = TestHelper.CreateDefaultTask(this, story);
+            task = this.projects.GetTaskByID(task.TaskID);
+            Assert.IsNotNull(task, "Failed to fetch the task.");
+
+            // Try to fetch an invalid task, should fail.
+            task = this.projects.GetTaskByID(-1);
+            Assert.IsNull(task, "Returned success despite invalid task.");
         }
 
         [TestMethod]
@@ -939,21 +1035,63 @@ namespace ServiceTester
             Assert.IsTrue(false, "Not implemented.");
         }
 
+        [TestMethod]
         public void GetAllProjectsTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Fetch all projects, should pass and return an empty list.
+            var projects = this.projects.GetAllProjects();
+            Assert.IsNotNull(projects, "Failed to retrieve the projects.");
+            Assert.AreEqual(projects.Count(), 0, "Incorrect number of projects returned.");
+
+            // Create some projects, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            project.Name = "Project 2";
+            this.projects.CreateProject(project);
+            project.Name = "Project 3";
+            this.projects.CreateProject(project);
+            projects = this.projects.GetAllProjects();
+            Assert.IsNotNull(projects, "Failed to retrieve the projects.");
+            Assert.AreEqual(projects.Count(), 3, "Incorrect number of projects returned.");
         }
 
         [TestMethod]
         public void LoginProjectTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Create a project and login, should pass.
+            Project project = TestHelper.CreateDefaultProject(this);
+            Assert.IsFalse(this.projects.LoginProject(project.ProjectID, "654321"), "Returned success despite invalid login.");
+            this.projects.UpdateProjectPassword(project.ProjectID, "654321");
+            Assert.IsTrue(this.projects.LoginProject(project.ProjectID, "654321"), "Failed to login.");
+
+            // Try to login with invalid credentials, should fail.
+            Assert.IsFalse(this.projects.LoginProject(project.ProjectID, "123456"), "Returned success despite invalid login.");
+
+            // Try to login with invalid project, should fail.
+            Assert.IsFalse(this.projects.LoginProject(-1, "654321"), "Returned success despite invalid login.");
         }
 
         [TestMethod]
         public void GetAllSprintsInProjectTest()
         {
-            Assert.IsTrue(false, "Not implemented.");
+            // Get sprints in project, should pass and return an empty list.
+            Project project = TestHelper.CreateDefaultProject(this);
+            var sprints = this.projects.GetAllSprintsInProject(project.ProjectID);
+            Assert.IsNotNull(sprints, "Failed to retrieve sprints.");
+            Assert.AreEqual(sprints.Count(), 0, "Incorrect number of projects.");
+
+            // Add some projets, should pass.
+            Sprint sprint = TestHelper.CreateDefaultSprint(this, project);
+            sprint = TestHelper.CreateDefaultSprint(this, project);
+            sprints = this.projects.GetAllSprintsInProject(project.ProjectID);
+            project.Name = "Project 2";
+            Project project2 = this.projects.CreateProject(project);
+            sprint = TestHelper.CreateDefaultSprint(this, project2);
+            Assert.IsNotNull(sprints, "Failed to retrieve sprints.");
+            Assert.AreEqual(sprints.Count(), 2, "Incorrect number of projects.");
+
+            // Try to get sprints from invalid project, should fail.
+            sprints = this.projects.GetAllSprintsInProject(-1);
+            Assert.IsNull(sprints, "Returned success despite invalid project.");
         }
 
         [TestMethod]

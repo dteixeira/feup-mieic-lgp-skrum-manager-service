@@ -7,7 +7,7 @@
       <Column Name="Number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Notes" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Project_Meeting" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
+      <Association Name="Project_Meeting" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.TaskState" Member="TaskStates">
@@ -35,8 +35,8 @@
       <Column Name="PersonID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="SpentTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Person_PersonTask" Member="Person" ThisKey="PersonID" OtherKey="PersonID" Type="Person" IsForeignKey="true" />
-      <Association Name="Task_PersonTask" Member="Task" ThisKey="TaskID" OtherKey="TaskID" Type="Task" IsForeignKey="true" />
+      <Association Name="Person_PersonTask" Member="Person" ThisKey="PersonID" OtherKey="PersonID" Type="Person" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Task_PersonTask" Member="Task" ThisKey="TaskID" OtherKey="TaskID" Type="Task" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Project" Member="Projects">
@@ -47,6 +47,7 @@
       <Column Name="AlertLimit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Speed" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="CurrentStoryNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Project_Meeting" Member="Meetings" ThisKey="ProjectID" OtherKey="ProjectID" Type="Meeting" />
       <Association Name="Project_Role" Member="Roles" ThisKey="ProjectID" OtherKey="ProjectID" Type="Role" />
       <Association Name="Project_Sprint" Member="Sprints" ThisKey="ProjectID" OtherKey="ProjectID" Type="Sprint" />
@@ -61,9 +62,9 @@
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="PersonID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Password" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
-      <Association Name="Person_Role" Member="Person" ThisKey="PersonID" OtherKey="PersonID" Type="Person" IsForeignKey="true" />
-      <Association Name="Project_Role" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
-      <Association Name="RoleDescription_Role" Member="RoleDescription" ThisKey="Description" OtherKey="RoleDescriptionID" Type="RoleDescription" IsForeignKey="true" />
+      <Association Name="Person_Role" Member="Person" ThisKey="PersonID" OtherKey="PersonID" Type="Person" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Project_Role" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="RoleDescription_Role" Member="RoleDescription" ThisKey="Description" OtherKey="RoleDescriptionID" Type="RoleDescription" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.RoleDescription" Member="RoleDescriptions">
@@ -82,7 +83,7 @@
       <Column Name="Closed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Sprint_StorySprint" Member="StorySprints" ThisKey="SprintID" OtherKey="SprintID" Type="StorySprint" />
-      <Association Name="Project_Sprint" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
+      <Association Name="Project_Sprint" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Story" Member="Stories">
@@ -93,12 +94,13 @@
       <Column Name="State" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Story_Story" Member="Stories" ThisKey="StoryID" OtherKey="PreviousStory" Type="Story" />
       <Association Name="Story_StorySprint" Member="StorySprints" ThisKey="StoryID" OtherKey="StoryID" Type="StorySprint" />
       <Association Name="Story_Task" Member="Tasks" ThisKey="StoryID" OtherKey="StoryID" Type="Task" />
       <Association Name="Project_Story" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
       <Association Name="Story_Story" Member="Story1" ThisKey="PreviousStory" OtherKey="StoryID" Type="Story" IsForeignKey="true" />
-      <Association Name="StoryState_Story" Member="StoryState" ThisKey="State" OtherKey="StoryStateID" Type="StoryState" IsForeignKey="true" />
+      <Association Name="StoryState_Story" Member="StoryState" ThisKey="State" OtherKey="StoryStateID" Type="StoryState" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.StoryPriority" Member="StoryPriorities">
@@ -114,9 +116,9 @@
       <Column Name="Points" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="StoryID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="SprintID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Sprint_StorySprint" Member="Sprint" ThisKey="SprintID" OtherKey="SprintID" Type="Sprint" IsForeignKey="true" />
-      <Association Name="Story_StorySprint" Member="Story" ThisKey="StoryID" OtherKey="StoryID" Type="Story" IsForeignKey="true" />
-      <Association Name="StoryPriority_StorySprint" Member="StoryPriority" ThisKey="Priority" OtherKey="StoryPriorityID" Type="StoryPriority" IsForeignKey="true" />
+      <Association Name="Sprint_StorySprint" Member="Sprint" ThisKey="SprintID" OtherKey="SprintID" Type="Sprint" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Story_StorySprint" Member="Story" ThisKey="StoryID" OtherKey="StoryID" Type="Story" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="StoryPriority_StorySprint" Member="StoryPriority" ThisKey="Priority" OtherKey="StoryPriorityID" Type="StoryPriority" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.StoryState" Member="StoryStates">
@@ -135,8 +137,8 @@
       <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="State" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Task_PersonTask" Member="PersonTasks" ThisKey="TaskID" OtherKey="TaskID" Type="PersonTask" />
-      <Association Name="Story_Task" Member="Story" ThisKey="StoryID" OtherKey="StoryID" Type="Story" IsForeignKey="true" />
-      <Association Name="TaskState_Task" Member="TaskState" ThisKey="State" OtherKey="TaskStateID" Type="TaskState" IsForeignKey="true" />
+      <Association Name="Story_Task" Member="Story" ThisKey="StoryID" OtherKey="StoryID" Type="Story" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="TaskState_Task" Member="TaskState" ThisKey="State" OtherKey="TaskStateID" Type="TaskState" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
 </Database>

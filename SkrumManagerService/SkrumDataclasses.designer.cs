@@ -350,7 +350,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_Meeting", Storage="_Project", ThisKey="ProjectID", OtherKey="ProjectID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_Meeting", Storage="_Project", ThisKey="ProjectID", OtherKey="ProjectID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Project Project
 		{
 			get
@@ -884,7 +884,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Person_PersonTask", Storage="_Person", ThisKey="PersonID", OtherKey="PersonID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Person_PersonTask", Storage="_Person", ThisKey="PersonID", OtherKey="PersonID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Person Person
 		{
 			get
@@ -918,7 +918,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Task_PersonTask", Storage="_Task", ThisKey="TaskID", OtherKey="TaskID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Task_PersonTask", Storage="_Task", ThisKey="TaskID", OtherKey="TaskID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Task Task
 		{
 			get
@@ -991,6 +991,8 @@ namespace SkrumManagerService
 		
 		private string _Name;
 		
+		private int _CurrentStoryNumber;
+		
 		private EntitySet<Meeting> _Meetings;
 		
 		private EntitySet<Role> _Roles;
@@ -1015,6 +1017,8 @@ namespace SkrumManagerService
     partial void OnSpeedChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
+    partial void OnCurrentStoryNumberChanging(int value);
+    partial void OnCurrentStoryNumberChanged();
     #endregion
 		
 		public Project()
@@ -1142,6 +1146,26 @@ namespace SkrumManagerService
 					this._Name = value;
 					this.SendPropertyChanged("Name");
 					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CurrentStoryNumber", DbType="Int NOT NULL")]
+		public int CurrentStoryNumber
+		{
+			get
+			{
+				return this._CurrentStoryNumber;
+			}
+			set
+			{
+				if ((this._CurrentStoryNumber != value))
+				{
+					this.OnCurrentStoryNumberChanging(value);
+					this.SendPropertyChanging();
+					this._CurrentStoryNumber = value;
+					this.SendPropertyChanged("CurrentStoryNumber");
+					this.OnCurrentStoryNumberChanged();
 				}
 			}
 		}
@@ -1449,7 +1473,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Person_Role", Storage="_Person", ThisKey="PersonID", OtherKey="PersonID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Person_Role", Storage="_Person", ThisKey="PersonID", OtherKey="PersonID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Person Person
 		{
 			get
@@ -1483,7 +1507,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_Role", Storage="_Project", ThisKey="ProjectID", OtherKey="ProjectID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_Role", Storage="_Project", ThisKey="ProjectID", OtherKey="ProjectID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Project Project
 		{
 			get
@@ -1517,7 +1541,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="RoleDescription_Role", Storage="_RoleDescription", ThisKey="Description", OtherKey="RoleDescriptionID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="RoleDescription_Role", Storage="_RoleDescription", ThisKey="Description", OtherKey="RoleDescriptionID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public RoleDescription RoleDescription
 		{
 			get
@@ -1870,7 +1894,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_Sprint", Storage="_Project", ThisKey="ProjectID", OtherKey="ProjectID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_Sprint", Storage="_Project", ThisKey="ProjectID", OtherKey="ProjectID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Project Project
 		{
 			get
@@ -1955,6 +1979,8 @@ namespace SkrumManagerService
 		
 		private string _Description;
 		
+		private int _Number;
+		
 		private EntitySet<Story> _Stories;
 		
 		private EntitySet<StorySprint> _StorySprints;
@@ -1983,6 +2009,8 @@ namespace SkrumManagerService
     partial void OnProjectIDChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
+    partial void OnNumberChanging(int value);
+    partial void OnNumberChanged();
     #endregion
 		
 		public Story()
@@ -2128,6 +2156,26 @@ namespace SkrumManagerService
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
+		public int Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this.OnNumberChanging(value);
+					this.SendPropertyChanging();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_Story", Storage="_Stories", ThisKey="StoryID", OtherKey="PreviousStory")]
 		public EntitySet<Story> Stories
 		{
@@ -2235,7 +2283,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StoryState_Story", Storage="_StoryState", ThisKey="State", OtherKey="StoryStateID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StoryState_Story", Storage="_StoryState", ThisKey="State", OtherKey="StoryStateID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public StoryState StoryState
 		{
 			get
@@ -2574,7 +2622,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Sprint_StorySprint", Storage="_Sprint", ThisKey="SprintID", OtherKey="SprintID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Sprint_StorySprint", Storage="_Sprint", ThisKey="SprintID", OtherKey="SprintID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Sprint Sprint
 		{
 			get
@@ -2608,7 +2656,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_StorySprint", Storage="_Story", ThisKey="StoryID", OtherKey="StoryID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_StorySprint", Storage="_Story", ThisKey="StoryID", OtherKey="StoryID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Story Story
 		{
 			get
@@ -2642,7 +2690,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StoryPriority_StorySprint", Storage="_StoryPriority", ThisKey="Priority", OtherKey="StoryPriorityID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StoryPriority_StorySprint", Storage="_StoryPriority", ThisKey="Priority", OtherKey="StoryPriorityID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public StoryPriority StoryPriority
 		{
 			get
@@ -3002,7 +3050,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_Task", Storage="_Story", ThisKey="StoryID", OtherKey="StoryID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_Task", Storage="_Story", ThisKey="StoryID", OtherKey="StoryID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Story Story
 		{
 			get
@@ -3036,7 +3084,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TaskState_Task", Storage="_TaskState", ThisKey="State", OtherKey="TaskStateID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TaskState_Task", Storage="_TaskState", ThisKey="State", OtherKey="TaskStateID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public TaskState TaskState
 		{
 			get

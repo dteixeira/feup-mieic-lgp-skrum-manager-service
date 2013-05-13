@@ -81,6 +81,9 @@ namespace ServiceTester.ProjectService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetMeetingByID", ReplyAction="http://tempuri.org/IProjectService/GetMeetingByIDResponse")]
         ServiceDataTypes.Meeting GetMeetingByID(int meetingID);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/GetAllProjects", ReplyAction="http://tempuri.org/IProjectService/GetAllProjectsResponse")]
+        ServiceDataTypes.Project[] GetAllProjects();
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProjectService/LoginProject", ReplyAction="http://tempuri.org/IProjectService/LoginProjectResponse")]
         bool LoginProject(int projectID, string password);
         
@@ -237,6 +240,10 @@ namespace ServiceTester.ProjectService {
         
         public ServiceDataTypes.Meeting GetMeetingByID(int meetingID) {
             return base.Channel.GetMeetingByID(meetingID);
+        }
+        
+        public ServiceDataTypes.Project[] GetAllProjects() {
+            return base.Channel.GetAllProjects();
         }
         
         public bool LoginProject(int projectID, string password) {

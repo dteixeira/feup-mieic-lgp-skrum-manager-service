@@ -150,6 +150,12 @@
   <wsdl:message name="IProjectService_GetMeetingByID_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetMeetingByIDResponse" />
   </wsdl:message>
+  <wsdl:message name="IProjectService_GetAllProjects_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllProjects" />
+  </wsdl:message>
+  <wsdl:message name="IProjectService_GetAllProjects_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllProjectsResponse" />
+  </wsdl:message>
   <wsdl:message name="IProjectService_LoginProject_InputMessage">
     <wsdl:part name="parameters" element="tns:LoginProject" />
   </wsdl:message>
@@ -322,6 +328,10 @@
     <wsdl:operation name="GetMeetingByID">
       <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/GetMeetingByID" message="tns:IProjectService_GetMeetingByID_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/GetMeetingByIDResponse" message="tns:IProjectService_GetMeetingByID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllProjects">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/GetAllProjects" message="tns:IProjectService_GetAllProjects_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProjectService/GetAllProjectsResponse" message="tns:IProjectService_GetAllProjects_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="LoginProject">
       <wsdl:input wsaw:Action="http://tempuri.org/IProjectService/LoginProject" message="tns:IProjectService_LoginProject_InputMessage" />
@@ -575,6 +585,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetMeetingByID">
       <soap12:operation soapAction="http://tempuri.org/IProjectService/GetMeetingByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllProjects">
+      <soap12:operation soapAction="http://tempuri.org/IProjectService/GetAllProjects" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
