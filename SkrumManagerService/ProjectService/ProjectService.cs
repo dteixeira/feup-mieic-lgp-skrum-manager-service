@@ -60,6 +60,10 @@ namespace Projects
                     updated.Speed = project.Speed;
                     updated.SprintDuration = project.SprintDuration;
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, updated.ProjectID);
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.GlobalProjectModification, -1);
                     return this.GetProjectByID(updated.ProjectID);
                 }
             }
@@ -114,6 +118,8 @@ namespace Projects
                     context.Stories.DeleteAllOnSubmit(project.Stories);
                     context.Projects.DeleteOnSubmit(project);
                     context.SubmitChanges();
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, project.ProjectID);
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.GlobalProjectModification, -1);
                     return true;
                 }
             }
@@ -212,6 +218,9 @@ namespace Projects
                     };
                     context.Sprints.InsertOnSubmit(created);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, created.ProjectID);
                     return this.GetSprintByID(created.SprintID);
                 }
             }
@@ -237,6 +246,9 @@ namespace Projects
                     var sprint = context.Sprints.FirstOrDefault(s => s.SprintID == sprintID);
                     context.Sprints.DeleteOnSubmit(sprint);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, sprint.ProjectID);
                     return true;
                 }
             }
@@ -265,6 +277,9 @@ namespace Projects
                     updated.EndDate = sprint.EndDate;
                     updated.Number = sprint.Number;
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, updated.ProjectID);
                     return this.GetSprintByID(updated.SprintID);
                 }
             }
@@ -339,6 +354,9 @@ namespace Projects
                     project.CurrentStoryNumber++;
                     context.Stories.InsertOnSubmit(created);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, created.ProjectID);
                     return this.GetStoryByID(created.StoryID);
                 }
             }
@@ -372,6 +390,9 @@ namespace Projects
                     // Submit changes.
                     context.Stories.DeleteOnSubmit(story);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, story.ProjectID);
                     return true;
                 }
             }
@@ -400,6 +421,9 @@ namespace Projects
                     updated.PreviousStory = story.PreviousStory;
                     updated.State = context.StoryStates.FirstOrDefault(ss => ss.State == story.State.ToString()).StoryStateID;
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, updated.ProjectID);
                     return this.GetStoryByID(updated.StoryID);
                 }
             }
@@ -480,6 +504,9 @@ namespace Projects
                     };
                     context.Tasks.InsertOnSubmit(created);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, context.Stories.FirstOrDefault(s => s.StoryID == created.StoryID).ProjectID);
                     return this.GetTaskByID(created.TaskID);
                 }
             }
@@ -505,6 +532,9 @@ namespace Projects
                     var task = context.Tasks.FirstOrDefault(t => t.TaskID == taskID);
                     context.Tasks.DeleteOnSubmit(task);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, context.Stories.FirstOrDefault(s => s.StoryID == task.StoryID).ProjectID);
                     return true;
                 }
             }
@@ -533,6 +563,9 @@ namespace Projects
                     updated.Estimation = task.Estimation;
                     updated.State = context.TaskStates.FirstOrDefault(ts => ts.State == task.State.ToString()).TaskStateID;
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, context.Stories.FirstOrDefault(s => s.StoryID == updated.StoryID).ProjectID);
                     return this.GetTaskByID(updated.TaskID);
                 }
             }
@@ -605,6 +638,9 @@ namespace Projects
                     };
                     context.Meetings.InsertOnSubmit(created);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, created.ProjectID);
                     return this.GetMeetingByID(created.MeetingID);
                 }
             }
@@ -630,6 +666,9 @@ namespace Projects
                     var meeting = context.Meetings.FirstOrDefault(m => m.MeetingID == meetingID);
                     context.Meetings.DeleteOnSubmit(meeting);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, meeting.ProjectID);
                     return true;
                 }
             }
@@ -657,6 +696,9 @@ namespace Projects
                     updated.Notes = meeting.Notes;
                     updated.Number = meeting.Number;
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, updated.ProjectID);
                     return this.GetMeetingByID(updated.MeetingID);
                 }
             }
@@ -982,6 +1024,10 @@ namespace Projects
                         existent.Points = storySprint.Points;
                         existent.Priority = context.StoryPriorities.FirstOrDefault(sp => sp.Priority == storySprint.Priority.ToString()).StoryPriorityID;
                         context.SubmitChanges();
+
+                        // Notify clients.
+                        var story = context.Stories.FirstOrDefault(s => s.StoryID == existent.StoryID);
+                        Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, story.ProjectID);
                         return new ServiceDataTypes.StorySprint
                         {
                             Points = existent.Points,
@@ -1001,6 +1047,10 @@ namespace Projects
                         };
                         context.StorySprints.InsertOnSubmit(created);
                         context.SubmitChanges();
+
+                        // Notify clients.
+                        var story = context.Stories.FirstOrDefault(s => s.StoryID == created.StoryID);
+                        Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, story.ProjectID);
                         return new ServiceDataTypes.StorySprint
                         {
                             Points = created.Points,
@@ -1067,6 +1117,9 @@ namespace Projects
                         previous = current;
                     }
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, project.ProjectID);
                     return this.GetAllStoriesInProject(project.ProjectID);
                 }
             }
@@ -1096,6 +1149,11 @@ namespace Projects
                     {
                         existent.SpentTime += personTask.SpentTime;
                         context.SubmitChanges();
+
+                        // Notify clients.
+                        var task = context.Tasks.FirstOrDefault(t => t.TaskID == existent.TaskID);
+                        var story = context.Stories.FirstOrDefault(s => s.StoryID == task.StoryID);
+                        Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, story.ProjectID);
                         return new ServiceDataTypes.PersonTask
                         {
                             CreationDate = existent.CreationDate,
@@ -1115,6 +1173,11 @@ namespace Projects
                         };
                         context.PersonTasks.InsertOnSubmit(created);
                         context.SubmitChanges();
+
+                        // Notify clients.
+                        var task = context.Tasks.FirstOrDefault(t => t.TaskID == created.TaskID);
+                        var story = context.Stories.FirstOrDefault(s => s.StoryID == task.StoryID);
+                        Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, story.ProjectID);
                         return new ServiceDataTypes.PersonTask
                         {
                             CreationDate = created.CreationDate,

@@ -28,6 +28,9 @@ namespace Users
                     };
                     context.Persons.InsertOnSubmit(created);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.GlobalPersonModification, -1);
                     return this.GetPersonByID(created.PersonID);
                 }
             }
@@ -56,6 +59,9 @@ namespace Users
                     updated.Name = person.Name;
                     updated.PhotoURL = person.PhotoURL;
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.GlobalPersonModification, -1);
                     return this.GetPersonByID(updated.PersonID);
                 }
             }
@@ -107,6 +113,9 @@ namespace Users
                     var person = context.Persons.FirstOrDefault(p => p.PersonID == personID);
                     context.Persons.DeleteOnSubmit(person);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.GlobalPersonModification, -1);
                     return true;
                 }
             }
@@ -227,6 +236,9 @@ namespace Users
                     };
                     context.Roles.InsertOnSubmit(created);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, created.ProjectID);
                     return this.GetRoleByID(created.RoleID);
                 }
             }
@@ -253,6 +265,9 @@ namespace Users
                     updated.AssignedTime = role.AssignedTime;
                     updated.Description = context.RoleDescriptions.FirstOrDefault(rd => rd.Description == role.RoleDescription.ToString()).RoleDescriptionID;
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, updated.ProjectID);
                     return this.GetRoleByID(updated.RoleID);
                 }
             }
@@ -304,6 +319,9 @@ namespace Users
                     var role = context.Roles.FirstOrDefault(r => r.RoleID == roleID);
                     context.Roles.DeleteOnSubmit(role);
                     context.SubmitChanges();
+
+                    // Notify clients.
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, role.ProjectID);
                     return true;
                 }
             }
