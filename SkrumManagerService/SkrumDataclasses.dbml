@@ -95,11 +95,13 @@
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="Number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Priority" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Story_Story" Member="Stories" ThisKey="StoryID" OtherKey="PreviousStory" Type="Story" />
       <Association Name="Story_StorySprint" Member="StorySprints" ThisKey="StoryID" OtherKey="StoryID" Type="StorySprint" />
       <Association Name="Story_Task" Member="Tasks" ThisKey="StoryID" OtherKey="StoryID" Type="Task" />
       <Association Name="Project_Story" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
       <Association Name="Story_Story" Member="Story1" ThisKey="PreviousStory" OtherKey="StoryID" Type="Story" IsForeignKey="true" />
+      <Association Name="StoryPriority_Story" Member="StoryPriority" ThisKey="Priority" OtherKey="StoryPriorityID" Type="StoryPriority" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
       <Association Name="StoryState_Story" Member="StoryState" ThisKey="State" OtherKey="StoryStateID" Type="StoryState" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
@@ -107,18 +109,16 @@
     <Type Name="StoryPriority">
       <Column Name="StoryPriorityID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Priority" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="StoryPriority_StorySprint" Member="StorySprints" ThisKey="StoryPriorityID" OtherKey="Priority" Type="StorySprint" />
+      <Association Name="StoryPriority_Story" Member="Stories" ThisKey="StoryPriorityID" OtherKey="Priority" Type="Story" />
     </Type>
   </Table>
   <Table Name="dbo.StorySprint" Member="StorySprints">
     <Type Name="StorySprint">
-      <Column Name="Priority" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Points" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="StoryID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="SprintID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Sprint_StorySprint" Member="Sprint" ThisKey="SprintID" OtherKey="SprintID" Type="Sprint" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
       <Association Name="Story_StorySprint" Member="Story" ThisKey="StoryID" OtherKey="StoryID" Type="Story" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
-      <Association Name="StoryPriority_StorySprint" Member="StoryPriority" ThisKey="Priority" OtherKey="StoryPriorityID" Type="StoryPriority" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.StoryState" Member="StoryStates">

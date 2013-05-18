@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ServiceTester.UserService;
-using ServiceTester.ProjectService;
+using ServiceTester.DataService;
 using System.Linq;
 using System.ServiceModel;
 
@@ -13,11 +12,9 @@ namespace ServiceTester
     [TestClass]
     public partial class ServiceTest
     {
-        private static UserServiceClient userClient;
-        private static ProjectServiceClient projectClient;
+        private static DataServiceClient dataClient;
         private static SkrumManagerService.SkrumDataclassesDataContext context;
-        private static ServiceHost userHost;
-        private static ServiceHost projectHost;
+        private static ServiceHost dataHost;
 
         /// <summary>
         /// Classwise test teardown operations.
@@ -26,12 +23,10 @@ namespace ServiceTester
         public static void CleanupClass()
         {
             // Stop the clients.
-            ServiceTest.userClient.Close();
-            ServiceTest.projectClient.Close();
+            ServiceTest.dataClient.Close();
 
             // Stop the services.
-            ServiceTest.userHost.Close();
-            ServiceTest.projectHost.Close();
+            ServiceTest.dataHost.Close();
 
             // Dispose of the database context.
             ServiceTest.context.Dispose();
@@ -45,16 +40,12 @@ namespace ServiceTester
         public static void InitializeClass(TestContext context)
         {
             // Initialize the services.
-            ServiceTest.userHost = new ServiceHost(typeof(Users.UserService));
-            ServiceTest.userHost.Open();
-            ServiceTest.projectHost = new ServiceHost(typeof(Projects.ProjectService));
-            ServiceTest.projectHost.Open();
+            ServiceTest.dataHost = new ServiceHost(typeof(Data.DataService));
+            ServiceTest.dataHost.Open();
 
             // Initialize the clients.
-            ServiceTest.userClient = new UserServiceClient();
-            ServiceTest.userClient.Open();
-            ServiceTest.projectClient = new ProjectServiceClient();
-            ServiceTest.projectClient.Open();
+            ServiceTest.dataClient = new DataServiceClient();
+            ServiceTest.dataClient.Open();
 
             // Initialize database connection, clean and seed the database.
             ServiceTest.context = new SkrumManagerService.SkrumDataclassesDataContext();

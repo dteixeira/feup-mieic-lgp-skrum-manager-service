@@ -9,7 +9,6 @@ namespace ServiceDataTypes
     public class StorySprint
     {
         private int points;
-        private ServiceDataTypes.StoryPriority priority;
         private int sprintID;
         private int storyID;
 
@@ -28,16 +27,6 @@ namespace ServiceDataTypes
         {
             get { return this.points; }
             set { this.points = value; }
-        }
-
-        /// <summary>
-        /// Priority given to the story in this sprint.
-        /// </summary>
-        [DataMember]
-        public ServiceDataTypes.StoryPriority Priority
-        {
-            get { return this.priority; }
-            set { this.priority = value; }
         }
 
         /// <summary>

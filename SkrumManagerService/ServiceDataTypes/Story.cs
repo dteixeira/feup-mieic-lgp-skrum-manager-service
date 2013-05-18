@@ -17,12 +17,23 @@ namespace ServiceDataTypes
         private System.Collections.Generic.List<StorySprint> storySprints;
         private System.Collections.Generic.List<Task> tasks;
         private int number;
+        private ServiceDataTypes.StoryPriority priority;
 
         /// <summary>
         /// Instantiates a new Story object.
         /// </summary>
         public Story()
         {
+        }
+
+        /// <summary>
+        /// Priority given to the story in this sprint.
+        /// </summary>
+        [DataMember]
+        public ServiceDataTypes.StoryPriority Priority
+        {
+            get { return this.priority; }
+            set { this.priority = value; }
         }
 
         /// <summary>

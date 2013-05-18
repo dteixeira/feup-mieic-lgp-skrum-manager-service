@@ -14,6 +14,7 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/ServiceDataTypes" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="INotificationService_Subscribe_InputMessage">
@@ -28,11 +29,11 @@
   <wsdl:message name="INotificationService_Unsubscribe_OutputMessage">
     <wsdl:part name="parameters" element="tns:UnsubscribeResponse" />
   </wsdl:message>
-  <wsdl:message name="INotificationService_ProjectChanged_OutputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:ProjectChanged" />
+  <wsdl:message name="INotificationService_DataChanged_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:DataChanged" />
   </wsdl:message>
-  <wsdl:message name="INotificationService_ProjectChanged_InputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:ProjectChangedResponse" />
+  <wsdl:message name="INotificationService_DataChanged_InputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:DataChangedResponse" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="INotificationService">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Subscribe">
@@ -43,9 +44,9 @@
       <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/Unsubscribe" message="tns:INotificationService_Unsubscribe_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/UnsubscribeResponse" message="tns:INotificationService_Unsubscribe_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ProjectChanged">
-      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/ProjectChanged" message="tns:INotificationService_ProjectChanged_OutputCallbackMessage" />
-      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/ProjectChangedResponse" message="tns:INotificationService_ProjectChanged_InputCallbackMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DataChanged">
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/DataChanged" message="tns:INotificationService_DataChanged_OutputCallbackMessage" />
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/DataChangedResponse" message="tns:INotificationService_DataChanged_InputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NotificationServiceEndpoint" type="tns:INotificationService">
@@ -70,8 +71,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ProjectChanged">
-      <soap12:operation soapAction="http://tempuri.org/INotificationService/ProjectChanged" style="document" />
+    <wsdl:operation name="DataChanged">
+      <soap12:operation soapAction="http://tempuri.org/INotificationService/DataChanged" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

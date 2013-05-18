@@ -25,8 +25,8 @@ namespace ServiceTester.NotificationService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface INotificationServiceCallback {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INotificationService/ProjectChanged", ReplyAction="http://tempuri.org/INotificationService/ProjectChangedResponse")]
-        void ProjectChanged();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INotificationService/DataChanged", ReplyAction="http://tempuri.org/INotificationService/DataChangedResponse")]
+        void DataChanged(ServiceDataTypes.NotificationType notification);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

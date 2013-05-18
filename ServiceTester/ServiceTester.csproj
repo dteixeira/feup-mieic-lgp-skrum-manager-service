@@ -60,17 +60,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BaseServiceTest.cs" />
+    <Compile Include="Service References\DataService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\NotificationService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\ProjectService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\UserService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -99,6 +94,19 @@
     <None Include="Properties\DataSources\ServiceDataTypes.Story.datasource" />
     <None Include="Properties\DataSources\ServiceDataTypes.StorySprint.datasource" />
     <None Include="Properties\DataSources\ServiceDataTypes.Task.datasource" />
+    <None Include="Service References\DataService\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DataService\service.wsdl" />
+    <None Include="Service References\DataService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DataService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DataService\ServiceDataTypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\NotificationService\service.wsdl" />
     <None Include="Service References\NotificationService\service.xsd">
       <SubType>Designer</SubType>
@@ -106,27 +114,7 @@
     <None Include="Service References\NotificationService\service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ProjectService\Arrays.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ProjectService\service.wsdl" />
-    <None Include="Service References\ProjectService\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ProjectService\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ProjectService\ServiceDataTypes.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\UserService\service.wsdl" />
-    <None Include="Service References\UserService\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\UserService\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\UserService\ServiceDataTypes.xsd">
+    <None Include="Service References\NotificationService\ServiceDataTypes.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -134,33 +122,8 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\DataService\" />
     <WCFMetadataStorage Include="Service References\NotificationService\" />
-    <WCFMetadataStorage Include="Service References\ProjectService\" />
-    <WCFMetadataStorage Include="Service References\UserService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\UserService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\UserService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\UserService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ProjectService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ProjectService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ProjectService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\NotificationService\configuration91.svcinfo" />
@@ -170,6 +133,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\NotificationService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DataService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DataService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DataService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

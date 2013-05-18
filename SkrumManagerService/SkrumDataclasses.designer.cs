@@ -1981,6 +1981,8 @@ namespace SkrumManagerService
 		
 		private int _Number;
 		
+		private int _Priority;
+		
 		private EntitySet<Story> _Stories;
 		
 		private EntitySet<StorySprint> _StorySprints;
@@ -1990,6 +1992,8 @@ namespace SkrumManagerService
 		private EntityRef<Project> _Project;
 		
 		private EntityRef<Story> _Story1;
+		
+		private EntityRef<StoryPriority> _StoryPriority;
 		
 		private EntityRef<StoryState> _StoryState;
 		
@@ -2011,6 +2015,8 @@ namespace SkrumManagerService
     partial void OnDescriptionChanged();
     partial void OnNumberChanging(int value);
     partial void OnNumberChanged();
+    partial void OnPriorityChanging(int value);
+    partial void OnPriorityChanged();
     #endregion
 		
 		public Story()
@@ -2020,6 +2026,7 @@ namespace SkrumManagerService
 			this._Tasks = new EntitySet<Task>(new Action<Task>(this.attach_Tasks), new Action<Task>(this.detach_Tasks));
 			this._Project = default(EntityRef<Project>);
 			this._Story1 = default(EntityRef<Story>);
+			this._StoryPriority = default(EntityRef<StoryPriority>);
 			this._StoryState = default(EntityRef<StoryState>);
 			OnCreated();
 		}
@@ -2176,6 +2183,30 @@ namespace SkrumManagerService
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Priority", DbType="Int NOT NULL")]
+		public int Priority
+		{
+			get
+			{
+				return this._Priority;
+			}
+			set
+			{
+				if ((this._Priority != value))
+				{
+					if (this._StoryPriority.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPriorityChanging(value);
+					this.SendPropertyChanging();
+					this._Priority = value;
+					this.SendPropertyChanged("Priority");
+					this.OnPriorityChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Story_Story", Storage="_Stories", ThisKey="StoryID", OtherKey="PreviousStory")]
 		public EntitySet<Story> Stories
 		{
@@ -2283,6 +2314,40 @@ namespace SkrumManagerService
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StoryPriority_Story", Storage="_StoryPriority", ThisKey="Priority", OtherKey="StoryPriorityID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public StoryPriority StoryPriority
+		{
+			get
+			{
+				return this._StoryPriority.Entity;
+			}
+			set
+			{
+				StoryPriority previousValue = this._StoryPriority.Entity;
+				if (((previousValue != value) 
+							|| (this._StoryPriority.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._StoryPriority.Entity = null;
+						previousValue.Stories.Remove(this);
+					}
+					this._StoryPriority.Entity = value;
+					if ((value != null))
+					{
+						value.Stories.Add(this);
+						this._Priority = value.StoryPriorityID;
+					}
+					else
+					{
+						this._Priority = default(int);
+					}
+					this.SendPropertyChanged("StoryPriority");
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StoryState_Story", Storage="_StoryState", ThisKey="State", OtherKey="StoryStateID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public StoryState StoryState
 		{
@@ -2384,7 +2449,7 @@ namespace SkrumManagerService
 		
 		private string _Priority;
 		
-		private EntitySet<StorySprint> _StorySprints;
+		private EntitySet<Story> _Stories;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2398,7 +2463,7 @@ namespace SkrumManagerService
 		
 		public StoryPriority()
 		{
-			this._StorySprints = new EntitySet<StorySprint>(new Action<StorySprint>(this.attach_StorySprints), new Action<StorySprint>(this.detach_StorySprints));
+			this._Stories = new EntitySet<Story>(new Action<Story>(this.attach_Stories), new Action<Story>(this.detach_Stories));
 			OnCreated();
 		}
 		
@@ -2442,16 +2507,16 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StoryPriority_StorySprint", Storage="_StorySprints", ThisKey="StoryPriorityID", OtherKey="Priority")]
-		public EntitySet<StorySprint> StorySprints
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StoryPriority_Story", Storage="_Stories", ThisKey="StoryPriorityID", OtherKey="Priority")]
+		public EntitySet<Story> Stories
 		{
 			get
 			{
-				return this._StorySprints;
+				return this._Stories;
 			}
 			set
 			{
-				this._StorySprints.Assign(value);
+				this._Stories.Assign(value);
 			}
 		}
 		
@@ -2475,13 +2540,13 @@ namespace SkrumManagerService
 			}
 		}
 		
-		private void attach_StorySprints(StorySprint entity)
+		private void attach_Stories(Story entity)
 		{
 			this.SendPropertyChanging();
 			entity.StoryPriority = this;
 		}
 		
-		private void detach_StorySprints(StorySprint entity)
+		private void detach_Stories(Story entity)
 		{
 			this.SendPropertyChanging();
 			entity.StoryPriority = null;
@@ -2494,8 +2559,6 @@ namespace SkrumManagerService
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _Priority;
-		
 		private int _Points;
 		
 		private int _StoryID;
@@ -2506,14 +2569,10 @@ namespace SkrumManagerService
 		
 		private EntityRef<Story> _Story;
 		
-		private EntityRef<StoryPriority> _StoryPriority;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnPriorityChanging(int value);
-    partial void OnPriorityChanged();
     partial void OnPointsChanging(int value);
     partial void OnPointsChanged();
     partial void OnStoryIDChanging(int value);
@@ -2526,32 +2585,7 @@ namespace SkrumManagerService
 		{
 			this._Sprint = default(EntityRef<Sprint>);
 			this._Story = default(EntityRef<Story>);
-			this._StoryPriority = default(EntityRef<StoryPriority>);
 			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Priority", DbType="Int NOT NULL")]
-		public int Priority
-		{
-			get
-			{
-				return this._Priority;
-			}
-			set
-			{
-				if ((this._Priority != value))
-				{
-					if (this._StoryPriority.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPriorityChanging(value);
-					this.SendPropertyChanging();
-					this._Priority = value;
-					this.SendPropertyChanged("Priority");
-					this.OnPriorityChanged();
-				}
-			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Points", DbType="Int NOT NULL")]
@@ -2686,40 +2720,6 @@ namespace SkrumManagerService
 						this._StoryID = default(int);
 					}
 					this.SendPropertyChanged("Story");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StoryPriority_StorySprint", Storage="_StoryPriority", ThisKey="Priority", OtherKey="StoryPriorityID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
-		public StoryPriority StoryPriority
-		{
-			get
-			{
-				return this._StoryPriority.Entity;
-			}
-			set
-			{
-				StoryPriority previousValue = this._StoryPriority.Entity;
-				if (((previousValue != value) 
-							|| (this._StoryPriority.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._StoryPriority.Entity = null;
-						previousValue.StorySprints.Remove(this);
-					}
-					this._StoryPriority.Entity = value;
-					if ((value != null))
-					{
-						value.StorySprints.Add(this);
-						this._Priority = value.StoryPriorityID;
-					}
-					else
-					{
-						this._Priority = default(int);
-					}
-					this.SendPropertyChanged("StoryPriority");
 				}
 			}
 		}

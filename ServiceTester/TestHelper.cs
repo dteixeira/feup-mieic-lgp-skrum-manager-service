@@ -47,7 +47,7 @@ namespace ServiceTester
                 Password = null,
                 PhotoURL = "http://default.com"
             };
-            return tester.Users.CreatePerson(person);
+            return tester.Data.CreatePerson(person);
         }
 
         public static Project CreateDefaultProject(ServiceTest tester)
@@ -60,7 +60,7 @@ namespace ServiceTester
                 Speed = 1,
                 SprintDuration = 1
             };
-            return tester.Projects.CreateProject(project);
+            return tester.Data.CreateProject(project);
         }
 
         public static Role CreateDefaultRole(ServiceTest tester, Project project, Person person)
@@ -73,7 +73,7 @@ namespace ServiceTester
                 ProjectID = project.ProjectID,
                 RoleDescription = RoleDescription.TeamMember
             };
-            return tester.Users.CreateRole(role);
+            return tester.Data.CreateRole(role);
         }
 
         public static Story CreateDefaultStory(ServiceTest tester, Project project)
@@ -86,7 +86,7 @@ namespace ServiceTester
                 ProjectID = project.ProjectID,
                 State = StoryState.InProgress,
             };
-            return tester.Projects.CreateStory(story);
+            return tester.Data.CreateStory(story);
         }
 
         public static Task CreateDefaultTask(ServiceTest tester, Story story)
@@ -99,7 +99,7 @@ namespace ServiceTester
                 State = TaskState.Waiting,
                 StoryID = story.StoryID
             };
-            return tester.Projects.CreateTask(task);
+            return tester.Data.CreateTask(task);
         }
 
         public static Sprint CreateDefaultSprint(ServiceTest tester, Project project)
@@ -112,7 +112,7 @@ namespace ServiceTester
                 Number = 1,
                 ProjectID = project.ProjectID
             };
-            return tester.Projects.CreateSprint(sprint);
+            return tester.Data.CreateSprint(sprint);
         }
 
         public static Meeting CreateDefaultMeeting(ServiceTest tester, Project project)
@@ -124,7 +124,7 @@ namespace ServiceTester
                 Number = 1,
                 ProjectID = project.ProjectID
             };
-            return tester.Projects.CreateMeeting(meeting);
+            return tester.Data.CreateMeeting(meeting);
         }
     }
 }

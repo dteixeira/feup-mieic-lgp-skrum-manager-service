@@ -62,14 +62,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataService\IDataService.cs" />
+    <Compile Include="DataService\DataService.cs" />
     <Compile Include="NotificationService\INotificationService.cs" />
     <Compile Include="NotificationService\INotificationServiceCallback.cs" />
     <Compile Include="NotificationService\NotificationService.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProjectService\IProjectService.cs" />
-    <Compile Include="ProjectService\ProjectService.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -95,8 +95,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SkrumDataclasses.dbml</DependentUpon>
     </Compile>
-    <Compile Include="UserService\IUserService.cs" />
-    <Compile Include="UserService\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

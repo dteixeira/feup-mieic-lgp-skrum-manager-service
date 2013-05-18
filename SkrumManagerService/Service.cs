@@ -4,8 +4,7 @@ using System.ServiceProcess;
 public class SkrumManagerWindowsService : ServiceBase
 {
     public ServiceHost notificationServiceHost = null;
-    public ServiceHost projectServiceHost = null;
-    public ServiceHost userServiceHost = null;
+    public ServiceHost dataServiceHost = null;
 
     /// <summary>
     /// Creates a new manager service instance.
@@ -39,22 +38,16 @@ public class SkrumManagerWindowsService : ServiceBase
             {
                 this.notificationServiceHost.Close();
             }
-            if (this.userServiceHost != null)
+            if (this.dataServiceHost != null)
             {
-                this.userServiceHost.Close();
-            }
-            if (this.projectServiceHost != null)
-            {
-                this.projectServiceHost.Close();
+                this.dataServiceHost.Close();
             }
 
             // Creates new instances of the services.
             this.notificationServiceHost = new ServiceHost(typeof(Notifications.NotificationService));
             this.notificationServiceHost.Open();
-            this.userServiceHost = new ServiceHost(typeof(Users.UserService));
-            this.userServiceHost.Open();
-            this.projectServiceHost = new ServiceHost(typeof(Projects.ProjectService));
-            this.projectServiceHost.Open();
+            this.dataServiceHost = new ServiceHost(typeof(Data.DataService));
+            this.dataServiceHost.Open();
         }
         catch (System.Exception e)
         {
@@ -76,15 +69,10 @@ public class SkrumManagerWindowsService : ServiceBase
                 this.notificationServiceHost.Close();
                 this.notificationServiceHost = null;
             }
-            if (this.userServiceHost != null)
+            if (this.dataServiceHost != null)
             {
-                this.userServiceHost.Close();
-                this.userServiceHost = null;
-            }
-            if (this.projectServiceHost != null)
-            {
-                this.projectServiceHost.Close();
-                this.projectServiceHost = null;
+                this.dataServiceHost.Close();
+                this.dataServiceHost = null;
             }
         }
         catch (System.Exception e)

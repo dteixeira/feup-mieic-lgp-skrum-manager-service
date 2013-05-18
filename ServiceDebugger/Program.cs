@@ -12,13 +12,11 @@ namespace ServiceDebugger
         {
             // Instantiates hosts for all needed services.
             ServiceHost notificationServiceHost = new ServiceHost(typeof(Notifications.NotificationService));
-            ServiceHost projectServiceHost = new ServiceHost(typeof(Projects.ProjectService));
-            ServiceHost userServiceHost = new ServiceHost(typeof(Users.UserService));
+            ServiceHost dataServiceHost = new ServiceHost(typeof(Data.DataService));
 
             // Runs all the services.
             notificationServiceHost.Open();
-            projectServiceHost.Open();
-            userServiceHost.Open();
+            dataServiceHost.Open();
 
             System.Console.WriteLine("The services are running. Press any key to terminate.");
             System.Console.ReadKey();
@@ -26,8 +24,7 @@ namespace ServiceDebugger
 
             // Close all services.
             notificationServiceHost.Close();
-            projectServiceHost.Close();
-            userServiceHost.Close();
+            dataServiceHost.Close();
         }
     }
 }
