@@ -1140,50 +1140,27 @@ namespace Data
             {
                 using (SkrumManagerService.SkrumDataclassesDataContext context = new SkrumManagerService.SkrumDataclassesDataContext())
                 {
-                    var existent = context.PersonTasks.FirstOrDefault(pt => pt.PersonID == personTask.PersonID && pt.TaskID == personTask.TaskID);
-
-                    // Updates the spent time if it already exists.
-                    if (existent != null)
+                    var created = new SkrumManagerService.PersonTask
                     {
-                        existent.SpentTime += personTask.SpentTime;
-                        context.SubmitChanges();
+                        CreationDate = personTask.CreationDate,
+                        PersonID = personTask.PersonID,
+                        SpentTime = personTask.SpentTime,
+                        TaskID = personTask.TaskID
+                    };
+                    context.PersonTasks.InsertOnSubmit(created);
+                    context.SubmitChanges();
 
-                        // Notify clients.
-                        var task = context.Tasks.FirstOrDefault(t => t.TaskID == existent.TaskID);
-                        var story = context.Stories.FirstOrDefault(s => s.StoryID == task.StoryID);
-                        Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, story.ProjectID);
-                        return new ServiceDataTypes.PersonTask
-                        {
-                            CreationDate = existent.CreationDate,
-                            PersonID = existent.PersonID,
-                            SpentTime = existent.SpentTime,
-                            TaskID = existent.TaskID
-                        };
-                    }
-                    else
+                    // Notify clients.
+                    var task = context.Tasks.FirstOrDefault(t => t.TaskID == created.TaskID);
+                    var story = context.Stories.FirstOrDefault(s => s.StoryID == task.StoryID);
+                    Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, story.ProjectID);
+                    return new ServiceDataTypes.PersonTask
                     {
-                        var created = new SkrumManagerService.PersonTask
-                        {
-                            CreationDate = personTask.CreationDate,
-                            PersonID = personTask.PersonID,
-                            SpentTime = personTask.SpentTime,
-                            TaskID = personTask.TaskID
-                        };
-                        context.PersonTasks.InsertOnSubmit(created);
-                        context.SubmitChanges();
-
-                        // Notify clients.
-                        var task = context.Tasks.FirstOrDefault(t => t.TaskID == created.TaskID);
-                        var story = context.Stories.FirstOrDefault(s => s.StoryID == task.StoryID);
-                        Notifications.NotificationService.Instance.NotifyClients(ServiceDataTypes.NotificationType.ProjectModification, story.ProjectID);
-                        return new ServiceDataTypes.PersonTask
-                        {
-                            CreationDate = created.CreationDate,
-                            PersonID = created.PersonID,
-                            SpentTime = created.SpentTime,
-                            TaskID = created.TaskID
-                        };
-                    }
+                        CreationDate = created.CreationDate,
+                        PersonID = created.PersonID,
+                        SpentTime = created.SpentTime,
+                        TaskID = created.TaskID
+                    };
                 }
             }
             catch (System.Exception e)
@@ -1347,8 +1324,8 @@ namespace Data
                             }
                         ).ToList<ServiceDataTypes.Role>(),
                         Tasks = (
-                            from t in person.PersonTasks.AsEnumerable()
-                            let task = this.GetTaskByID(t.TaskID)
+                            from t in person.PersonTasks.Select(pt => pt.TaskID).Distinct().AsEnumerable()
+                            let task = this.GetTaskByID(t)
                             where task != null
                             select task
                         ).ToList<ServiceDataTypes.Task>()

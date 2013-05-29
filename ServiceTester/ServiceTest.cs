@@ -1298,8 +1298,8 @@ namespace ServiceTester
             personTask = this.data.AddWorkInTask(personTask);
             task = this.data.GetTaskByID(task.TaskID);
             Assert.IsNotNull(personTask, "Failed to create a PersonTask.");
-            Assert.AreEqual(1, task.PersonTasks.Count(), "Incorrect number of person tasks.");
-            Assert.AreEqual(60, task.PersonTasks.First().SpentTime, "Incorrect spent time.");
+            Assert.AreEqual(2, task.PersonTasks.Count(), "Incorrect number of person tasks.");
+            Assert.AreEqual(30, task.PersonTasks.First().SpentTime, "Incorrect spent time.");
 
             // Add work to new person, should pass.
             person.Email = "test@email.domain";
@@ -1308,7 +1308,7 @@ namespace ServiceTester
             personTask = this.data.AddWorkInTask(personTask);
             task = this.data.GetTaskByID(task.TaskID);
             Assert.IsNotNull(personTask, "Failed to create a PersonTask.");
-            Assert.AreEqual(2, task.PersonTasks.Count(), "Incorrect number of person tasks.");
+            Assert.AreEqual(3, task.PersonTasks.Count(), "Incorrect number of person tasks.");
         }
     }
 }
