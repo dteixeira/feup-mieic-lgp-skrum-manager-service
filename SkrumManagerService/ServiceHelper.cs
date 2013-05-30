@@ -21,7 +21,7 @@ namespace SkrumManagerService
             byte[] digest = sha512.ComputeHash(encoder.GetBytes(password));
             sha512.Dispose();
             string result = System.BitConverter.ToString(digest);
-            result = password.Replace("-", "");
+            result = result.Replace("-", "").ToLower();
             return result;
         }
     }
