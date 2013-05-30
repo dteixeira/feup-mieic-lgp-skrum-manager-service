@@ -28,6 +28,11 @@ namespace ServiceTester
             this.data = ServiceTest.dataClient;
         }
 
+
+
+        /// <summary>
+        /// Method to test the creation of a Person in the database using the WebService.
+        /// </summary>
         [TestMethod]
         public void CreatePersonTest()
         {
@@ -80,6 +85,9 @@ namespace ServiceTester
             Assert.IsNotNull(validAdmin, "Failed to create an admin.");
         }
 
+        /// <summary>
+        /// Method to test the update of a Persons information in the database.
+        /// </summary>
         [TestMethod]
         public void UpdatePersonTest()
         {
@@ -129,6 +137,9 @@ namespace ServiceTester
             Assert.IsNull(changelessPerson.Password, "Password was updated even though it shouldn't be.");
         }
 
+        /// <summary>
+        /// Method to test the change of a Persons password in the database.
+        /// </summary>
         [TestMethod]
         public void UpdatePersonPasswordTest()
         {
@@ -157,6 +168,9 @@ namespace ServiceTester
             Assert.IsNull(person, "Return success even though the person to updated did not exist.");
         }
 
+        /// <summary>
+        /// Method to test the deletion of a Persons record in the database.
+        /// </summary>
         [TestMethod]
         public void DeletePersonTest()
         {
@@ -176,6 +190,10 @@ namespace ServiceTester
             Assert.IsFalse(this.data.DeletePerson(person.PersonID), "Return success despite the person being already deleted.");
         }
 
+
+        /// <summary>
+        /// Method to test the fetching of a Persons record in the database, searching by its ID.
+        /// </summary>
         [TestMethod]
         public void GetPersonByIDTest()
         {
@@ -200,6 +218,9 @@ namespace ServiceTester
             Assert.IsNull(person, "Person was retrieved despite the ID being invalid.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of a Persons record in the database, searching by its email.
+        /// </summary>
         [TestMethod]
         public void GetPersonByEmailTest()
         {
@@ -223,6 +244,9 @@ namespace ServiceTester
             Assert.IsNull(person, "Retrieved a person by an invalid email.");
         }
 
+        /// <summary>
+        /// Method to test the creation of a Role record in the database using the WebService.
+        /// </summary>
         [TestMethod]
         public void CreateRoleTest()
         {
@@ -280,6 +304,10 @@ namespace ServiceTester
             Assert.IsNotNull(role, "Role password was not set.");
         }
 
+
+        /// <summary>
+        /// Method to test the update of a Roles record in the database.
+        /// </summary>
         [TestMethod]
         public void UpdateRoleTest()
         {
@@ -307,6 +335,9 @@ namespace ServiceTester
             Assert.IsNull(role, "Updated role despite being invalid.");
         }
 
+        /// <summary>
+        /// Method to test the update of a Roles password in the database.
+        /// </summary>
         [TestMethod]
         public void UpdateRolePasswordTest()
         {
@@ -330,6 +361,9 @@ namespace ServiceTester
             Assert.IsNull(role, "Role was updated despite being invalid.");
         }
 
+        /// <summary>
+        /// Method to test the deletion of a Roles record in the database.
+        /// </summary>
         [TestMethod]
         public void DeleteRoleTest()
         {
@@ -344,6 +378,9 @@ namespace ServiceTester
             Assert.IsFalse(this.data.DeleteRole(role.RoleID), "Returned success despite the role being already deleted.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of a Roles record in the database, searching by its ID.
+        /// </summary>
         [TestMethod]
         public void GetRoleByIDTest()
         {
@@ -362,6 +399,9 @@ namespace ServiceTester
             Assert.IsNull(role, "Retrieved an inexistent role.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of all Persons records, whenever that Person is involved in a certain project.
+        /// </summary>
         [TestMethod]
         public void GetAllPeopleInProjectTest()
         {
@@ -399,6 +439,9 @@ namespace ServiceTester
             Assert.IsNull(people, "Retrieved people despite being an invalid project.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of all Roles records, whenever that Role is present in a certain project.
+        /// </summary>
         [TestMethod]
         public void GetAllRolesInProjectTest()
         {
@@ -436,6 +479,9 @@ namespace ServiceTester
             Assert.IsNull(roles, "Retrieved roles despite being an invalid project.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of all Persons records in the database.
+        /// </summary>
         [TestMethod]
         public void GetAllPeopleTest()
         {
@@ -464,6 +510,9 @@ namespace ServiceTester
             Assert.AreEqual(people.Length, 20, "Incorrect number of people returned.");
         }
 
+        /// <summary>
+        /// Method to test the login operation for the admin of the system using the WebService.
+        /// </summary>
         [TestMethod]
         public void LoginAdminTest()
         {
@@ -486,6 +535,9 @@ namespace ServiceTester
             Assert.IsFalse(this.data.LoginAdmin(-1, "123456"), "Returned success despite not being an admin.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of all Task records, whenever a certain Person has worked an amount of time in that Task.
+        /// </summary>
         [TestMethod]
         public void GetAllTasksInPersonTest()
         {
@@ -528,6 +580,9 @@ namespace ServiceTester
             Assert.IsNull(tasks, "Returned tasks despite the user not existing.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of all Roles records, whenever a certain Person has that Role associated.
+        /// </summary>
         [TestMethod]
         public void GetAllRolesInPersonTest()
         {
@@ -558,6 +613,9 @@ namespace ServiceTester
             Assert.IsNull(roles, "Retrieved roles despite being an invalid project.");
         }
 
+        /// <summary>
+        /// Method to test the login operation for the admin of a project using the WebService. 
+        /// </summary>
         [TestMethod]
         public void LoginProjectAdminTest()
         {
@@ -582,6 +640,9 @@ namespace ServiceTester
             Assert.IsFalse(this.data.LoginProjectAdmin(-1, "654321"), "Returned success despite not being an admin.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of all Person records, whenever that Person has worked some time on a certain Task
+        /// </summary>
         [TestMethod]
         public void GetAllPeopleWorkingInTaskTest()
         {
@@ -626,6 +687,9 @@ namespace ServiceTester
             Assert.IsNull(people, "Returned people even though the task didn't exist.");
         }
 
+        /// <summary>
+        /// Method to test the creation of a Project record in the database, using the WebService
+        /// </summary>
         [TestMethod]
         public void CreateProjectTest()
         {
@@ -662,6 +726,9 @@ namespace ServiceTester
             Assert.IsNotNull(project.Password, "Password was not set.");
         }
 
+        /// <summary>
+        /// Method to test the update of a Projects information in the database.
+        /// </summary>
         [TestMethod]
         public void UpdateProjectTest()
         {
@@ -688,6 +755,9 @@ namespace ServiceTester
             Assert.IsNull(project2, "Project was created despite not having an unique name.");
         }
 
+        /// <summary>
+        /// Method to test the update of a Projects password in the database.
+        /// </summary>
         [TestMethod]
         public void UpdateProjectPasswordTest()
         {
@@ -710,6 +780,9 @@ namespace ServiceTester
             Assert.IsNull(project, "Returned success despite invalid project.");
         }
 
+        /// <summary>
+        /// Method to test the deletion of a Projects record in the database.
+        /// </summary>
         [TestMethod]
         public void DeleteProjectTest()
         {
@@ -721,6 +794,9 @@ namespace ServiceTester
             Assert.IsFalse(this.data.DeleteProject(project.ProjectID), "Returned success despite invalid project.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of a Projects record in the database, searching by its ID.
+        /// </summary>
         [TestMethod]
         public void GetProjectByIDTest()
         {
@@ -737,6 +813,9 @@ namespace ServiceTester
             Assert.IsNull(project, "Returned success despite invalid project.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of a Projects record in the database, searching by its Name.
+        /// </summary>
         [TestMethod]
         public void GetProjectByNameTest()
         {
@@ -753,6 +832,9 @@ namespace ServiceTester
             Assert.IsNull(project, "Returned success despite invalid project.");
         }
 
+        /// <summary>
+        /// Method to test the creation of a Sprint record in the database, using the WebService.
+        /// </summary>
         [TestMethod]
         public void CreateSprintTest()
         {
@@ -766,7 +848,10 @@ namespace ServiceTester
             sprint = this.data.CreateSprint(sprint);
             Assert.IsNull(sprint, "Created the sprint despite being invalid.");
         }
-
+        
+        /// <summary>
+        /// Method to test the deletion of a Sprint record in the database.
+        /// </summary>
         [TestMethod]
         public void DeleteSprintTest()
         {
@@ -785,6 +870,9 @@ namespace ServiceTester
             Assert.IsFalse(this.data.DeleteSprint(sprint.SprintID), "Returned success despite invalid sprint.");
         }
 
+        /// <summary>
+        /// Method to test the update of a Sprints information in the database.
+        /// </summary>
         [TestMethod]
         public void UpdateSprintTest()
         {
@@ -802,6 +890,9 @@ namespace ServiceTester
             Assert.IsNull(sprint, "Returned success despite invalid sprint.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of a Sprints record in the database, searching by its ID.
+        /// </summary>
         [TestMethod]
         public void GetSprintByIDTest()
         {
@@ -819,6 +910,9 @@ namespace ServiceTester
             Assert.IsNull(sprint, "Returned success despite invalid sprint.");
         }
 
+        /// <summary>
+        /// Method to create a Story record in the database, using the WebService.
+        /// </summary>
         [TestMethod]
         public void CreateStoryTest()
         {
@@ -849,6 +943,9 @@ namespace ServiceTester
             Assert.IsNull(story1, "Returned success despite invalid story.");
         }
 
+        /// <summary>
+        /// Method to test the deletion of a Story record in the database.
+        /// </summary>
         [TestMethod]
         public void DeleteStoryTest()
         {
@@ -894,6 +991,9 @@ namespace ServiceTester
             Assert.IsFalse(this.data.DeleteStory(story1.StoryID), "Returned success despite the story should be already deleted.");
         }
 
+        /// <summary>
+        /// Method to test the updating of a Story information in the database.
+        /// </summary>
         [TestMethod]
         public void UpdateStoryTest()
         {
@@ -911,6 +1011,9 @@ namespace ServiceTester
             Assert.IsNull(story, "Returned success despite invalid story.");
         }
 
+        /// <summary>
+        /// Method to test the fecthing of a Storys record in the database, searching by its ID.
+        /// </summary>
         [TestMethod]
         public void GetStoryByIDTest()
         {
@@ -928,6 +1031,9 @@ namespace ServiceTester
             Assert.IsNull(story, "Returned success despite story being invalid.");
         }
 
+        /// <summary>
+        /// Method to test the creation of a Tasks record in the database.
+        /// </summary>
         [TestMethod]
         public void CreateTaskTest()
         {
@@ -943,6 +1049,9 @@ namespace ServiceTester
             Assert.IsNull(task, "Returned success despite invalid task.");
         }
 
+        /// <summary>
+        /// Method to test the deletion of a Tasks record in the database.
+        /// </summary>
         [TestMethod]
         public void DeleteTaskTest()
         {
@@ -967,6 +1076,9 @@ namespace ServiceTester
             Assert.IsFalse(this.data.DeleteTask(task.TaskID), "Task was not deleted automaticaly.");
         }
 
+        /// <summary>
+        /// Method to test the updating of a Tasks information in the database.
+        /// </summary>
         [TestMethod]
         public void UpdateTaskTest()
         {
@@ -989,6 +1101,9 @@ namespace ServiceTester
             Assert.IsNull(task, "Returned success despite invalid task.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of a Tasks record in the database, searching by its ID.
+        /// </summary>
         [TestMethod]
         public void GetTaskByIDTest()
         {
@@ -1004,6 +1119,9 @@ namespace ServiceTester
             Assert.IsNull(task, "Returned success despite invalid task.");
         }
 
+        /// <summary>
+        /// Method to test the creation of a Meeting record in the database.
+        /// </summary>
         [TestMethod]
         public void CreateMeetingTest()
         {
@@ -1018,6 +1136,9 @@ namespace ServiceTester
             Assert.IsNull(meeting, "Returned success despite invalid meeting.");
         }
 
+        /// <summary>
+        /// Method to test the deletion of a Meetings record in the database.
+        /// </summary>
         [TestMethod]
         public void DeleteMeetingTest()
         {
@@ -1030,6 +1151,9 @@ namespace ServiceTester
             Assert.IsFalse(this.data.DeleteMeeting(meeting.MeetingID), "Returned success despite invalid meeting.");
         }
 
+        /// <summary>
+        /// Method to test the updating of a Meetings record in the database.
+        /// </summary>
         [TestMethod]
         public void UpdateMeetingTest()
         {
@@ -1048,6 +1172,9 @@ namespace ServiceTester
             Assert.IsNull(meeting, "Returned success despite invalid meeting.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of a Meetings record in the database, searching by its ID.
+        /// </summary>
         [TestMethod]
         public void GetMeetingByIDTest()
         {
@@ -1062,6 +1189,9 @@ namespace ServiceTester
             Assert.IsNull(meeting, "Returned success despite invalid meeting.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of all Project records in the database. 
+        /// </summary>
         [TestMethod]
         public void GetAllProjectsTest()
         {
@@ -1081,6 +1211,9 @@ namespace ServiceTester
             Assert.AreEqual(projects.Count(), 3, "Incorrect number of projects returned.");
         }
 
+        /// <summary>
+        /// Method to test the login operation in a private project existing in the database.
+        /// </summary>
         [TestMethod]
         public void LoginProjectTest()
         {
@@ -1097,6 +1230,9 @@ namespace ServiceTester
             Assert.IsFalse(this.data.LoginProject(-1, "654321"), "Returned success despite invalid login.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of all Sprint records, whenever that Sprint is part of a certain project.
+        /// </summary>
         [TestMethod]
         public void GetAllSprintsInProjectTest()
         {
@@ -1121,6 +1257,9 @@ namespace ServiceTester
             Assert.IsNull(sprints, "Returned success despite invalid project.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of all Story records, whenever that Story is a part of a certain project.
+        /// </summary>
         [TestMethod]
         public void GetAllStoriesInProjectTest()
         {
@@ -1156,6 +1295,9 @@ namespace ServiceTester
             Assert.IsTrue(false, "Not implemented.");
         }
 
+        /// <summary>
+        /// Method to test the fetching of all Meeting records, whenever that Meeting is a part of a certain project.
+        /// </summary>
         [TestMethod]
         public void GetAllMeetingsInProjectTest()
         {
@@ -1179,12 +1321,16 @@ namespace ServiceTester
             Assert.IsNull(meetings, "Returned success despite invalid project.");
         }
 
+
         [TestMethod]
         public void GetAllTasksInProjectByStateTest()
         {
             Assert.IsTrue(false, "Not implemented.");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [TestMethod]
         public void GetAllStoriesInProjectByStateTest()
         {
@@ -1240,6 +1386,9 @@ namespace ServiceTester
             Assert.IsTrue(false, "Not implemented.");
         }
 
+        /// <summary>
+        /// Method to test the updating of the order of the Stories present in a certain project. 
+        /// </summary>
         [TestMethod]
         public void UpdateStoryOrderTest()
         {
@@ -1267,6 +1416,9 @@ namespace ServiceTester
             Assert.AreEqual(story4.StoryID, story1.PreviousStory, "Incorrect previous story.");
         }
 
+        /// <summary>
+        /// Method to test the adition of a contribution of a certain Person to a certain Task in the database. 
+        /// </summary>
         [TestMethod]
         public void AddWorkInTaskTest()
         {
