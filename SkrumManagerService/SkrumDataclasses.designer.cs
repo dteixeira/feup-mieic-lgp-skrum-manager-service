@@ -771,6 +771,8 @@ namespace SkrumManagerService
 		
 		private System.DateTime _CreationDate;
 		
+		private int _PersonTaskID;
+		
 		private EntityRef<Person> _Person;
 		
 		private EntityRef<Task> _Task;
@@ -787,6 +789,8 @@ namespace SkrumManagerService
     partial void OnSpentTimeChanged();
     partial void OnCreationDateChanging(System.DateTime value);
     partial void OnCreationDateChanged();
+    partial void OnPersonTaskIDChanging(int value);
+    partial void OnPersonTaskIDChanged();
     #endregion
 		
 		public PersonTask()
@@ -796,7 +800,7 @@ namespace SkrumManagerService
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskID", DbType="Int NOT NULL")]
 		public int TaskID
 		{
 			get
@@ -820,7 +824,7 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonID", DbType="Int NOT NULL")]
 		public int PersonID
 		{
 			get
@@ -884,7 +888,27 @@ namespace SkrumManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Person_PersonTask", Storage="_Person", ThisKey="PersonID", OtherKey="PersonID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonTaskID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int PersonTaskID
+		{
+			get
+			{
+				return this._PersonTaskID;
+			}
+			set
+			{
+				if ((this._PersonTaskID != value))
+				{
+					this.OnPersonTaskIDChanging(value);
+					this.SendPropertyChanging();
+					this._PersonTaskID = value;
+					this.SendPropertyChanged("PersonTaskID");
+					this.OnPersonTaskIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Person_PersonTask", Storage="_Person", ThisKey="PersonID", OtherKey="PersonID", IsForeignKey=true)]
 		public Person Person
 		{
 			get

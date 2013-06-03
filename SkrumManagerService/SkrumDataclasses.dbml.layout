@@ -1,188 +1,188 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 12" name="SkrumDataclasses">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 14.25, 13" name="SkrumDataclasses">
   <DataContextMoniker Name="/SkrumDataclassesDataContext" />
   <nestedChildShapes>
-    <classShape Id="212e155a-4fff-414b-a574-f90f9b8755d5" absoluteBounds="1.375, 6.375, 2, 1.7708968098958327">
+    <classShape Id="938577cc-4e92-451e-9834-7131b09b48f9" absoluteBounds="3.5, 5.5, 2, 1.7708968098958327">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/Meeting" />
       <nestedChildShapes>
-        <elementListCompartment Id="2976cc2b-d0f1-40d8-a75b-2d72a9e943a4" absoluteBounds="1.3900000000000001, 6.835, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="1094b4a4-fda3-4f8d-a2d5-31aa7d7b3689" absoluteBounds="3.515, 5.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="5a0d1be2-5314-463f-bfeb-e37bea5b06af" absoluteBounds="7.375, 3.125, 2, 1.1939925130208333">
+    <classShape Id="d68625af-73fa-4e12-9880-31b20a150e0d" absoluteBounds="6.5, 1.125, 2, 1.1939925130208333">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/TaskState" />
       <nestedChildShapes>
-        <elementListCompartment Id="cf267ef2-94fd-4385-8b5a-4889f3c15e80" absoluteBounds="7.3900000000000006, 3.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="e6d313ee-fbfc-4f5b-8b1c-2c099726f9cc" absoluteBounds="6.515, 1.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="7664afc4-2d2a-4e71-8b43-732df0ba8d50" absoluteBounds="7, 0.625, 2, 1.9631982421875">
+    <classShape Id="0aa4ad69-d160-4c20-9ab0-a049dfd78877" absoluteBounds="9.25, 0.75, 2, 1.9631982421875">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/Person" />
       <nestedChildShapes>
-        <elementListCompartment Id="f07fc509-0dcd-48c2-8b69-b84239d03183" absoluteBounds="7.0150000000000006, 1.085, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="eb9cb4d7-cfcb-49db-a187-2c3f55ac73bc" absoluteBounds="9.265, 1.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="9c80d800-4bd7-4562-9f18-c44c59d98067" absoluteBounds="1.375, 0.5, 2, 1.5785953776041666">
+    <classShape Id="bec3c0e2-1694-4324-b902-595f7afe254b" absoluteBounds="12, 3.875, 2, 1.7708968098958327">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/PersonTask" />
       <nestedChildShapes>
-        <elementListCompartment Id="ff4937a5-ff03-4cad-aee3-eaf3da3fc88c" absoluteBounds="1.3900000000000006, 0.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="8f0845a4-febb-478d-946c-73fe3f72931a" absoluteBounds="12.015, 4.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="391c5503-090e-4716-9bbc-74928b8ec88b" absoluteBounds="0.875, 8.875, 2, 2.1554996744791657">
+    <classShape Id="a1363577-9ac2-4f05-8264-87990de9fd3e" absoluteBounds="0.75, 6.625, 2, 2.1554996744791657">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/Project" />
       <nestedChildShapes>
-        <elementListCompartment Id="a58cfe6a-0c83-4d75-a312-c8c0819a392f" absoluteBounds="0.89, 9.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="c81cbf73-39ec-4417-87e2-a370fdb7e7eb" absoluteBounds="0.765, 7.085, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="4d67397c-2ed9-48eb-8c16-c8db0c7fe8db" absoluteBounds="3.5, 9, 2, 1.9631982421875005">
+    <classShape Id="7208c505-d14f-4924-ad90-ea503a17a007" absoluteBounds="6.5, 6.75, 2, 1.9631982421875005">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/Role" />
       <nestedChildShapes>
-        <elementListCompartment Id="ce5d063f-e65f-4fca-98d5-332379b6039f" absoluteBounds="3.5149999999999997, 9.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="9d83c6ef-38ab-436e-a315-d127bb0cb4e0" absoluteBounds="6.515, 7.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="89712a45-c57b-491c-955f-7000207c2fd2" absoluteBounds="1.25, 2.375, 2, 1.1939925130208333">
+    <classShape Id="e6c9d26d-ee73-42a8-9625-a53b45040c1b" absoluteBounds="3.75, 1.125, 2, 1.1939925130208333">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/RoleDescription" />
       <nestedChildShapes>
-        <elementListCompartment Id="03cb10fc-250f-411e-aa65-514d73f54540" absoluteBounds="1.2650000000000001, 2.835, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="9511d5b9-53f7-4120-970f-a17f086dea36" absoluteBounds="3.765, 1.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="84a85cdc-56a2-4daa-a5b2-882a0c6a1b9e" absoluteBounds="6.125, 9.125, 2, 1.9631982421874987">
+    <classShape Id="f3a3d715-7c57-44ec-a47b-0662b7e9c39f" absoluteBounds="3.5, 10.75, 2, 1.9631982421874987">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/Sprint" />
       <nestedChildShapes>
-        <elementListCompartment Id="254257ce-b29a-44c4-a793-dc1df1cf5a7d" absoluteBounds="6.1400000000000006, 9.585, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="67b9fae7-eae0-4621-98cb-4813febc74cb" absoluteBounds="3.515, 11.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="661424c1-bbd5-4a7f-a70b-4178bd6032e6" absoluteBounds="4.5, 4, 2, 2.3478011067708335">
+    <classShape Id="5dcf52fb-d081-418d-bcf0-2615c457ae90" absoluteBounds="6.5, 3.5, 2, 2.3478011067708335">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/Story" />
       <nestedChildShapes>
-        <elementListCompartment Id="d65a159f-e7e1-40b6-92f1-7f8f941a7e9f" absoluteBounds="4.515, 4.46, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="cdb701fe-07d1-4b39-9200-1bf6a3797c3a" absoluteBounds="6.515, 3.96, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="972932d5-0df4-4a4a-b7cc-22fad98155ca" absoluteBounds="1.375, 4.125, 2, 1.1939925130208335">
+    <classShape Id="476f0850-1383-465a-8e3e-a12fe69a2303" absoluteBounds="3.75, 3.125, 2, 1.1939925130208335">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/StoryPriority" />
       <nestedChildShapes>
-        <elementListCompartment Id="272233ac-7460-4117-85b3-cc7d674403b8" absoluteBounds="1.3900000000000001, 4.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="0c59b7b7-ca74-44fb-992b-b373c95fc0b4" absoluteBounds="3.765, 3.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="93d64e4a-a00c-4d10-be7d-6c54347e7c28" absoluteBounds="7.375, 4.75, 2, 1.3862939453124987">
+    <classShape Id="5f171983-163c-497c-937f-fefc7196cc44" absoluteBounds="6.25, 11, 2, 1.3862939453124987">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/StorySprint" />
       <nestedChildShapes>
-        <elementListCompartment Id="576bbbea-506a-4e42-a0af-230341854c0a" absoluteBounds="7.39, 5.2100000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="ff8b68af-cd4d-4bd0-a0fa-eaca60d88075" absoluteBounds="6.265, 11.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="995ffe39-1e3f-473a-8d04-044b9e7acefd" absoluteBounds="4.25, 7.25, 2, 1.1939925130208344">
+    <classShape Id="c5b24d44-1897-4141-aea8-b0ecc6351dbc" absoluteBounds="3.75, 8.125, 2, 1.1939925130208344">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/StoryState" />
       <nestedChildShapes>
-        <elementListCompartment Id="c9f1eed7-c8c9-46cb-8b94-74deae328ed4" absoluteBounds="4.2650000000000006, 7.7100000000000009, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="82235c35-e84f-44fd-9915-6d2dbc7c75fc" absoluteBounds="3.765, 8.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="b667a550-2385-4bbf-a077-06621362d193" absoluteBounds="4.625, 1.625, 2, 1.9631982421875005">
+    <classShape Id="9add28fd-87e2-49dd-b236-c8fd610ba834" absoluteBounds="9.25, 3.75, 2, 1.9631982421875005">
       <DataClassMoniker Name="/SkrumDataclassesDataContext/Task" />
       <nestedChildShapes>
-        <elementListCompartment Id="5a9e0af2-0ea1-4e18-9796-f62fa08dc5f3" absoluteBounds="4.6400000000000006, 2.085, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="43fc76a0-c95f-49cf-9a5c-3a7301d4b242" absoluteBounds="9.265, 4.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(7 : 1.09375); (3.375 : 1.09375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(11.25 : 1.73159912109375); (13 : 1.73159912109375); (13 : 3.875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/Person/Person_PersonTask" />
       <nodes>
-        <classShapeMoniker Id="7664afc4-2d2a-4e71-8b43-732df0ba8d50" />
-        <classShapeMoniker Id="9c80d800-4bd7-4562-9f18-c44c59d98067" />
+        <classShapeMoniker Id="0aa4ad69-d160-4c20-9ab0-a049dfd78877" />
+        <classShapeMoniker Id="bec3c0e2-1694-4324-b902-595f7afe254b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.125 : 8.875); (2.125 : 8.14589680989583)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 6.94794840494792); (3.5 : 6.94794840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/Project/Project_Meeting" />
       <nodes>
-        <classShapeMoniker Id="391c5503-090e-4716-9bbc-74928b8ec88b" />
-        <classShapeMoniker Id="212e155a-4fff-414b-a574-f90f9b8755d5" />
+        <classShapeMoniker Id="a1363577-9ac2-4f05-8264-87990de9fd3e" />
+        <classShapeMoniker Id="938577cc-4e92-451e-9834-7131b09b48f9" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(7 : 1.3593775); (4.0468775 : 1.3593775); (4.0468775 : 9)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(9.25150915249399 : 2.7131982421875); (9.09017556509888 : 2.87453182958261 : JumpStart); (8.97232443490112 : 2.99238295978037 : JumpEnd); (8.875 : 3.08970739468149); (8.875 : 7.73159912109375); (8.5 : 7.73159912109375)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/Person/Person_Role" />
       <nodes>
-        <classShapeMoniker Id="7664afc4-2d2a-4e71-8b43-732df0ba8d50" />
-        <classShapeMoniker Id="4d67397c-2ed9-48eb-8c16-c8db0c7fe8db" />
+        <classShapeMoniker Id="0aa4ad69-d160-4c20-9ab0-a049dfd78877" />
+        <classShapeMoniker Id="7208c505-d14f-4924-ad90-ea503a17a007" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.875 : 9.98159912109375); (3.5 : 9.98159912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 7.69794840494792); (6.04166666666667 : 7.69794840494792 : JumpStart); (6.29161142487981 : 7.69794840494792 : JumpEnd); (6.5 : 7.69794840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/Project/Project_Role" />
       <nodes>
-        <classShapeMoniker Id="391c5503-090e-4716-9bbc-74928b8ec88b" />
-        <classShapeMoniker Id="4d67397c-2ed9-48eb-8c16-c8db0c7fe8db" />
+        <classShapeMoniker Id="a1363577-9ac2-4f05-8264-87990de9fd3e" />
+        <classShapeMoniker Id="7208c505-d14f-4924-ad90-ea503a17a007" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(3.25 : 2.97199625651042); (3.84375 : 2.97199625651042); (3.84375 : 9)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.75 : 2.31807305724159); (6.125 : 2.69307305724159); (6.125 : 8.23682532356771); (6.5 : 8.23682532356771)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/RoleDescription/RoleDescription_Role" />
       <nodes>
-        <classShapeMoniker Id="89712a45-c57b-491c-955f-7000207c2fd2" />
-        <classShapeMoniker Id="4d67397c-2ed9-48eb-8c16-c8db0c7fe8db" />
+        <classShapeMoniker Id="e6c9d26d-ee73-42a8-9625-a53b45040c1b" />
+        <classShapeMoniker Id="7208c505-d14f-4924-ad90-ea503a17a007" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.875 : 11.0304996744792); (3.25 : 11.4054996744792); (3.25 : 11.4631982421875); (5.75 : 11.4631982421875); (6.125 : 11.0881982421875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(1.75 : 8.78049967447917); (1.75 : 11.7315991210937); (3.5 : 11.7315991210937)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/Project/Project_Sprint" />
       <nodes>
-        <classShapeMoniker Id="391c5503-090e-4716-9bbc-74928b8ec88b" />
-        <classShapeMoniker Id="84a85cdc-56a2-4daa-a5b2-882a0c6a1b9e" />
+        <classShapeMoniker Id="a1363577-9ac2-4f05-8264-87990de9fd3e" />
+        <classShapeMoniker Id="f3a3d715-7c57-44ec-a47b-0662b7e9c39f" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(1.09375 : 8.875); (1.09375 : 5.86464680989583); (3.76041666666667 : 5.86464680989583 : JumpStart); (3.92708333333333 : 5.86464680989583 : JumpEnd); (3.96354416666667 : 5.86464680989583 : JumpStart); (4.13021083333333 : 5.86464680989583 : JumpEnd); (4.5 : 5.86464680989583)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(1.75 : 6.625); (1.75 : 4.90949625651042); (6.04166666666667 : 4.90949625651042 : JumpStart); (6.20833333333333 : 4.90949625651042 : JumpEnd); (6.5 : 4.90949625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/Project/Project_Story" />
       <nodes>
-        <classShapeMoniker Id="391c5503-090e-4716-9bbc-74928b8ec88b" />
-        <classShapeMoniker Id="661424c1-bbd5-4a7f-a70b-4178bd6032e6" />
+        <classShapeMoniker Id="a1363577-9ac2-4f05-8264-87990de9fd3e" />
+        <classShapeMoniker Id="5dcf52fb-d081-418d-bcf0-2615c457ae90" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.20923076923077 : 6.34780110677083); (5.20923076923077 : 6.59780110677083); (5.80461538461539 : 6.59780110677083); (5.80461538461539 : 6.34780110677083)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(7.20923076923077 : 5.84780110677083); (7.20923076923077 : 6.09780110677083); (7.80461538461539 : 6.09780110677083); (7.80461538461539 : 5.84780110677083)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/Story/Story_Story" />
       <nodes>
-        <classShapeMoniker Id="661424c1-bbd5-4a7f-a70b-4178bd6032e6" />
-        <classShapeMoniker Id="661424c1-bbd5-4a7f-a70b-4178bd6032e6" />
+        <classShapeMoniker Id="5dcf52fb-d081-418d-bcf0-2615c457ae90" />
+        <classShapeMoniker Id="5dcf52fb-d081-418d-bcf0-2615c457ae90" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(3.375 : 4.72199625651042); (3.76041666666667 : 4.72199625651042 : JumpStart); (3.92708333333333 : 4.72199625651042 : JumpEnd); (3.96354416666667 : 4.72199625651042 : JumpStart); (4.13021083333333 : 4.72199625651042 : JumpEnd); (4.5 : 4.72199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.75 : 3.90949625651042); (6.04166666666667 : 3.90949625651042 : JumpStart); (6.20833333333333 : 3.90949625651042 : JumpEnd); (6.5 : 3.90949625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/StoryPriority/StoryPriority_Story" />
       <nodes>
-        <classShapeMoniker Id="972932d5-0df4-4a4a-b7cc-22fad98155ca" />
-        <classShapeMoniker Id="661424c1-bbd5-4a7f-a70b-4178bd6032e6" />
+        <classShapeMoniker Id="476f0850-1383-465a-8e3e-a12fe69a2303" />
+        <classShapeMoniker Id="5dcf52fb-d081-418d-bcf0-2615c457ae90" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(7.75 : 9.125); (7.75 : 6.1362939453125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 11.6931469726562); (6.25 : 11.6931469726562)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/Sprint/Sprint_StorySprint" />
       <nodes>
-        <classShapeMoniker Id="84a85cdc-56a2-4daa-a5b2-882a0c6a1b9e" />
-        <classShapeMoniker Id="93d64e4a-a00c-4d10-be7d-6c54347e7c28" />
+        <classShapeMoniker Id="f3a3d715-7c57-44ec-a47b-0662b7e9c39f" />
+        <classShapeMoniker Id="5f171983-163c-497c-937f-fefc7196cc44" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(6.5 : 5.44314697265625); (7.375 : 5.44314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.5 : 5.78626164523237); (8.81607443490112 : 6.10233608013349 : JumpStart); (8.93392556509888 : 6.22018721033125 : JumpEnd); (9.1875 : 6.47376164523237); (9.1875 : 10.625); (8.625 : 10.625); (8.25 : 11)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/Story/Story_StorySprint" />
       <nodes>
-        <classShapeMoniker Id="661424c1-bbd5-4a7f-a70b-4178bd6032e6" />
-        <classShapeMoniker Id="93d64e4a-a00c-4d10-be7d-6c54347e7c28" />
+        <classShapeMoniker Id="5dcf52fb-d081-418d-bcf0-2615c457ae90" />
+        <classShapeMoniker Id="5f171983-163c-497c-937f-fefc7196cc44" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.79211538461538 : 7.25); (4.79211538461538 : 6.34780110677083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.75 : 8.15622649649439); (6.06607443490112 : 7.84015206159327 : JumpStart); (6.18392556509888 : 7.72230093139551 : JumpEnd); (6.28125 : 7.62497649649439); (6.28125 : 5.40990068164063); (6.5 : 5.40990068164063)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/StoryState/StoryState_Story" />
       <nodes>
-        <classShapeMoniker Id="995ffe39-1e3f-473a-8d04-044b9e7acefd" />
-        <classShapeMoniker Id="661424c1-bbd5-4a7f-a70b-4178bd6032e6" />
+        <classShapeMoniker Id="c5b24d44-1897-4141-aea8-b0ecc6351dbc" />
+        <classShapeMoniker Id="5dcf52fb-d081-418d-bcf0-2615c457ae90" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.625 : 1.85179768880208); (4.13021083333333 : 1.85179768880208 : JumpStart); (3.96354416666667 : 1.85179768880208 : JumpEnd); (3.375 : 1.85179768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(11.25 : 4.76044840494792); (12 : 4.76044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/Task/Task_PersonTask" />
       <nodes>
-        <classShapeMoniker Id="b667a550-2385-4bbf-a077-06621362d193" />
-        <classShapeMoniker Id="9c80d800-4bd7-4562-9f18-c44c59d98067" />
+        <classShapeMoniker Id="9add28fd-87e2-49dd-b236-c8fd610ba834" />
+        <classShapeMoniker Id="bec3c0e2-1694-4324-b902-595f7afe254b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5625 : 4); (5.5625 : 3.5881982421875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.5 : 4.73159912109375); (8.79166666666667 : 4.73159912109375 : JumpStart); (8.95833333333333 : 4.73159912109375 : JumpEnd); (9.25 : 4.73159912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/Story/Story_Task" />
       <nodes>
-        <classShapeMoniker Id="661424c1-bbd5-4a7f-a70b-4178bd6032e6" />
-        <classShapeMoniker Id="b667a550-2385-4bbf-a077-06621362d193" />
+        <classShapeMoniker Id="5dcf52fb-d081-418d-bcf0-2615c457ae90" />
+        <classShapeMoniker Id="9add28fd-87e2-49dd-b236-c8fd610ba834" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(7.375 : 3.35659912109375); (6.625 : 3.35659912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.5 : 2.28776401652644); (9.03125 : 2.81901401652644); (9.03125 : 4.20954756054688); (9.25 : 4.20954756054688)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/SkrumDataclassesDataContext/TaskState/TaskState_Task" />
       <nodes>
-        <classShapeMoniker Id="5a0d1be2-5314-463f-bfeb-e37bea5b06af" />
-        <classShapeMoniker Id="b667a550-2385-4bbf-a077-06621362d193" />
+        <classShapeMoniker Id="d68625af-73fa-4e12-9880-31b20a150e0d" />
+        <classShapeMoniker Id="9add28fd-87e2-49dd-b236-c8fd610ba834" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

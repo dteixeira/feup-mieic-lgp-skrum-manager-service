@@ -1447,11 +1447,14 @@ namespace ServiceTester
             Assert.AreEqual(task.TaskID, person.Tasks.First().TaskID, "Incorrect task association.");
 
             // Add more work to same person, should pass.
+            personTask.SpentTime = 20;
+            personTask.CreationDate = System.DateTime.Now;
             personTask = this.data.AddWorkInTask(personTask);
             task = this.data.GetTaskByID(task.TaskID);
             Assert.IsNotNull(personTask, "Failed to create a PersonTask.");
+            Assert.AreEqual(20, personTask.SpentTime, "Incorrect spent time in person task.");
             Assert.AreEqual(2, task.PersonTasks.Count(), "Incorrect number of person tasks.");
-            Assert.AreEqual(30, task.PersonTasks.First().SpentTime, "Incorrect spent time.");
+            Assert.AreEqual(50, task.PersonTasks.Sum(pt => pt.SpentTime), "Incorrect spent time.");
 
             // Add work to new person, should pass.
             person.Email = "test@email.domain";
