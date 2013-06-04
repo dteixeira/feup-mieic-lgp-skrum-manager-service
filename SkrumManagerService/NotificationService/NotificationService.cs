@@ -90,7 +90,7 @@ namespace Notifications
                             }
                             catch (System.Exception)
                             {
-                                this.clients[projectID].RemoveAt(i);
+                                this.clients[key].RemoveAt(i);
                             }
                         }
                     }
