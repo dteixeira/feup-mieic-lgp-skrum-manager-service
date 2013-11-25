@@ -4,7 +4,7 @@
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseName>TestSkrumDB</TargetDatabaseName>
     <DeployScriptFileName>SkrumDBManager.sql</DeployScriptFileName>
-    <TargetConnectionString>Data Source=(local)\SQLExpress;Persist Security Info=True;User ID=TestUser;Pooling=False</TargetConnectionString>
+    <TargetConnectionString>Data Source=(localdb)\v11.0;Persist Security Info=True;User ID=TestUser;Pooling=False</TargetConnectionString>
     <ProfileVersionNumber>1</ProfileVersionNumber>
     <ScriptDatabaseOptions>True</ScriptDatabaseOptions>
     <BlockOnPossibleDataLoss>True</BlockOnPossibleDataLoss>
